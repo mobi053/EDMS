@@ -21,7 +21,7 @@
                     <td>{{ $user->email }}</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}">Edit</a>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('users.delete', $user->id) }}" method="GET" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Delete</button>
