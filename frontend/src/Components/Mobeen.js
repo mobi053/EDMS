@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Table, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
+import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
 import CustomPagination from './Pagination';
+import ModalExample from '../DemoPages/Components/Modal/Examples/Modal';
+import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa"; // Import FontAwesome icons
+import Swal from 'sweetalert2';
+
 
 function Mobeen() {
   const [data, setData] = useState([]);
@@ -14,17 +18,17 @@ function Mobeen() {
 
   const fetchData = useCallback(() => {
     setLoading(true);
-    const url = new URL('http://127.0.0.1:8000/api/project');
+    const url = new URL('http://127.0.0.1:8000/api/users');
     url.searchParams.append('page', currentPage);
     url.searchParams.append('limit', itemsPerPage);
     if (searchQuery) {
       url.searchParams.append('search', searchQuery);
     }
-
+    
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        setData(data.data || []);
+        setData(data.users || []);
         setTotalItems(data.total || 0);
         setLoading(false);
       })
@@ -52,10 +56,10 @@ function Mobeen() {
   };
 
   const fetchSuggestions = (query) => {
-    fetch(`http://127.0.0.1:8000/api/project/suggestions?query=${query}`)
+    fetch(`http://127.0.0.1:8000/api/users`)
       .then(response => response.json())
       .then(data => {
-        setSuggestions(data);
+        setSuggestions(data.users || []); // Updated to use data.users
         setShowSuggestions(true);
       })
       .catch(error => {
@@ -64,10 +68,52 @@ function Mobeen() {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion);
+    setSearchQuery(suggestion.name);
     setShowSuggestions(false);
     setCurrentPage(1);
     fetchData(); // Fetch data based on the selected suggestion
+  };
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/destroy/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          Swal.fire('Deleted!', 'User has been deleted.', 'success');
+         fetchData();
+          // You might want to refresh the data here or remove the deleted item from the state
+        } else {
+          Swal.fire('Error!', 'Failed to delete the user.', 'error');
+        }
+      } catch (error) {
+        Swal.fire('Error!', 'An error occurred. Please try again.', 'error');
+      }
+    }
+  };
+
+  console.log(data)
+
+  const handleEdit = (id) => {
+    // Implement edit functionality
+    console.log(`Edit user with ID: ${id}`);
+  };
+
+  const handleView = (id) => {
+    // Implement view functionality
+    console.log(`View user with ID: ${id}`);
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -79,7 +125,7 @@ function Mobeen() {
       <h1>Mobeen Ashraf</h1>
       <Input
         type="text"
-        placeholder="Search by Project Name or Location"
+        placeholder="Search by User Name or Email"
         value={searchQuery}
         onChange={handleSearch}
         className="mb-3"
@@ -89,7 +135,7 @@ function Mobeen() {
           {suggestions.map((suggestion, index) => (
             <ListGroupItem
               key={index}
-              onClick={() => handleSuggestionClick(suggestion.name)}
+              onClick={() => handleSuggestionClick(suggestion)}
               className="suggestion-item"
             >
               {suggestion.name}
@@ -104,13 +150,15 @@ function Mobeen() {
         </div>
       ) : (
         <>
+          <ModalExample setData={setData} data={data}/>
           <Table hover className="mb-0">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Project Name</th>
-                <th>Location</th>
-                <th>Due Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -118,8 +166,33 @@ function Mobeen() {
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
-                  <td>{item.location}</td>
-                  <td>{item.due_date}</td>
+                  <td>{item.email}</td>
+                  <td>{item.created_at}</td>
+                  <td>
+                    <Button
+                      color="danger"
+                      size="sm"
+                      onClick={() => handleDelete(item.id)}
+                      className="me-2"
+                    >
+                      <FaTrashAlt />
+                    </Button>
+                    <Button
+                      color="primary"
+                      size="sm"
+                      onClick={() => handleEdit(item.id)}
+                      className="me-2"
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      color="info"
+                      size="sm"
+                      onClick={() => handleView(item.id)}
+                    >
+                      <FaEye />
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

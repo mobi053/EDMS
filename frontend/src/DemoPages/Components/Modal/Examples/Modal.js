@@ -1,51 +1,132 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import axios from "axios";
 
-class ModalExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-    };
+function ModalExample(props) {
+  const [modal, setModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const [error, setError] = useState("");
 
-    this.toggle = this.toggle.bind(this);
+  function toggle() {
+    setModal(!modal);
   }
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
 
-  render() {
-    return (
-      <span className="d-inline-block mb-2 me-2">
-        <Button color="primary" onClick={this.toggle}>
-          Basic Modal
-        </Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="link" onClick={this.toggle}>
-              Cancel
+  console.log(formData)
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/adduser",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.status);
+      
+      if (response.status === 201) {
+        // Handle success (e.g., show a success message or update state)
+        console.log("User added successfully:", response.data);
+        toggle(); // Close the modal
+        window.location.reload();
+      } else {
+        // Handle error
+        setError(response.data.message || "An error occurredddd.");
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message || "An error occurred.");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
+    }
+  }
+
+  return (
+    <span className="d-inline-block mb-2 me-2">
+      <Button color="primary" onClick={toggle}>
+        Add User
+      </Button>
+      <Modal isOpen={modal} toggle={toggle} className={props.className}>
+        <ModalHeader toggle={toggle}>Create User</ModalHeader>
+        <ModalBody>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password_confirmation">Confirm Password:</label>
+              <input
+                type="password"
+                name="password_confirmation"
+                id="password_confirmation"
+                value={formData.password_confirmation}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {error && <p className="text-danger">{error}</p>}
+            <Button type="submit" color="primary">
+              Create
             </Button>
-            <Button color="primary" onClick={this.toggle}>
-              Do Something
-            </Button>{" "}
-          </ModalFooter>
-        </Modal>
-      </span>
-    );
-  }
+          </form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="link" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </span>
+  );
 }
 
 export default ModalExample;
