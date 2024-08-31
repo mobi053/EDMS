@@ -6,6 +6,8 @@
 <body>
     <h1>Users</h1>
     <a href="{{ route('users.create') }}">Create New User</a>
+    <a href="{{ route('users.login') }}">Sign in</a>
+
     <table border="1">
         <thead>
             <tr>
@@ -21,7 +23,7 @@
                     <td>{{ $user->email }}</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}">Edit</a>
-                        <form action="{{ route('users.delete', $user->id) }}" method="GET" style="display:inline;">
+                        <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Delete</button>

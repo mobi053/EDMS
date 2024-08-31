@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -25,22 +26,35 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // dd('hello');
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        // dd('ABC');
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            // Add other fields as needed
-        ]);
-        $user->save();
-        return redirect()->route('users.index');
+        try {
+            // Validate request data
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+    
+            // Create a new user
+            $user = new User([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => bcrypt($validated['password']),
+            ]);
+    
+            // Save the user
+            $user->save();
+    
+            // Return success response
+            return response()->json(['success' => 'User added successfully'], 201);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error creating user: ' . $e->getMessage());
+    
+            // Return error response
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
+    
 
     public function stored(Request $request)
     {
@@ -91,10 +105,10 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        // dd($user);
-        $user->delete();
-        return redirect()->route('users.index');
+        $del=User::where('id', $id)->delete();
+        return response()->json(['success' => 'User deleted successfully'], 200);
     }
+    
 }
