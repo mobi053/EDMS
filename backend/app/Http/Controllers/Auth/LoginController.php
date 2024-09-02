@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dir;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,10 @@ class LoginController extends Controller
         $user=User::all();
         return response()->json(['users'=>$user]);
     }
+    // public function alluser(){
+    //     $user=Dir::all();
+    //     return response()->json(['users'=>$user]);
+    // }
     public function showLoginForm()
     {
         return view('auth.login');
