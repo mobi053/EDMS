@@ -27,6 +27,7 @@ import FormTextareaAutosize from "./Components/TextareaAutosize/";
 import FormsNumberPickerExamples from "./Components/NumberPicker/";
 import FormColorPicker from "./Components/ColorPicker/";
 
+
 // Layout
 
 import AppHeader from "../../Layout/AppHeader/";
@@ -49,6 +50,8 @@ const Forms = ({ match }) => (
 
           <Route path={`${match.url}/controls`} component={FormElementsControls}/>
           <Route path={`${match.url}/layouts`} component={FormElementsLayouts}/>
+          {/* <Route path={`${match.url}/add-dir`} component={FormElementsAddDir}/> */}
+
           <Route path={`${match.url}/validation`} component={FormElementsValidation}/>
           <Route path={`${match.url}/wizard-1`} component={FormWizardVar1} />
           <Route path={`${match.url}/wizard-2`} component={FormWizardVar2} />

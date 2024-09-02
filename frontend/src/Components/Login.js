@@ -29,7 +29,7 @@ const Login = () => {
 
             if (response.ok) {
                 // Handle successful login (e.g., redirect or save token)
-                history.push('/elements/Mobeen-Ashraf');
+                history.push('/elements/Dir');
 
                 console.log('Login successful');
             } else {
