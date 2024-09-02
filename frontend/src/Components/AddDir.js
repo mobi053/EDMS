@@ -141,10 +141,20 @@ function AddDIR() {
                   </Row>
                   <Row>
                     <Col md={4}>
-                      <FormGroup>
-                        <Label for="local_cameras_status">Local Cameras Status</Label>
-                        <Input type="number" name="local_cameras_status" id="local_cameras_status" value={formData.local_cameras_status} onChange={handleChange} placeholder="Local Cameras Status" />
+                    <FormGroup>
+                        <Label>Local Cameras Status</Label>
+                        <div>
+                          <Label check>
+                            <Input type="radio" name="local_cameras_status" value="1" checked={formData.local_cameras_status === '1'} onChange={handleChange} />
+                            Found
+                          </Label>
+                          <Label check className="ml-3">
+                            <Input type="radio" name="local_cameras_status" value="0" checked={formData.local_cameras_status === '0'} onChange={handleChange} />
+                            Not Found
+                          </Label>
+                        </div>
                       </FormGroup>
+                     
                     </Col>
                     <Col md={4}>
                       <FormGroup>
