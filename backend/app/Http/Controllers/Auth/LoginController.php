@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
-    public function alluser(){
-        $user=User::all();
-        return response()->json(['users'=>$user]);
-    }
+ 
     public function showLoginForm()
     {
         return view('auth.login');

@@ -104,8 +104,6 @@ function Mobeen() {
     }
   };
 
-  console.log(data)
-
   const handleEdit = (id) => {
     // Implement edit functionality
     console.log(`Edit user with ID: ${id}`);
