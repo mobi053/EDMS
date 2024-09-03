@@ -1,21 +1,10 @@
 import React, { Fragment, useState } from "react";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import {
-  Col,
-  Row,
-  Card,
-  CardBody,
-  CardTitle,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container,
-} from "reactstrap";
+import {  Col,  Row,  Card,  CardBody,  CardTitle,  Button,  Form,  FormGroup,  Label,  Input,  Container,} from "reactstrap";
 import axios from "axios";
 
 function AddDIR() {
+  const today = new Date().toISOString().split('T')[0];
   const [formData, setFormData] = useState({
     lead_id: '',
     observation_id: '',
@@ -29,7 +18,7 @@ function AddDIR() {
     local_cameras_status: '',
     total_cameras: '',
     dir_status: 0, // Default value
-    dir_date: '',
+    dir_date: today,
     is_deleted: 0,
   });
 
@@ -40,11 +29,11 @@ function AddDIR() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // Log form data for debugging
-
+    
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/add_dir', formData);
       console.log(response.data);
+      
       setFormData({
         lead_id: '',
         observation_id: '',
@@ -61,11 +50,17 @@ function AddDIR() {
         dir_date: '',
         is_deleted: 0,
       });
+  
+      // Redirect to the specified URL after a successful form submission
+      window.location.href = 'http://localhost:3000/architectui-react-pro#/elements/Dir';
     } catch (error) {
       console.error("There was an error submitting the form!", error);
-      // You can display an error message to the user here
+      // Display an error message to the user here
     }
-};
+  
+    console.log(formData); // Log form data for debugging
+  };
+  
 
   return (
     <Fragment>
@@ -92,7 +87,7 @@ function AddDIR() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="title">Title</Label>
-                        <Input type="text" name="title" id="title" value={formData.title} onChange={handleChange} placeholder="Title" />
+                        <Input type="text" name="title" id="title" value={formData.title} onChange={handleChange} placeholder="Title" required/>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -100,13 +95,13 @@ function AddDIR() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="dir_number">DIR Number</Label>
-                        <Input type="text" name="dir_number" id="dir_number" value={formData.dir_number} onChange={handleChange} placeholder="DIR Number" />
+                        <Input type="text" name="dir_number" id="dir_number" value={formData.dir_number} onChange={handleChange} placeholder="DIR Number" required/>
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
                         <Label for="camera_id">Camera ID</Label>
-                        <Input type="text" name="camera_id" id="camera_id" value={formData.camera_id} onChange={handleChange} placeholder="Camera ID" />
+                        <Input type="text" name="camera_id" id="camera_id" value={formData.camera_id} onChange={handleChange} placeholder="Camera ID" required/>
                       </FormGroup>
                     </Col>
                     <Col md={4}>
@@ -114,11 +109,11 @@ function AddDIR() {
                         <Label>Finding Status</Label>
                         <div>
                           <Label check>
-                            <Input type="radio" name="finding_status" value="1" checked={formData.finding_status === '1'} onChange={handleChange} />
+                            <Input type="radio" name="finding_status" value="1" checked={formData.finding_status === '1'} onChange={handleChange} required/>
                             Found
                           </Label>
                           <Label check className="ml-3">
-                            <Input type="radio" name="finding_status" value="0" checked={formData.finding_status === '0'} onChange={handleChange} />
+                            <Input type="radio" name="finding_status" value="0" checked={formData.finding_status === '0'} onChange={handleChange} required/>
                             Not Found
                           </Label>
                         </div>
@@ -145,11 +140,11 @@ function AddDIR() {
                         <Label>Local Cameras Status</Label>
                         <div>
                           <Label check>
-                            <Input type="radio" name="local_cameras_status" value="1" checked={formData.local_cameras_status === '1'} onChange={handleChange} />
+                            <Input type="radio" name="local_cameras_status" value="1" checked={formData.local_cameras_status === '1'} onChange={handleChange} required/>
                             Found
                           </Label>
                           <Label check className="ml-3">
-                            <Input type="radio" name="local_cameras_status" value="0" checked={formData.local_cameras_status === '0'} onChange={handleChange} />
+                            <Input type="radio" name="local_cameras_status" value="0" checked={formData.local_cameras_status === '0'} onChange={handleChange} required/>
                             Not Found
                           </Label>
                         </div>
@@ -159,13 +154,13 @@ function AddDIR() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="total_cameras">Total Cameras</Label>
-                        <Input type="number" name="total_cameras" id="total_cameras" value={formData.total_cameras} onChange={handleChange} placeholder="Total Cameras" />
+                        <Input type="number" name="total_cameras" id="total_cameras" value={formData.total_cameras} onChange={handleChange} placeholder="Total Cameras" required/>
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
                         <Label for="dir_date">DIR Date</Label>
-                        <Input type="date" name="dir_date" id="dir_date" value={formData.dir_date} onChange={handleChange} />
+                        <Input type="date" name="dir_date" id="dir_date" value={formData.dir_date} onChange={handleChange} required/>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -180,7 +175,7 @@ function AddDIR() {
                     <Col md={12}>
                       <FormGroup>
                         <Label for="finding_remarks">Finding Remarks</Label>
-                        <Input type="textarea" name="finding_remarks" id="finding_remarks" value={formData.finding_remarks} onChange={handleChange} placeholder="Finding Remarks" />
+                        <Input type="textarea" name="finding_remarks" id="finding_remarks" value={formData.finding_remarks} onChange={handleChange} placeholder="Finding Remarks" required/>
                       </FormGroup>
                     </Col>
                   </Row>

@@ -49,6 +49,17 @@ class DirController extends Controller
       
         return response()->json(['message'=>'DIR entered Successfully!!']);
     }
+    public function is_valid(Request $request) {
+        $is_valid = Dir::find($request->id);
+    
+        if ($is_valid) {
+            $is_valid->update(['dir_status' => $request->dir_status]);
+            return response()->json(['message' => 'Status updated successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
+    }
+    
 
     /**
      * Display the specified resource.
