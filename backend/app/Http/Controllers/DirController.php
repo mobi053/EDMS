@@ -66,9 +66,19 @@ class DirController extends Controller
     /**
      * Display the specified resource.
      */
-    public function view_dirs(){
-        $dir=Dir::all();
-        return response()->json(['dir'=>$dir]);
+    public function view_dirs(Request $request){
+
+        $page = $request->input('page', 1); // Default to page 1 if not provided
+        $limit = $request->input('limit', 10); // Default to 10 items per page if not provided
+
+        $dir=Dir::paginate($limit, ['*'], 'page', $page);
+    
+        return response()->json([
+            'dir'=>$dir->items(),
+            'total'=> $dir->total(),
+            'current_page'=> $dir->currentPage(),
+            'last_page'=> $dir->lastPage(),
+        ]);
     }
     public function show()
     {
