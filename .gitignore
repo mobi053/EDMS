@@ -64,7 +64,7 @@ frontend/node_modules/
 # tmp/
 # temp/
 # *.swp
-# *.swo
+# *.swo 
 
 # Logs and debugging files
 backend/storage/logs/*.log
