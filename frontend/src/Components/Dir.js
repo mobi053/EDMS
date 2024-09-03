@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
 import CustomPagination from './Pagination';
-import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa"; 
+import { FaTrashAlt, FaEdit, FaEye, FaCheck } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'; // Import useHistory
 
@@ -106,6 +106,7 @@ function Dir() {
 
   const handleEdit = (id) => {
     console.log(`Edit DIR with ID: ${id}`);
+    history.push(`/edit-dir/${id}`); // Navigate to the EditDir component
   };
 
   const handleView = (id) => {
@@ -218,6 +219,7 @@ function Dir() {
                       color="info"
                       size="sm"
                       onClick={() => handleView(item.id)}
+                      className="me-2"
                     >
                       <FaEye />
                     </Button>
@@ -226,7 +228,7 @@ function Dir() {
                       size="sm"
                       onClick={() => handleMarkAsValid(item.id)} // This function will mark the item as valid
                     >
-                    <i className="bi bi-check2-circle"></i> {/* Checkmark icon */}
+                    <FaCheck/>
                     </Button>
 
                   </td>

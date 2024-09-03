@@ -48,19 +48,7 @@ class DirController extends Controller
         $dir->save();
       
         return response()->json(['message'=>'DIR entered Successfully!!']);
-    }
-
-    public function is_valid(Request $request) {
-        $is_valid = Dir::find($request->id);
-    
-        if ($is_valid) {
-            $is_valid->update(['dir_status' => $request->dir_status]);
-            return response()->json(['message' => 'Status updated successfully'], 200);
-        } else {
-            return response()->json(['error' => 'Record not found'], 404);
-        }
-    }
-    
+    } 
 
 
     /**
@@ -76,28 +64,62 @@ class DirController extends Controller
         return response()->json(['dirs' => $dirs]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $dir = Dir::find($id);
+        if ($dir) {
+            return response()->json(['dir' => $dir]);
+        } else {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+    public function update(Request $request)
+    {
+        $dir = Dir::find($request->id);    
+        if (!$dir) {
+            return response()->json(['message' => 'DIR not found!'], 404);
+        }
+    
+        // Update the fields with new values from the request
+        $dir->lead_id = $request->lead_id ?? $dir->lead_id;
+        $dir->observation_id = $request->observation_id ?? $dir->observation_id;
+        $dir->title = $request->title ?? $dir->title;
+        $dir->dir_number = $request->dir_number ?? $dir->dir_number;
+        $dir->camera_id = $request->camera_id ?? $dir->camera_id;
+        $dir->finding_status = $request->finding_status ?? $dir->finding_status;
+        $dir->finding_remarks = $request->finding_remarks ?? $dir->finding_remarks;
+        $dir->created_by = $request->created_by ?? $dir->created_by;
+        $dir->department_id = $request->department_id ?? $dir->department_id;
+        $dir->local_cameras_status = $request->local_cameras_status ?? $dir->local_cameras_status;
+        $dir->total_cameras = $request->total_cameras ?? $dir->total_cameras;
+        $dir->dir_status = $request->dir_status ?? $dir->dir_status;
+        $dir->dir_date = $request->dir_date ?? $dir->dir_date;
+        $dir->is_deleted = $request->is_deleted ?? $dir->is_deleted;
+    
+        // Save the updated model
+        $dir->save();
+    
+        return response()->json(['message' => 'DIR updated successfully!']);
+    }
+    
     public function destroy($id)
     {
         $del=Dir::where('id', $id)->delete();
         return response()->json(['success' => 'Dir deleted successfully'], 200);
     }
+    public function is_valid(Request $request) {
+        $is_valid = Dir::find($request->id);
+    
+        if ($is_valid) {
+            $is_valid->update(['dir_status' => $request->dir_status]);
+            return response()->json(['message' => 'Status updated successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
+    }
+ 
+   
 }

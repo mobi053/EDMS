@@ -32,6 +32,7 @@ import DropdownExamples from "./Dropdowns/";
 import BadgesLabels from "./BadgesLabels/";
 import Dir from "../../Components/Dir";
 import AddDir from "../../Components/AddDir";
+import EditDir from "../../Components/EditDir";
 import Viewdir from "../../Components/Viewdir";
 
 
@@ -102,6 +103,9 @@ const Elements = ({ match }) => (
           <Route path={`${match.url}/Dir`} component={Dir} />
           <Route path={`${match.url}/Login`} component={Login} />
           <Route path={`${match.url}/add-dir`} component={AddDir} />
+          <Route path={`${match.url}/edit-dir`} component={EditDir} />
+          <Route path={`${match.url}/edit-dir/:id`} component={EditDir} />
+
           <Route path={`${match.url}/view-dir`} component={Viewdir} />
 
 

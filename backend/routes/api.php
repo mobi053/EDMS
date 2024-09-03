@@ -29,6 +29,8 @@ Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
 Route::post('/add_dir', [DirController::class, 'store']);
 
 Route::put('/is_valid', [DirController::class, 'is_valid']);
+Route::put('/update_dir', [DirController::class, 'update']);
+Route::get('/edit_dir/{id}', [DirController::class, 'edit']);
 
 Route::get('/view_dirs', [DirController::class, 'view_dirs']);
 Route::delete('/dirdelete/{id}', [DirController::class, 'destroy']);

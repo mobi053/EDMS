@@ -43,7 +43,10 @@ export const ComponentsNav = [
                 label: 'Add-DIR',
                 to: '#/elements/add-dir',
             },
-          
+            {
+                label: 'Edit-DIR',
+                to: '#/elements/edit-dir',
+            },
             {
                 label: 'Login',
                 to: '#/elements/Login',
