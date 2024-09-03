@@ -49,6 +49,7 @@ class DirController extends Controller
       
         return response()->json(['message'=>'DIR entered Successfully!!']);
     }
+
     public function is_valid(Request $request) {
         $is_valid = Dir::find($request->id);
     
@@ -60,6 +61,7 @@ class DirController extends Controller
         }
     }
     
+
 
     /**
      * Display the specified resource.

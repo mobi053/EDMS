@@ -137,6 +137,7 @@ function Dir() {
   };
   
 
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -191,6 +192,7 @@ function Dir() {
             <tbody>
               {data.map((item) => (
                 <tr key={item.id} className={item.dir_status === 2 ? 'table-success' : ''}>
+
                   <td>{item.id}</td>
                   <td>{item.title}</td>
                   <td>{item.dir_number}</td>
@@ -226,6 +228,7 @@ function Dir() {
                     >
                     <i className="bi bi-check2-circle"></i> {/* Checkmark icon */}
                     </Button>
+
                   </td>
                 </tr>
               ))}
