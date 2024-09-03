@@ -70,5 +70,5 @@ frontend/node_modules/
 backend/storage/logs/*.log
 frontend/*.log
 backend/composer.lock
-frontend/package-lock.json
-frontend/package.json
+# frontend/package-lock.json
+# frontend/package.json

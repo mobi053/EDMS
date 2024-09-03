@@ -13,6 +13,25 @@ class UserController extends Controller
         $users = User::all();
         return view('users.index', compact('users'));
     }
+    
+    public function alluser(Request $request) {
+        // Get the page number and items per page from the request
+        $page = $request->input('page', 1); // Default to page 1 if not provided
+        $limit = $request->input('limit', 10); // Default to 10 items per page if not provided
+    
+        // Apply pagination
+        $users = User::paginate($limit, ['*'], 'page', $page);
+    
+        // Return the paginated data as JSON
+        return response()->json([
+            'users' => $users->items(), // Return the paginated items
+            'total' => $users->total(), // Total number of items
+            'current_page' => $users->currentPage(), // Current page number
+            'last_page' => $users->lastPage(), // Last page number
+        ]);
+    }
+
+
     public function show()
     {
         $users = User::all();

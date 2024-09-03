@@ -22,10 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/login', [LoginController::class, 'apiLogin']);
-Route::get('/users', [LoginController::class, 'alluser']);
+Route::get('/users', [UserController::class, 'alluser']);
 Route::post('/adduser', [UserController::class, 'store']);
 Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
 
 Route::post('/add_dir', [DirController::class, 'store']);
+
+Route::put('/is_valid', [DirController::class, 'is_valid']);
+
 Route::get('/view_dirs', [DirController::class, 'view_dirs']);
 Route::delete('/dirdelete/{id}', [DirController::class, 'destroy']);
