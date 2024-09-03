@@ -30,7 +30,10 @@ import DropdownExamples from "./Dropdowns/";
 // BADGES & LABELS
 
 import BadgesLabels from "./BadgesLabels/";
-import Mobeen from "../../Components/Mobeen";
+import Dir from "../../Components/Dir";
+import AddDir from "../../Components/AddDir";
+import Viewdir from "../../Components/Viewdir";
+
 
 // ICONS
 
@@ -96,8 +99,10 @@ const Elements = ({ match }) => (
           {/* Badges & Labels */}
 
           <Route path={`${match.url}/badges-labels`} component={BadgesLabels} />
-          <Route path={`${match.url}/Mobeen-Ashraf`} component={Mobeen} />
+          <Route path={`${match.url}/Dir`} component={Dir} />
           <Route path={`${match.url}/Login`} component={Login} />
+          <Route path={`${match.url}/add-dir`} component={AddDir} />
+          <Route path={`${match.url}/view-dir`} component={Viewdir} />
 
 
           {/* Icons */}

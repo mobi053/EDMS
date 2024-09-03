@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
 import CustomPagination from './Pagination';
-import ModalExample from '../DemoPages/Components/Modal/Examples/Modal';
-import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa"; // Import FontAwesome icons
+import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom'; // Import useHistory
 
-
-function Mobeen() {
+function Dir() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,9 +15,11 @@ function Mobeen() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const history = useHistory(); // Initialize the history function
+
   const fetchData = useCallback(() => {
     setLoading(true);
-    const url = new URL('http://127.0.0.1:8000/api/users');
+    const url = new URL('http://127.0.0.1:8000/api/view_dirs');
     url.searchParams.append('page', currentPage);
     url.searchParams.append('limit', itemsPerPage);
     if (searchQuery) {
@@ -28,7 +29,7 @@ function Mobeen() {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        setData(data.users || []);
+        setData(data.dir || []);
         setTotalItems(data.total || 0);
         setLoading(false);
       })
@@ -45,7 +46,7 @@ function Mobeen() {
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    setCurrentPage(1); // Reset to the first page on search
+    setCurrentPage(1);
 
     if (query.length > 2) {
       fetchSuggestions(query);
@@ -56,10 +57,10 @@ function Mobeen() {
   };
 
   const fetchSuggestions = (query) => {
-    fetch(`http://127.0.0.1:8000/api/users`)
+    fetch(`http://127.0.0.1:8000/api/view_dirs`)
       .then(response => response.json())
       .then(data => {
-        setSuggestions(data.users || []); // Updated to use data.users
+        setSuggestions(data.dir || []);
         setShowSuggestions(true);
       })
       .catch(error => {
@@ -71,7 +72,7 @@ function Mobeen() {
     setSearchQuery(suggestion.name);
     setShowSuggestions(false);
     setCurrentPage(1);
-    fetchData(); // Fetch data based on the selected suggestion
+    fetchData();
   };
 
   const handleDelete = async (id) => {
@@ -87,14 +88,13 @@ function Mobeen() {
   
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/destroy/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/dirdelete/${id}`, {
           method: 'DELETE',
         });
   
         if (response.ok) {
           Swal.fire('Deleted!', 'User has been deleted.', 'success');
-         fetchData();
-          // You might want to refresh the data here or remove the deleted item from the state
+          fetchData();
         } else {
           Swal.fire('Error!', 'Failed to delete the user.', 'error');
         }
@@ -105,12 +105,10 @@ function Mobeen() {
   };
 
   const handleEdit = (id) => {
-    // Implement edit functionality
     console.log(`Edit user with ID: ${id}`);
   };
 
   const handleView = (id) => {
-    // Implement view functionality
     console.log(`View user with ID: ${id}`);
   };
 
@@ -118,9 +116,13 @@ function Mobeen() {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  const handleAddDirClick = () => {
+    history.push('/elements/add-dir'); // Use history.push to navigate to the "home" path
+  };
+
   return (
     <div>
-      <h1>Mobeen Ashraf</h1>
+      <h1>View Dir</h1>
       <Input
         type="text"
         placeholder="Search by User Name or Email"
@@ -148,13 +150,15 @@ function Mobeen() {
         </div>
       ) : (
         <>
-          <ModalExample setData={setData} data={data}/>
+          <Button id="adddir" color="primary" className="m-2" onClick={handleAddDirClick}>
+            Add DIR
+          </Button>
           <Table hover className="mb-0">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Title</th>
+                <th>Dir_number</th>
                 <th>Created Date</th>
                 <th>Action</th>
               </tr>
@@ -163,9 +167,9 @@ function Mobeen() {
               {data.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.created_at}</td>
+                  <td>{item.title}</td>
+                  <td>{item.dir_number}</td>
+                  <td>{item.camera_id}</td>
                   <td>
                     <Button
                       color="danger"
@@ -206,4 +210,4 @@ function Mobeen() {
   );
 }
 
-export default Mobeen;
+export default Dir;

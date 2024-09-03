@@ -63,7 +63,7 @@ function ModalExample(props) {
   return (
     <span className="d-inline-block mb-2 me-2">
       <Button color="primary" onClick={toggle}>
-        Add User
+        Add Users!
       </Button>
       <Modal isOpen={modal} toggle={toggle} className={props.className}>
         <ModalHeader toggle={toggle}>Create User</ModalHeader>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DirController;
 use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
@@ -24,3 +25,7 @@ Route::post('/login', [LoginController::class, 'apiLogin']);
 Route::get('/users', [UserController::class, 'alluser']);
 Route::post('/adduser', [UserController::class, 'store']);
 Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
+
+Route::post('/add_dir', [DirController::class, 'store']);
+Route::get('/view_dirs', [DirController::class, 'view_dirs']);
+Route::delete('/dirdelete/{id}', [DirController::class, 'destroy']);

@@ -35,13 +35,20 @@ export const ComponentsNav = [
                 to: '#/elements/badges-labels',
             },
             {
-                label: 'Mobeen',
-                to: '#/elements/Mobeen-Ashraf',
+                label: 'Dir',
+                to: '#/elements/Dir',
             },
+
+            {
+                label: 'Add-DIR',
+                to: '#/elements/add-dir',
+            },
+          
             {
                 label: 'Login',
                 to: '#/elements/Login',
             },
+           
             {
                 label: 'Cards',
                 to: '#/elements/cards',
