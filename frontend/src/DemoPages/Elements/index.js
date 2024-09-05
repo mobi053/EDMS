@@ -33,6 +33,10 @@ import BadgesLabels from "./BadgesLabels/";
 import Dir from "../../Components/Dir";
 import AddDir from "../../Components/AddDir";
 import Viewdir from "../../Components/Viewdir";
+import Mobeen from "../../Components/Mobeen";
+import MobeenCopy from "../../Components/MobeenCopy";
+
+
 
 
 // ICONS
@@ -101,8 +105,14 @@ const Elements = ({ match }) => (
           <Route path={`${match.url}/badges-labels`} component={BadgesLabels} />
           <Route path={`${match.url}/Dir`} component={Dir} />
           <Route path={`${match.url}/Login`} component={Login} />
+          {/* <Route path={`${match.url}/edit-dir/:id`} component={EditDir} /> */}
+
           <Route path={`${match.url}/add-dir`} component={AddDir} />
+          <Route path={`${match.url}/edit-dir`} component={EditDir} />
           <Route path={`${match.url}/view-dir`} component={Viewdir} />
+          <Route path={`${match.url}/Mobeen-Ashraf`} component={Mobeen} />
+          <Route path={`${match.url}/Mobeen-Copy`} component={MobeenCopy} />
+
 
 
           {/* Icons */}

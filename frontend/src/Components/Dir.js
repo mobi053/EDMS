@@ -16,6 +16,8 @@ function Dir() {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const history = useHistory(); // Initialize the history function
+  const userName = localStorage.getItem('userName');
+  const userId = localStorage.getItem('userId');
 
   const fetchData = useCallback(() => {
     setLoading(true);
@@ -106,6 +108,7 @@ function Dir() {
 
   const handleEdit = (id) => {
     console.log(`Edit DIR with ID: ${id}`);
+    // history.push(`/edit-dir/${id}`); // Navigate to the EditDir component
   };
 
   const handleView = (id) => {
@@ -148,7 +151,7 @@ function Dir() {
 
   return (
     <div>
-      <h1>View Dir</h1>
+      <h1>Welcome: {userName} (ID: {userId})</h1>
       <Input
         type="text"
         placeholder="Search by User Name or Email"
@@ -225,6 +228,7 @@ function Dir() {
                       color="success" // Using success color to indicate a valid action
                       size="sm"
                       onClick={() => handleMarkAsValid(item.id)} // This function will mark the item as valid
+                      disabled={item.dir_status === 2} // Disable the button if dir_status is 2
                     >
                     <i className="bi bi-check2-circle"></i> {/* Checkmark icon */}
                     </Button>
