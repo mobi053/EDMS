@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
 import CustomPagination from './Pagination';
-import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa"; 
+import { FaTrashAlt, FaEdit, FaEye, FaCheck } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'; // Import useHistory
 
@@ -106,10 +106,24 @@ function Dir() {
     }
   };
 
-  const handleEdit = (id) => {
-    console.log(`Edit DIR with ID: ${id}`);
-    // history.push(`/edit-dir/${id}`); // Navigate to the EditDir component
+  const handleEdit = async (id) => {
+    // try {
+    //   const response = await fetch(`http://127.0.0.1:8000/api/edit_dir/${id}`);
+    //   if (response.ok) {
+    //     const record = await response.json();
+    //     // console.log('Fetched record for edit:', record);
+        history.push({
+          pathname: `/elements/edit-dir/${id}`,
+          // state: { record },
+        });
+    //   } else {
+    //     Swal.fire('Error!', 'Failed to fetch the record.', 'error');
+    //   }
+    // } catch (error) {
+    //   Swal.fire('Error!', 'An error occurred. Please try again.', 'error');
+    // }
   };
+  
 
   const handleView = (id) => {
     console.log(`View DIR with ID: ${id}`);
@@ -221,6 +235,7 @@ function Dir() {
                       color="info"
                       size="sm"
                       onClick={() => handleView(item.id)}
+                       className="me-2"
                     >
                       <FaEye />
                     </Button>
@@ -230,7 +245,7 @@ function Dir() {
                       onClick={() => handleMarkAsValid(item.id)} // This function will mark the item as valid
                       disabled={item.dir_status === 2} // Disable the button if dir_status is 2
                     >
-                    <i className="bi bi-check2-circle"></i> {/* Checkmark icon */}
+                    <FaCheck />
                     </Button>
 
                   </td>

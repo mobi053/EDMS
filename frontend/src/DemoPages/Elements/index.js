@@ -33,9 +33,9 @@ import BadgesLabels from "./BadgesLabels/";
 import Dir from "../../Components/Dir";
 import AddDir from "../../Components/AddDir";
 import Viewdir from "../../Components/Viewdir";
+import EditDir from "../../Components/EditDir";
 import Mobeen from "../../Components/Mobeen";
 import MobeenCopy from "../../Components/MobeenCopy";
-
 
 
 

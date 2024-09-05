@@ -70,7 +70,7 @@ class LoginController extends Controller
                     'name' => $request->user()->name,
                 ],
                 'message' => 'Login successful',
-            ]);
+            ], 200);
         }
 
         return response()->json([
