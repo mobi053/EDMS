@@ -50,7 +50,8 @@ class DirController extends Controller
         return response()->json(['message'=>'DIR entered Successfully!!']);
     }
 
-    public function is_valid(Request $request) {
+    public function is_valid(Request $request)
+     {
         $is_valid = Dir::find($request->id);
     
         if ($is_valid) {
@@ -89,17 +90,29 @@ class DirController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $dir = Dir::find($id);
+        return response()->json(['data'=>$dir], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Find the record by ID
+        $dir = Dir::find($id);
+    
+        if (!$dir) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+    
+        // Update the record with request data
+        $dir->update($request->all());
+    
+        // Return a success response
+        return response()->json(['message' => 'Record updated successfully', 'data' => $dir], 200);
     }
 
     /**
