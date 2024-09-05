@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/login', [LoginController::class, 'apiLogin']);
+Route::post('/apiLogout', [LoginController::class, 'apiLogout']);
+
 Route::get('/users', [UserController::class, 'alluser']);
 Route::post('/adduser', [UserController::class, 'store']);
 Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
