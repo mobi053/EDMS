@@ -29,9 +29,9 @@ function EditDIR() {
   });
 
   const fullURL = window.location.hash; // Get the part after the #
-const parts = fullURL.split("/"); // Split the URL by "/"
-const id = parts[parts.length - 1]; // Get the last part, which is the ID
-console.log(id);
+  const parts = fullURL.split("/"); // Split the URL by "/"
+  const id = parts[parts.length - 1]; // Get the last part, which is the ID
+  console.log(id);
 
 useEffect(() => {
   const fetchData = async () => {
@@ -75,7 +75,7 @@ const handleChange = (e) => {
 };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();    
+    e.preventDefault();    
     try {
       const response = await axios.put(`http://127.0.0.1:8000/api/update_dir/${id}`, formData.data);
       // console.log(response.data);
@@ -137,11 +137,11 @@ const handleChange = (e) => {
                         <Label>Finding Status</Label>
                         <div>
                           <Label check>
-                            <Input type="radio" name="finding_status" value="1" checked={formData.data.finding_status === '1'} onChange={handleChange} required />
+                            <Input type="radio" name="finding_status" value="1" checked={parseInt(formData.data.finding_status) === 1} onChange={handleChange} required />
                             Found
                           </Label>
                           <Label check className="ml-3">
-                            <Input type="radio" name="finding_status" value="0" checked={formData.data.finding_status === '0'} onChange={handleChange} required />
+                            <Input type="radio" name="finding_status" value="0" checked={parseInt(formData.data.finding_status) === 0} onChange={handleChange} required />
                             Not Found
                           </Label>
                         </div>
@@ -167,11 +167,11 @@ const handleChange = (e) => {
                         <Label>Local Cameras Status</Label>
                         <div>
                           <Label check>
-                            <Input type="radio" name="local_cameras_status" value="1" checked={formData.data.local_cameras_status === '1'} onChange={handleChange} required />
+                            <Input type="radio" name="local_cameras_status" value="1" checked={parseInt(formData.data.local_cameras_status) === 1} onChange={handleChange} required />
                             Found
                           </Label>
                           <Label check className="ml-3">
-                            <Input type="radio" name="local_cameras_status" value="0" checked={formData.data.local_cameras_status === '0'} onChange={handleChange} required />
+                            <Input type="radio" name="local_cameras_status" value="0" checked={parseInt(formData.data.local_cameras_status) === 0} onChange={handleChange} required />
                             Not Found
                           </Label>
                         </div>
@@ -204,7 +204,7 @@ const handleChange = (e) => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Button color="primary" className="mt-2" onClick={() => handleSubmit(formData.data.id)} type="submit">
+                  <Button color="primary" className="mt-2" type="submit">
                     Update DIR
                   </Button>
                 </Form>
