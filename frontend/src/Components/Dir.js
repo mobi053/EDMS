@@ -4,12 +4,14 @@ import CustomPagination from './Pagination';
 import { FaTrashAlt, FaEdit, FaEye, FaCheck } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'; // Import useHistory
-
+import ModalExample from '../DemoPages/Components/Modal/Examples/Modal';
 function Dir() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState([])
   const [totalItems, setTotalItems] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -123,18 +125,17 @@ function Dir() {
     //   Swal.fire('Error!', 'An error occurred. Please try again.', 'error');
     // }
   };
+  console.log(modalData)
   
-<<<<<<< Updated upstream
 
-  const handleView = (id) => {
-    console.log(`View DIR with ID: ${id}`);
-=======
+
+
   const handleView = (item) => {
-    console.log(`View DIR with ID: ${item.id}`);
+    console.log(`View DIR with ID: ${item}`);
     console.log(modalOpen)
     setModalData(item)
     setModalOpen(true)
->>>>>>> Stashed changes
+
   };
   
   const handleMarkAsValid = async (id) => {
@@ -216,6 +217,7 @@ function Dir() {
             </thead>
             <tbody>
               {data.map((item) => (
+              <>
                 <tr key={item.id} className={item.dir_status === 2 ? 'table-success' : ''}>
 
                   <td>{item.id}</td>
@@ -242,7 +244,7 @@ function Dir() {
                     <Button
                       color="info"
                       size="sm"
-                      onClick={() => handleView(item.id)}
+                      onClick={() => handleView(item)}
                        className="me-2"
                     >
                       <FaEye />
@@ -258,6 +260,7 @@ function Dir() {
 
                   </td>
                 </tr>
+                  </>
               ))}
             </tbody>
           </Table>
@@ -268,6 +271,7 @@ function Dir() {
           />
         </>
       )}
+      <ModalExample modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData}/>
     </div>
   );
 }

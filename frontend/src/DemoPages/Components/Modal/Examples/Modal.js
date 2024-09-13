@@ -1,27 +1,20 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-class ModalExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-    };
+function ModalExample({modalOpen, setModalOpen, modalData}) {
 
-<<<<<<< Updated upstream
+
+
     this.toggle = this.toggle.bind(this);
   }
-=======
-  console.log("from Modal.js>>>>>>>>>>>",modalOpen)
->>>>>>> Stashed changes
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
+  console.log(modalOpen)
 
-<<<<<<< Updated upstream
+
+  const toggle = useCallback(() => {
+    setModalOpen(prevModal => !prevModal);
+  }, []);
+
   render() {
     return (
       <span className="d-inline-block mb-2 me-2">
@@ -51,9 +44,9 @@ class ModalExample extends React.Component {
       </span>
     );
   }
-=======
-  return (
-    <span className="d-inline-block mb-2 me-2">
+
+
+
       <Modal isOpen={modalOpen} toggle={toggle} className={'abc'}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
@@ -70,7 +63,7 @@ class ModalExample extends React.Component {
       </Modal>
     </span>
   );
->>>>>>> Stashed changes
+
 }
 
 export default ModalExample;
