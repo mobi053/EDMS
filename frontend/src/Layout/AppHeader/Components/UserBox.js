@@ -7,7 +7,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import 'react-toastify/dist/ReactToastify.css';
 import city3 from "../../../assets/utils/images/dropdown-header/city3.jpg";
-import avatar1 from "../../../assets/utils/images/avatars/1.jpg";
+import avatar1 from "../../../assets/utils/images/avatars/user1.jpg";
 import axios from "axios"; // Make sure axios is imported
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -83,7 +83,7 @@ function UserBox() {
                                 {userName}-{userId}
                               </div>
                               <div className="widget-subheading opacity-8">
-                                A short profile description
+                                Police Communication Officer
                               </div>
                             </div>
                             <div className="widget-content-right me-2">
@@ -100,7 +100,7 @@ function UserBox() {
                       </div>
                     </div>
                   </div>
-                  <div className="scroll-area-xs"
+                  {/* <div className="scroll-area-xs"
                     style={{
                       height: "150px",
                     }}>
@@ -173,13 +173,13 @@ function UserBox() {
                         Open Messages
                       </Button>
                     </NavItem>
-                  </Nav>
+                  </Nav> */}
                 </DropdownMenu>
               </UncontrolledButtonDropdown>
             </div>
             <div className="widget-content-left  ms-3 header-user-info">
             <div className="widget-heading">{userName}</div>
-            <div className="widget-subheading">VP People Manager</div>
+            <div className="widget-subheading">{"Police Communication Officer"}</div>
             </div>
             <div className="widget-content-right header-user-info ms-3">
               <Button className="btn-shadow p-1" size="sm" onClick={notify2} color="info" id="Tooltip-1">

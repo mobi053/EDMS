@@ -128,11 +128,14 @@ function Dir() {
   console.log(modalData)
   
 
+
+
   const handleView = (item) => {
     console.log(`View DIR with ID: ${item}`);
     console.log(modalOpen)
     setModalData(item)
     setModalOpen(true)
+
   };
   
   const handleMarkAsValid = async (id) => {
@@ -208,7 +211,7 @@ function Dir() {
                 <th>ID</th>
                 <th>Title</th>
                 <th>Dir_number</th>
-                <th>Created Date</th>
+                <th>Camera ID</th>
                 <th>Action</th>
               </tr>
             </thead>

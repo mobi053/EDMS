@@ -52,12 +52,18 @@ class ThemeOptions extends Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            activeTab: '1'
-        };
+            activeTab: '1',
+            showing: false
+        }; 
 
     }
-
-    
+    componentDidMount() {
+        const { setBackgroundImage, setEnableBackgroundImage, setBackgroundImageOpacity } = this.props;
+        // Set sideBar6 as the default background image when the component mounts
+        setBackgroundImage(sideBar6);
+        setEnableBackgroundImage(true);
+        setBackgroundImageOpacity("opacity-2")
+    }
 
     toggle(tab) {
         if (this.state.activeTab !== tab) {
@@ -72,7 +78,7 @@ class ThemeOptions extends Component {
     };
 
     toggleEnableBackgroundImage = () => {
-        let {enableBackgroundImage, setEnableBackgroundImage} = this.props;
+        let { enableBackgroundImage, setEnableBackgroundImage } = this.props;
         setEnableBackgroundImage(!enableBackgroundImage);
     }
 
@@ -147,6 +153,7 @@ class ThemeOptions extends Component {
         } = this.props;
 
         const {showing} = this.state;
+
 
         return (
             <div className={"ui-theme-settings " + (showing ? 'settings-open' : '')}>
@@ -597,17 +604,17 @@ class ThemeOptions extends Component {
                                         </div>
                                     </ListGroupItem>
                                     <ListGroupItem
-                                        className={cx("theme-settings-swatches", {
-                                            'd-block': enableBackgroundImage,
-                                            'd-none': !enableBackgroundImage
-                                        })}>
-                                        <h5>Sidebar Image Background</h5>
-                                        <div className="divider"/>
-                                        <div className={cx("swatch-holder swatch-holder-img", {active: backgroundImage === sideBar6})}>
-                                            <button className="img-holder switch-trigger" onClick={() => setBackgroundImage(sideBar6)}>
-                                                <img alt=" " src={sideBar6}/>
-                                            </button>
-                                        </div>
+                className={cx("theme-settings-swatches", {
+                    'd-block': enableBackgroundImage,
+                    'd-none': !enableBackgroundImage
+                })}>
+                <h5>Sidebar Image Background</h5>
+                <div className="divider"/>
+                <div className={cx("swatch-holder swatch-holder-img", { active: backgroundImage === sideBar6 })}>
+                    <button className="img-holder switch-trigger" onClick={() => setBackgroundImage(sideBar6)}>
+                        <img alt=" " src={sideBar6} />
+                    </button>
+                </div>
                                         <div className={cx("swatch-holder swatch-holder-img", {active: backgroundImage === sideBar7})}>
                                             <button className="img-holder switch-trigger" onClick={() => setBackgroundImage(sideBar7)}>
                                                 <img alt=" " src={sideBar7}/>
