@@ -124,9 +124,17 @@ function Dir() {
     // }
   };
   
+<<<<<<< Updated upstream
 
   const handleView = (id) => {
     console.log(`View DIR with ID: ${id}`);
+=======
+  const handleView = (item) => {
+    console.log(`View DIR with ID: ${item.id}`);
+    console.log(modalOpen)
+    setModalData(item)
+    setModalOpen(true)
+>>>>>>> Stashed changes
   };
   
   const handleMarkAsValid = async (id) => {
@@ -202,7 +210,7 @@ function Dir() {
                 <th>ID</th>
                 <th>Title</th>
                 <th>Dir_number</th>
-                <th>Created Date</th>
+                <th>Camera ID</th>
                 <th>Action</th>
               </tr>
             </thead>

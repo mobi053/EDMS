@@ -8,8 +8,12 @@ class ModalExample extends React.Component {
       modal: false,
     };
 
+<<<<<<< Updated upstream
     this.toggle = this.toggle.bind(this);
   }
+=======
+  console.log("from Modal.js>>>>>>>>>>>",modalOpen)
+>>>>>>> Stashed changes
 
   toggle() {
     this.setState({
@@ -17,6 +21,7 @@ class ModalExample extends React.Component {
     });
   }
 
+<<<<<<< Updated upstream
   render() {
     return (
       <span className="d-inline-block mb-2 me-2">
@@ -46,6 +51,26 @@ class ModalExample extends React.Component {
       </span>
     );
   }
+=======
+  return (
+    <span className="d-inline-block mb-2 me-2">
+      <Modal isOpen={modalOpen} toggle={toggle} className={'abc'}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+          {modalData.title}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="link" onClick={toggle}>
+            Cancel
+          </Button>
+          <Button color="primary" onClick={toggle}>
+            Do Something
+          </Button>{" "}
+        </ModalFooter>
+      </Modal>
+    </span>
+  );
+>>>>>>> Stashed changes
 }
 
 export default ModalExample;
