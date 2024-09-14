@@ -3,10 +3,18 @@ import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactst
 import CustomPagination from './Pagination';
 import { FaTrashAlt, FaEdit, FaEye, FaCheck } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom'; // Import useHistory
+import { useHistory, useLocation } from 'react-router-dom'; // Import useHistory
 import ModalExample from '../DemoPages/Components/Modal/Examples/Modal';
 function Dir() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+  const [sessionInfo, setSessionInfo] = useState(null);
   const [data, setData] = useState([]);
+  const [usersName, setusersName] = useState({});
+  
+
+
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -20,6 +28,30 @@ function Dir() {
   const history = useHistory(); // Initialize the history function
   const userName = localStorage.getItem('userName');
   const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    async function checkSession() {
+      try {
+        const response = await fetch(`http://dboard.psca.gop.pk/ppic3/get_user_info?id=${id}`);
+        const data = await response.json();
+        setusersName(data);
+        
+        setSessionInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error fetching session info:', error);
+        return null;
+      }
+    }
+
+    if (id) {
+      checkSession().then(session => {
+        if (!session || !session.userlevel) {
+          history.push('/elements/Login');
+        }
+      });
+    }
+  }, [id, history]);
 
   const fetchData = useCallback(() => {
     setLoading(true);
@@ -174,7 +206,7 @@ function Dir() {
 
   return (
     <div>
-      <h1>Welcome: {userName} (ID: {userId})</h1>
+      <h1> Api level {usersName.userlevel}, User Name is  {usersName.firstname} and User id is {usersName.username} Welcome: {userName} (ID: {userId})</h1>
       <Input
         type="text"
         placeholder="Search by User Name or Email"
