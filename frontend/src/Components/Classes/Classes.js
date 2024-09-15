@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem } from 'reactstrap';
-import CustomPagination from './Pagination';
+import CustomPagination from '../Pagination';
 import { FaTrashAlt, FaEdit, FaEye, FaCheck } from "react-icons/fa"; 
 import Swal from 'sweetalert2';
 import { useHistory, useLocation } from 'react-router-dom'; // Import useHistory
-import ModalExample from '../DemoPages/Components/Modal/Examples/Modal';
-function Dir() {
+import ModalExample from '../../DemoPages/Components/Modal/Examples/Modal';
+function Classes() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
@@ -55,7 +55,7 @@ function Dir() {
 
   const fetchData = useCallback(() => {
     setLoading(true);
-    const url = new URL('http://127.0.0.1:8000/api/view_dirs');
+    const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
     url.searchParams.append('page', currentPage);
     url.searchParams.append('limit', itemsPerPage);
     if (searchQuery) {
@@ -65,7 +65,7 @@ function Dir() {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        setData(data.dir || []);
+        setData(data.class || []);
         setTotalItems(data.total || 0);
         setLoading(false);
       })
@@ -93,10 +93,10 @@ function Dir() {
   };
 
   const fetchSuggestions = (query) => {
-    fetch(`http://127.0.0.1:8000/api/view_dirs`)
+    fetch(`http://127.0.0.1:8000/api/classes/view_classes`)
       .then(response => response.json())
       .then(data => {
-        setSuggestions(data.dir || []);
+        setSuggestions(data.class || []);
         setShowSuggestions(true);
       })
       .catch(error => {
@@ -124,7 +124,7 @@ function Dir() {
   
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/dirdelete/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/classes/delete/${id}`, {
           method: 'DELETE',
         });
   
@@ -147,7 +147,7 @@ function Dir() {
     //     const record = await response.json();
     //     // console.log('Fetched record for edit:', record);
         history.push({
-          pathname: `/elements/edit-dir/${id}`,
+          pathname: `/elements/classes/edit-class/${id}`,
           // state: { record },
         });
     //   } else {
@@ -201,12 +201,12 @@ function Dir() {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleAddDirClick = () => {
-    history.push('/elements/add-dir'); // Use history.push to navigate to the "home" path
+    history.push('/elements/classes/add-class'); // Use history.push to navigate to the "home" path
   };
 
   return (
     <div>
-      <h1> My project</h1>
+      <h1> Classes</h1>
       <Input
         type="text"
         placeholder="Search by User Name or Email"
@@ -235,27 +235,27 @@ function Dir() {
       ) : (
         <>
           <Button id="adddir" color="primary" className="m-2" onClick={handleAddDirClick}>
-            Add DIR
+            Add Class
           </Button>
           <Table hover className="mb-0">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Title</th>
-                <th>Dir_number</th>
-                <th>Camera ID</th>
+                <th>Name</th>
+                <th>Teacher Icharge Name</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {data.map((item) => (
               <>
-                <tr key={item.id} className={item.dir_status === 2 ? 'table-success' : ''}>
+                <tr key={item.id} className={item.status === 2 ? 'table-success' : ''}>
 
                   <td>{item.id}</td>
-                  <td>{item.title}</td>
-                  <td>{item.dir_number}</td>
-                  <td>{item.camera_id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.teacher_in_charge_name}</td>
+                  <td>{item.status}</td>
                   <td>
                     <Button
                       color="danger"
@@ -285,7 +285,7 @@ function Dir() {
                       color="success" // Using success color to indicate a valid action
                       size="sm"
                       onClick={() => handleMarkAsValid(item.id)} // This function will mark the item as valid
-                      disabled={item.dir_status === 2} // Disable the button if dir_status is 2
+                      disabled={item.status === 2} // Disable the button if dir_status is 2
                     >
                     <FaCheck />
                     </Button>
@@ -308,4 +308,4 @@ function Dir() {
   );
 }
 
-export default Dir;
+export default Classes;

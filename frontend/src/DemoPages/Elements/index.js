@@ -31,6 +31,9 @@ import DropdownExamples from "./Dropdowns/";
 
 import BadgesLabels from "./BadgesLabels/";
 import Dir from "../../Components/Dir";
+import Classes from "../../Components/Classes/Classes";
+import AddClass from "../../Components/Classes/AddClass";
+import EditClass from "../../Components/Classes/EditClass";
 import AddDir from "../../Components/AddDir";
 import Viewdir from "../../Components/Viewdir";
 import EditDir from "../../Components/EditDir";
@@ -104,10 +107,13 @@ const Elements = ({ match }) => (
 
           <Route path={`${match.url}/badges-labels`} component={BadgesLabels} />
           <Route path={`${match.url}/Dir`} component={Dir} />
+          <Route path={`${match.url}/classes/Classes`} component={Classes} />
+          <Route path={`${match.url}/classes/edit-class`} component={EditClass} />
           <Route path={`${match.url}/Login`} component={Login} />
           {/* <Route path={`${match.url}/edit-dir/:id`} component={EditDir} /> */}
 
           <Route path={`${match.url}/add-dir`} component={AddDir} />
+          <Route path={`${match.url}/classes/add-class`} component={AddClass} />
           <Route path={`${match.url}/edit-dir`} component={EditDir} />
           <Route path={`${match.url}/view-dir`} component={Viewdir} />
           <Route path={`${match.url}/Mobeen-Ashraf`} component={Mobeen} />
