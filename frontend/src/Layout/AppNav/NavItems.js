@@ -38,6 +38,10 @@ export const ComponentsNav = [
                 label: 'View Dir',
                 to: '#/elements/Dir',
             },
+            {
+                label: 'View Classes',
+                to: '#/elements/classes/classes',
+            },
 
             // {
             //     label: 'Add-DIR',
