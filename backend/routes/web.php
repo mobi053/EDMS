@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Portal\PermissionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -45,4 +47,15 @@ Route::group(['prefix' => '/users'], function () {
     Route::post('/store', [UserController::class, 'store'])->name('users.store');
     Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
     Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::post('/assign-permission', [UserController::class, 'assign_permission'])->name('user.assign_permission');
+    Route::get('/get-permissions/{userId}', [UserController::class, 'get_permission'])->name('user.getPermission');
+});
+Route::group(['prefix'=>'/permission'],function(){
+    Route::get('/', [PermissionController::class,'index'])->name('permission.index');
+    Route::get('/add',[PermissionController::class,'add'])->name('permission.add');
+    Route::post('/store', [PermissionController::class, 'store'])->name('permission.store');
+    Route::get('/list', [PermissionController::class, 'list'])->name('permission.list');
+    Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('permission.edit');
+    Route::get('/delete/{id}', [PermissionController::class, 'delete'])->name('permission.delete');
+    Route::post('/update/{id}', [PermissionController::class, 'update'])->name('permission.update');
 });

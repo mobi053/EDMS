@@ -11,7 +11,92 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        return view('portal.users.index', compact('users'));
+    }
+    public function list(Request $request)
+    {
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        // Total records
+        $totalRecords = User::select('count(*) as allcount')->count();
+        $totalRecordswithFilter = User::select('count(*) as allcount')->where('name', 'like', '%' . $searchValue . '%')->orWhere('email', 'like', '%' . $searchValue . '%')->count();
+        $records = User::orderBy($columnName, $columnSortOrder)
+            ->where(function ($query) use ($searchValue) {
+                $query->where('name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('email', 'like', '%' . $searchValue . '%');
+            })
+            // /->where('role', 'Employee') // Add the condition for role
+            ->select('*')
+            ->skip($start)
+            ->take($rowperpage)
+            ->orderBy($columnName, $columnSortOrder)
+            ->get();
+
+        $data_arr = array();
+        $serialNumber = $start + 1;
+
+
+        foreach ($records as $record) {
+            // $route = route('user.edit', $record->id);
+            // $delete_route = route('user.delete', $record->id);
+
+
+            $user = auth()->user();
+
+                // User has at least one of the required permissions
+                $action = '<div class="btn-group">';
+
+                    $action .= '<a href="#" onclick="openRoleModal(' . $record->id . ')" class="mr-1 text-success" title="Grant Role">
+                                    <i class="fa fa-plus"></i>
+                                </a>';
+                
+
+                    // $action .= '<a href="' . $route . '" class="mr-1 text-info" title="Edit">
+                    //                 <i class="fa fa-edit"></i>
+                    //             </a>';
+                
+
+                    // $action .= '<a href="#" onclick="delete_confirmation(\'' . $delete_route . '\')" class="mr-1 text-danger" title="Cancel">
+                    //                 <i class="fa fa-times"></i>
+
+                    //             </a>';
+                
+
+                $action .= '</div>';
+          
+
+            $target_route = 'userdashboard/index';
+            $recordid = $record->id;
+            $data_arr[] = array(
+                "id" => $serialNumber++, // Assuming $iteration is your loop counter variable  "name" => '<a href="'.$target_route.'/'.$recordid.'">'.$record->name.'</a>',
+                "name" => $record->name,
+                "email" => $record->email,
+                "action" =>
+                $action
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        return \Response::json($response);
     }
     
     public function alluser(Request $request) {

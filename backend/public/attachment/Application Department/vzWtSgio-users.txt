@@ -1,0 +1,302 @@
+name	employee_id	password	phone	email	department	designation
+Khuram  Shahzad	547-2019-5159	123456	3016898801	khurram_riaz131@yahoo.com	1	Police Technical Officer (JEO Help Desk)
+Shozib  Baloch	547-2019-5183	123456	3328246575	shozibbaloch@gmail.com	1	Police Technical Officer (Field Site Engineer)
+Muhammad  Khurram	547-2019-5154	123456	3224667513	khurrambutt1024@gmail.com	1	Police Technical Officer (JEO - PMO)
+Adil  Mehmood	547-2019-5180	123456	3009620870	raja.adil66@yahoo.com	1	Police Technical Officer (Field Site Engineer)
+Hafiz Usama Rasheed	547-2019-5181	123456	3054844551	hafizusamarasheed@gmail.com	1	Police Technical Officer (Field Site Engineer)
+Hafiz Muhammad Bilal Shahid	547-2019-5189	123456	3316025656	bilalshahid650@gmail.com	1	Police Technical Officer (OFC Engineer)
+Sufyan  Aslam	547-2019-5178	123456	3336099560	sufyan-aslam@hotmail.com	1	Police Technical Officer (Field Site Engineer)
+Sohail  Mumtaz	547-2019-5176	123456	3006800897	sohail.4545@hotmail.com	1	Police Technical Officer (JTE - ITS)
+Mazhar  Farid	547-2019-5175	123456	3008795837	bssit.10.17@gmail.com	1	Police Technical Officer (JTE - ITS)
+Muhammad Mubeen Arshad	547-2019-5184	123456	3069036693	bstn.026@gmail.com	1	Police Technical Officer (OFC Engineer)
+Ayesha  Saeed	547-2019-5172	123456	3224628086	aishaf13gis@gmail.com	1	Police Technical Officer (GIS)
+Aqeel  Akhtar	547-2019-5152	123456	3127533365	aqeel.akhtar@outlook.com	1	Police Technical Officer (JEO - PMO)
+Qaiser  Abbas	547-2019-5161	123456	3136507038	qaiserabbas009@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Muhammad Abdul Wahab Khalid	547-2019-5155	123456	3339531596	mawahabkm@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Ali Muhammad Younas	547-2019-5191	123456	3204437347	ali_younas1@yahoo.com	1	Police Technical Officer (LTE-A / Field Engineer)
+Muhammad Shahab Shahid	547-2019-5196	123456	3067349524	anashahab002@gmail.com	1	Police Technical Officer (LTE-A / Field Engineer)
+Hafiz Muhammad Haseeb Anwar	547-2019-5188	123456	3317988131	engrhaseeb41@gmail.com	1	Police Technical Officer (OFC Engineer)
+Muhammad  Ahmad	547-2019-5187	123456	3229495394	m.ahmad9495@gmail.com	1	Police Technical Officer (OFC Engineer)
+Amir Mahmood Khan	547-2019-5190	123456	3237634133	amirmkhanelect@gmail.com	1	Police Technical Officer (LTE-A / Field Engineer)
+Rana Ali Raza Arif	547-2019-5186	123456	3126775742	ranaalirazaarif@gmail.com	1	Police Technical Officer (OFC Engineer)
+Ruhail  Asif	547-2019-5185	123456	3224631839	ruhailasif786@gmail.com	1	Police Technical Officer (OFC Engineer)
+Muhammad Ehtesham Khan	547-2019-5182	123456	3458651313	ehtasham503@gmail.com	1	Police Technical Officer (Field Site Engineer)
+Salah Ud Din	547-2018-7572	123456	3336661154	salahuddin.saleemi@gmail.com	1	Deputy Executive Officer (R&D) - I
+Umair Gujjar Khaki	547-2018-5101	123456	3058526747	umairkhaki4@gmail.com	1	Office Attendant (PSCA)
+Zainab  Javed	547-2016-5009	123456	3167774098	xainabjavaid@gmail.com	1	Deputy Executive Officer (HR) - I
+Muhammad  Luqman	547-2017-7520	123456	3094440531	muhammad_luqman79@hotmail.com	1	Assistant Executive Officer HR (Est.I)
+Rao Zeeshan Shaukat	547-2017-7521	123456	3355101202	zeeshan.shoukat@psca.gop.pk	1	Assistant Executive Officer HR (Discipline)
+Sabir  Hussain	547-2017-7522	123456	3334177448	sabir.hussain@psca.gop.pk	1	Assistant Executive Officer HR (I&RM)
+Nida  Abid	547-2018-7574	123456	3234930004	nida.abid@psca.gop.pk	1	Deputy Executive Officer (HR) - II
+Umair  Sultan	547-2019-5129	123456	3217100070	us.desert@gmail.com	1	Executive Officer (Accounts)
+Shazil  Ahmad	547-2019-5126	123456	3126254445	shazil.ahmad@psca.gop.pk	1	Executive Officer (Finance & Palnning)
+Ubaid Ur Rehman	547-2017-7512	123456	3154741148	ubaid.rehman@psca.gop.pk	1	Assistant Executive Officer (Accounts)
+Irfan  Ali	547-2018-7549	123456	3334518048	irfan_hailianz@yahoo.com	1	Assistant Executive Officer (Finance)
+Waqar  Mushtaq	547-2016-7510	123456	3004317988	wmtoor@hotmail.com	1	Assistant Manager (Law)
+Ghalib  Nawaz	547-2017-7527	123456	3167774143		1	Assistant Executive Officer (Law) - II
+Gul Shahnaz Akram	547-2017-7528	123456	3167774147	gul.shahnaz@psca.gop.pk	1	Assistant Executive Officer (Law) - I
+Muhammad  Atif	547-2018-7547	123456	3344180622	atif_091@hotmail.com	1	Assistant Executive Officer (Procurement)
+Faizan  Ahmad	547-2019-5026	123456	3057057054	sirf.gentle@gmail.com	1	Deputy Executive Officer (System Administration) - I
+Muhammad Saad Bashir	547-2019-5043	123456	3224070492	saad_iz@live.com	1	Chief Project Management Officer
+Emad Muhammad Iqbal	547-2016-5048	123456	3224912779	emad_iz@live.com	1	Executive Officer (M&E)
+Khurram  Iqbal	547-2018-7548	123456	3424931752	akhurramiqbal4@gmail.com	1	Junior Executive Officer (Trainings)
+Jannat  Manzoor	547-2018-7550	123456	3324722299	jannatmanzoor@hotmail.com	1	Junior Executive Officer (Trainings)
+Anila  Usman	547-2018-7586	123456	3326006810	anilausman87@yahoo.com	1	Junior Executive Officer (Trainings)
+Rana Mohsin Saeed	547-2018-7587	123456	3334513513	rmsg37@hotmail.com	1	Junior Executive Officer (Trainings)
+Mazhar  Hussain	547-2020-8847	123456	3167774046	mazhar.hussain@psca.gop.pk	1	Consultant (Administration)
+Muhammad Rizwan Mirza	547-2016-5014	123456	3216332824	mirza1471@gmail.com	1	Chief Finance & Planning Officer
+Muhammad  Kashif	547-2016-5039	123456	3054483109	kashif0041@gmail.com	1	Deputy Executive Officer (Logistics)
+Saba  Rana	547-2016-5045	123456	3334194013	sabarana08.sr@gmail.com	1	Assistant Executive Officer
+Muhammad  Afzal	547-2016-5068	123456	3049898578	afzaljutt1994@gmail.com	1	Office Attendant (PSCA)
+Muhammad  Younas	547-2016-5069	123456	3006268372	hafizyounas007@gmail.com	1	Office Attendant (PSCA)
+Waseem  Sajjad	547-2016-5071	123456	3214641845	waseembabasaleem@yahoo.com	1	Office Attendant (PSCA)
+Rehan  Shakeel	547-2016-5072	123456	3214602238	rehanshakeel74@hotmail.com	1	Office Attendant (PSCA)
+Syed Jawad Ali	547-2016-5073	123456	3084668078	alis53170@gmail.com	1	Office Attendant (PSCA)
+Irfan  Ali Zaidi	547-2017-8502	123456	3200886734	irfan.ali@psca.gop.pk	1	Consultant
+Habib  Ullah	547-2017-8511	123456	31571433777	abc@GMAIL.COM	1	Consultant
+Hassan  Suleman	547-2017-8530	123456	0	Hasan.Suleman@psca.gop.pk	1	Consultant (Facilities)
+Mishkat  Anjum	547-2019-7649	123456	3336230411	mishkatanjum@hotmail.com	1	Executive Officer (Traffic)
+Muhmmad Umair Ali	547-2018-5093	123456	3087543980	umairalee92@gmail.com	1	Assistant Executive Officer (ITS)
+Absar  Ahmad	547-2018-5100	123456	3004705955	absar5892@gmail.com	1	Office Attendant (PSCA)
+Muhammad Haroon Khan	547-2018-5104	123456	3085381806	abc@gmail.com	1	Office Attendant (PSCA)
+Muhammad Rehman Riaz	547-2018-5111	123456	3204572054	abc@gmail.com	1	Office Attendant (PSCA)
+Asif  Charagh Ud Din	547-2017-7523	123456	3004119157	asifawm7@gmail.com	1	Supervisor (Spares/Ware House) - I
+Muhammad Zahid Farooq	547-2016-7501	123456	3334447774	royzahid@yahoo.com	1	Assistant Manager (IPNV)
+Nabeel  Mehmood	547-2016-7502	123456	3336331548	gis_nabeel@hotmail.com	1	Deputy Executive Officer (GIS)
+Qaseem  Nazim	547-2016-7503	123456	3324813683	qaseemnazim@hotmail.com	1	Deputy Executive Officer (Field Assets) - II
+Haroon  Rashid	547-2016-7505	123456	3136854345	mdharoon@gmail.com	1	Assistant Manager (LTE/4G)
+Muhammad  Azam	547-2016-7506	123456	3214303194	a4azam@gmail.com	1	Deputy Executive Officer (Field Assets) - I
+Khawaja Muddassar Fayyaz	547-2016-7508	123456	3164313210	mudasir5star@yahoo.com	1	Deputy Executive Officer (OFC/WAN) - I
+Wajid  Iftikhar	547-2016-7509	123456	3232624043	wajid.iftikhar@psca.gop.pk	1	Deputy Executive Officer (NOC/SOC) - I
+Umair  Ayub	547-2017-7513	123456	3432258436	umair.ayub38@gmail.com	1	Executive Officer (Applications)
+Kashif  Aftab	547-2017-7514	123456	3004481858	kashif.aftab@psca.gop.pk	1	Executive Officer (System Administration)
+Adeel  Ahmad	547-2017-7517	123456	3324533439	adeel.ahmad@psca.gop.pk	1	Deputy Executive Officer (NOC/SOC) - I
+Waqar  Khalid	547-2017-7519	123456	3349947884	waqar6070@gmail.com	1	Assistant Manager (Traffice Field Sites)
+Muhammad Owais Anwar	547-2019-7573	123456	3024490750	owais_formanite2@yahoo.com	1	Deputy Executive Officer (Telecommunication)
+Muhammad Aqeel Chughtai	547-2018-7570	123456	3200435234	universalaqeel@hotmail.com	1	Assistant Manager (Big Data)
+Waheed  Tariq	547-2018-7571	123456	3365011100	waheedtariq@msn.com	1	Assistant Manager (R&D)
+Ihtisham  Dastgeer	547-2018-7577	123456	3028444043	ihtisham_dastgeer@yahoo.com	1	Deputy Executive Officer (NOC/SOC) - II
+Ali Nawaz Chaudhary	547-2018-7579	123456	3119360000	ali2say@gmail.com	1	Deputy Executive Officer (Special Electronics) - I
+Muhammad Ibrar Sirati	547-2018-7580	123456	3336201876	abrarsirati@gmail.com	1	Deputy Executive Officer (Special Electronics) - II
+Muhammad  Shahzad	547-2018-7581	123456	3334494810	shahzad_29@hotmail.com	1	Assistant Manager (Radio)
+Huzaif  Zahoor	547-2018-7582	123456	3216002364	huzaifzahoor@gmail.com	1	Deputy Executive Officer (Radio)
+Salman  Ahmed	547-2018-7583	123456	3005884486	salmanahmed222@gmail.com	1	Deputy Executive Officer (LTE/4G)
+Awais  Latif	547-2018-7584	123456	3366565865	m_awais_gouhar@hotmail.com	1	Deputy Executive Officer (OFC/WAN) - II
+Rao Ali Haider	547-2018-7585	123456	3354028200	raoali.dhc@gmail.com	1	Deputy Executive Officer (Traffic Field Site) - I 
+Sana  Khushi	547-2018-7598	123456	3014586853	sana.khushi@yahoo.com	1	Assistant Manager (GIS)
+Muhammad  Awais	547-2018-7599	123456	3213333853	engr.aawais@gmail.com	1	Deputy Executive Officer (IPNV)
+HAFIZ MEHMOOD UL HASSAN	547-2019-5195	123456	3048698140	mehmoodhassan0313@gmail.com	1	Police Technical Officer (Networks)
+Moazzam Ijaz Khan	547-2019-5179	123456	3334247504	moazzam_khan19@hotmail.com	1	Police Technical Officer (Field Site Engineer)
+MUHAMMAD USMAN BILAL	547-2019-5164	123456	3042293080	usmanlakhwera1@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Muhammad Waseem Asghar	547-2018-7553	123456	3016044600	ihteshamfb@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Imtiaz	547-2018-7554	123456	3456341174	imtiazmuhammad110@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad Zeeshan Khan	547-2018-7593	123456	3152467892	abc@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Nadeem Sajjad	547-2018-7603	123456	3036086825	nadeemsajjadmuhammad@gmail.com	1	Office Attendant (PPIC3 LHR)
+Hafiz Shahzad Ahmed Khokhar	547-2018-7555	123456	3014349472	shahzada39@gmail.com	1	Office Attendant (PPIC3 LHR)
+Umar Sultan Ali Javed	547-2018-7588	123456	3044939724	umarsultanali@gmail.com	1	Spares/Ware House Supervisor
+Mughees  Butt	547-2017-7524	123456	3224018414	mughees_butt2001@yahoo.com	1	Supervisor (Spares/Ware House) - II
+Mian Asif Ali	547-2017-7525	123456	3037493941	aasif2427@gmail.com	1	Supervisor (Maintenance) - I
+Muhammad Ahtasham Amjad	547-2018-7557	123456	3064464435	ahtashamsahib306@gmail.com	1	Office Attendant (PPIC3 LHR)
+Haroon Yousaf Khan	547-2017-7516	123456	3167774122	haroon.yousaf@psca.gop.pk	1	Assistant Manager (GD & CW)
+Hafiz Tayyab Sattar	547-2017-7515	123456	3214892706	tayyab.sattar@yahoo.com	1	Assistant Executive Officer (GD & CW)
+Muhammad Tauseef Sabih	547-2018-7575	123456	3334706007	tauseef.sabih@psca.gop.pk	1	Deputy Manager Communication
+Muhammad Adil Kamran	547-2018-7551	123456	3007008833	adil.kamran715@gmail.com	1	Supervisor (Maintenance) - II
+Abdul  Raheem	547-2018-7552	123456	3214794475	raoabdulraheem59@gmail.com	1	Supervisor (Maintenance) - III
+Mohsin  Mushtaq	547-2018-7600	123456	3114000999	abc@gmail.com	1	Executive Officer (Facilities) - I
+Muhammad  Aamir	547-2017-7529	123456	0316-7774128	muhamamd.aamir@psca.gop.pk	1	Liason Officer
+Anil   Anwar	547-2017-7530	123456	3001234567	anilanwarjanjua@gmail.com	1	Liason Officer
+Saira  Ramzan	547-2018-7576	123456	3317677344	saira10engineer@gmail.com	1	Assistant Manager (Transport)
+Safwan  Irshad	547-2018-8725	123456	3224739243	safwanali7@gmail.com	1	Consultant
+Muhammad Bin Khalid	547-2017-7518	123456	3217977775	Muhammad.bin.khalid@live.com	1	Deputy Manager (Logistics)
+Muhammad Salman Safdar	547-2018-8761	123456	3324029316	zeebijutt2774@gmail.com	1	Consultant
+Jamal  Munir	547-2018-8767	123456	3335837002	abc@xyz.com	1	Consultant
+Ahsan  Javed	547-2018-8766	123456	3014005493	abc@xyz.com	1	Consultant
+Wasif  Farooq	547-2018-8759	123456	3334715985	wasif.farooq@psca.gop.pk	1	Consultant (System Administration)
+Muhammad Wasim Alam	547-2018-8779	123456	3364856732	abc@xyz.com	1	Consultant
+Ahsan  Bilal	547-2018-8667	123456	3454221721	abc@psca.gop.pk	1	Consultant (Big Data)
+Ali  Sufyan	547-2018-8666	123456	3003078577	abcde@psca.gop.pk	1	Consultant
+Hafiz Tayyab Mehmood	547-2019-8828	123456	3357212121	tayyab_fighter@yahoo.com	1	Consultant (Administration)
+Faraz  Munir	547-2019-7605	123456	3009486893	faraz.munir@psca.gop.pk	1	Junior Executive Officer (Archive)
+Mujtaba  Mohsin	547-2019-7612	123456	3214775286	mujtabamohsin@hotmail.com	1	Deputy Manager (Technology)
+Fakhra  Irshad	547-2019-5117	123456	3135556631	fakhara.irshad55@gmail.com	1	Deputy Executive Officer (R&I)
+Rana Shahzad Ahmad Khan	547-2019-7618	123456	3334089872	rana.shahzad@outlook.com	1	Executive Officer (System Administration)
+Kashif  Ali	547-2019-5128	123456	3146463617	kashif14321@gmail.com	1	Deputy Executive Officer (PMO)
+Muhammad  Shoaib	547-2019-7616	123456	3007266001	shoaibkw@gmail.com	1	Deputy Executive Officer (Database) - III
+Muhammad  Ishfaq	547-2019-5120	123456	3067162476	ishfaqahmad1256@gmail.com	1	Assistant Executive Officer (Field Assets)
+Muhammad Mohsin Ali	547-2019-7611	123456	3214000301	mhd.mohsinali@gmail.com	1	Executive Officer (Facilities) - I
+Syed Rizwan Khalid	547-2019-7610	123456	3214822317	syedrizwankhalid@yahoo.com	1	Executive Officer (Facilities) - II
+Syeda Komal Hanif	547-2019-5123	123456	3104166056	komalsyeda1@gmail.com	1	Junior Executive Officer (PMO)
+Nida  Latif	547-2019-5130	123456	3364814302	nidaa.latiff@gmail.com	1	Deputy Executive Officer (Software Quality Assurance)
+Benson  Robinson	547-2019-7607	123456	3234762655	benson.robinson1@gmail.com	1	Assistant Executive Officer (Public Relations) - I
+Muhammad Waqas Anwar	547-2019-7608	123456	3424359479	waqasanwar360@gmail.com	1	Office Attendant (PPIC3 LHR)
+Fazal  Abbas	547-2019-7609	123456	3227458139	fazal2904@gmail.com	1	Assistant Executive Officer (Public Relations-II)
+Syed Ali Ehsan Raza	547-2019-7613	123456	3456504086	syedali500@yahoo.com	1	Deputy Executive Officer (Power Engineer)
+Ghulam  Mustafa	547-2019-7614	123456	3034017702	mustafa.3ghulam@gmail.com	1	Office Attendant (PPIC3 LHR)
+Ali  Sahir	547-2019-7617	123456	3340017066	alisahirikram@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad Sheraz Khan Sherwani	547-2019-5125	123456	3000221323	sheraz_khan@hotmail.com	1	Executive Officer (HR)
+Shoaib  Taslim	547-2019-7637	123456	3354414514	shoaibtaslim@gmail.com	1	Deputy Executive Officer (Maintenance)
+Muhammad  Ashraf	547-2019-7634	123456	3424041993	mashraf41993@gmail.com	1	Office Attendant (PPIC3 LHR)
+Gohar  Ali	547-2019-7636	123456	3214916865	goharbhatti@gmail.com	1	Deputy Executive Officer (Helpdesk)
+Muazzam  Maqbool	547-2019-7632	123456	3347024393	muazzam.chudary@gmail.com	1	Deputy Executive Officer (HVAC)
+Madiha  Irshad	547-2019-7630	123456	3338968474	madihairshad@ymail.com	1	Deputy Executive Officer (Finance & Planning)
+John  Sarwar	547-2019-7620	123456	3009433004	xyz_OA@psca.gop.pk	1	Office Attendant (PPIC3 LHR)
+Noman  Ali	547-2019-7621	123456	3217750694	nn4639763@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Siddique	547-2019-7625	123456	3234751051	xyz_OA@psca.gop.pk	1	Office Attendant (PPIC3 LHR)
+Ali Rajab Raza	547-2019-8815	123456	3213311993	alirajabraza@gmail.com	1	Consultant (GIS)
+Muhammad Khaleel Afzal	547-2019-7639	123456	3464090049	kha.afz@gmail.com	1	Deputy Executive Officer (Database) - II
+Syed Zaryab Haider	547-2019-7640	123456	3437070628	zaryabsyed009@gmail.com	1	Deputy Executive Officer (Database) - I
+Muhammad Tariq Javed Khan	547-2019-8801	123456	3214333466	mtj_khan@hotmail.com	1	Consultant
+Anil   Anwar	547-2019-7650	123456	3004152838	anilanwarjanjua@gmail.com	1	Inspector-IC3
+Faisal  Kamal	547-2017-8542	123456	3214802081	faisal@red-apple.com	1	Consultant
+Nida  Naseem	547-2018-8712	123456	3348109046	nida.nasim42@gmail.com	1	Consultant
+Waqas  Rehman	547-2018-8713	123456	3214884978	lethaldude1991@live.com	1	Consultant
+Muhammad Waseem Akhtar	547-2018-8746	123456	3437716295	waseem.akhtar@gmail.com	1	Consultant
+Waseem  Hussain	547-2019-8802	123456	3457916576	waseem-hussain@live.com	1	Consultant
+Muhammad Shahbaz Hussain	547-2019-8807	123456	3317345615	shehbazbuzdar@yahoo.com	1	Consultant
+Hammad  Hassan	547-2019-8817	123456	3217601702	hammad.hassan@kics.edu.pk	1	Consultant
+Ghulam  Mustafa	547-2019-7641	123456	3216718462	abc@xyz.com	1	Office Attendant (PPIC3 LHR)
+Aamir  Hussain	547-2019-7642	123456	3458641565	aamirhussain1481991@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Aqeel Razzaq	547-2019-7645	123456	3214763142	muhammadaqeel78@gmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Tahir	547-2019-7646	123456	3224615761	tahir.shafiq458@hotmail.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Nabeel	547-2019-7648	123456	3035524953	mnabeel654@yahoo.com	1	Office Attendant (PPIC3 LHR)
+Areeba  Butt	547-2019-5132	123456	3374967476	areeba.1127@gmail.com	1	Assistant Executive Officer (R&I)
+Afshan  Khalid	547-2019-8824	123456	3204151208	affyzaid@gmail.com	1	Individual Consultant (System Admin)
+Muhammad Aftab Yasin	547-2019-8826	123456	3026980296	m.aftabyasin@gmail.com	1	Consultant
+Husnain  Abbas	547-2019-8825	123456	3336091258	husnain.abbas@psca.gop.pk	1	Consultant
+Asad Ali Butt	547-2019-8827	123456	3214170093	asadbutt84@gmail.com	1	Consultant
+Muhammad  Rashid	547-2019-5134	123456	3214032232	rashid4it@gmail.com	1	Deputy Chief (System Administration)
+Ahmad  Haseeb	547-2019-8833	123456	3314951119	ahmadhsb@hotmail.com	1	Individual Consultant (Executive Producer)
+Eisha  Rasheed	547-2019-8834	123456	3060452248	eisharasheed@gmail.com	1	Individual Consultant (Executive Producer)
+Aafi  Asghar	547-2019-8835	123456	3014903985	aafi.asghar@yahoo.com	1	Consultant (Non Linear Editing)
+Shamsher  Haider	547-2019-8832	123456	3214029057	shamsher@xertab.com	1	Consultant (Chief Software Development Officer)
+Adnan  Aftab	547-2019-8839	123456	3348569560	adnan.aftab@hotmail.com	1	Consultant
+Mobeen  Butt	547-2019-8836	123456	3337777007	mobeenbutt7007@gmail.com	1	Consultant
+Masroor  Ul Hassan	547-2019-8837	123456	3235297557	masroorulhassan110@gmail.com	1	Consultant (Audio Engineer)
+Habib  Ullah	547-2019-5135	123456	3157143777	mian.habib01@gmail.com	1	Junior Traffic Supervisor (ITS) - I
+Waqar   Ahmad	547-2019-5136	123456	3029182010	waqar.psca@gmail.com	1	Junior Traffic Supervisor (ITS) - II
+Muhammad Tariq Aziz	547-2019-5137	123456	3044390595	tariq.psca@gmail.com	1	Junior Traffic Supervisor (ITS) - III
+Sajid  Shahid	547-2019-5138	123456	3094440467	sajidshahid0321@gmail.com	1	Junior Traffic Supervisor (ITS) - IV
+Kallis  Gill	547-2019-8838	123456	3065829603	kallisgill@gmail.com	1	Horticulturist
+Hassan  Ali	547-2020-7651	123456	3347632701	hassan.niazi1204@gmail.com	1	Deputy Executive Officer (Radio) - II
+Muhammad  Adnan Manzoor	547-2019-8831	123456	3330447545	adnannmanzz@gmail.com	1	Consultant
+Ali  Raza	547-2019-8823	123456	3034776202	alirazaw13@gmail.com	1	Consultant
+Abdul  Salam	547-2020-8840	123456	3424966716	alishakir0688@gmail.com	1	Consultant
+Fayaz  Ahmad	547-2020-7652	123456	3337403246	fayaz.malik22@yahoo.com	1	Assistant Executive Officer (Finance)
+Adeel  Mahmood	547-2020-7653	123456	3127462204	adeelmahmood89@gmail.com	1	Deputy Executive Officer (GIS)
+Muhammad Shahbaz Hussain	547-2020-7654	123456	3317345615	shehbazbuzdar@yahoo.com	1	Assistant Executive Officer (Accounts)
+Mafia  Rashid	547-2020-8841	123456	3328402307	mafiarashid9@gmail.com	1	Supervisor (Day Care)
+Moeed  Farooq	547-2020-8845	123456	3043888832	moeedfarooq14442@gmail.com	1	Consultant
+Ahsan  Javed	547-2020-5140	123456	3014005493	sheikhahsanjaved@yahoo.com	1	Assistant Executive Officer (Facilities)
+Husnain  Abbas	547-2020-5141	123456	3336091258	husnainabbas.mss@gmail.com	1	Executive Officer (Recruitment)
+Muhammad  Naqqash	547-2020-5144	123456	3230016666	naqash.chaudhry@yahoo.com	1	Junior Executive Officer (Works)
+Muhammad  Muneer	547-2020-5145	123456	3451226965	engrmunir978@gmail.com	1	Supervisor (Works) - II
+Muhammad   Zahid Farooq	547-2020-5146	123456	3334447774	royzahid@gmail.com	1	Chief Maintenance Officer
+Ali  Sufyan	547-2020-5202	123456	3003078577	alisufyan516@gmail.com	1	Deputy Executive Officer (Works)
+Rizwan  Yousaf	547-2020-7656	123456	3084379314	rizwanyousaf922@gmail.com	1	Office Attendant (PPIC3 LHR)
+Mubassir  Farooq	547-2020-7658	123456	3345297666	mubassirkhattak786@outlook.com	1	Supervisor (Telecommunication)
+Muhammad  Younas	547-2020-7661	123456	3224844098	younas@attedndant.com	1	Office Attendant (PPIC3 LHR)
+Ali  Raza	547-2020-5204	123456	3034776202	alirazaw13@gmail.com	1	Supervisor (Works) - IV
+Muhammad  Farhad	547-2020-5205	123456	3068687677	mfarhad31@gmail.com	1	Junior Executive Officer (Logistics)
+Salman  Hassan	547-2020-5206	123456	3344531228	engineer.salman23@gmail.com	1	Assistant Executive Officer (Works)
+Safeer  Abbas	547-2020-7655	123456	3004683701	safeer.uol@gmail.com	1	Executive Officer (Applications)
+Muhammad  Bilal	547-2020-7663	123456	3234025285	engr_bilal34@yahoo.com	1	Deputy Executive Officer (Traffic Field Site) - II
+Mariam  Nawaz	547-2020-5209	123456	3454681925	mariam_nawazz@yahoo.com	1	Executive Officer (Procurement)
+Muhammad Usman Rauf	547-2020-8698	123456	3347325253	usman.rauf@psca.gop.pk	1	Consultant
+Muhammad Tauseef Sabih	547-2020-7664	123456	3334706007	tauseefsabih@gmail.com	1	Deputy Executive Officer  (Communication)
+Tariq  Malik	547-2020-8849	123456	3454646466	tariq.malik@psca.gop.pk	1	Chief Technology Officer (Individual Consultant)
+Uzma  Nadeem	547-2021-8850	123456	3334685482	uzmanadeemch@gmail.com	1	Consultant
+Muhammad Tahir Ul  Mubeen	547-2021-8851	123456	3007792755	tahirulmubeenjajjah@gmail.com	1	Consultant
+Kamal   Subhani	547-2021-8852	123456	3237856038	kamalsubhani22@gmail.com	1	Consultant
+Aleena  Rehman	547-2021-8853	123456	3094444838	aleenafaizan030@gmail.com	1	Supervisor (Child Care Centre)
+Muhammad Saeed Khalid	547-2021-8855	123456	3006277000	ms.khalid25@gmail.com	1	Legal Expert
+Maham  Khawar	547-2021-8856	123456	3244851901	mahamkhawar01@gmail.com	1	Supervisor
+Sheraz  Mahmood	547-2022-8860	123456	3349861926	sheraz9930@gmail.com	1	Consultant
+Imran  Rasheed	547-2022-8866	123456	3338314620	imran.rasheed@psca.gop.pk	1	Chief Information Security Officer
+Maham Khawar Lone	547-2022-7665	123456	3244851901	mahamkhawar01@gmail.com	1	Supervisor (Child Care Centre)
+Sana   Shoukat	547-2022-8867	123456	3091478594	sanapari2224@gmail.com	1	Supervisor
+Muhammad  Taqqi	547-2022-7669	123456	3027664488	mtaqqis@gmail.com	1	Assistant Executive Officer (Law) - I
+Shahzad  Ahmad	547-2022-7670	123456	3013507997	shehzad794794@gmail.com	1	Assistant Executive Officer (Law) - I
+Shahzeb   Nawaz	547-2022-7671	123456	3007704047	shahzebkhokar1122@gmail.com	1	Assistant Executive Officer (Law) - I
+Asif  Mehtab	547-2022-5212	123456	3008452497	asif.mehtab@psca.gop.pk	1	Deputy Chief (Networks) 
+Sahar  Mirza	547-2022-7672	123456	3213438018	saharmirza585@gmail.com	1	Deputy Executive Officer (GIS)
+Muhammad Zeeshan Sarwar Rana	547-2022-7673	123456	3024618018	zeeshan.sarwar@psca.gop.pk	1	Assistant Executive Officer (Law) - II
+Muhammad  Umer	547-2022-7674	123456	3330291276	m.umer1090@gmail.com	1	Assistant Executive Officer (Facilities)
+Alaudin  Malkani	547-2022-7676	123456	3229095196	alaudin.malkhani@gmail.com	1	Executive Officer (Works)
+Mansoor  Karim	547-2022-7675	123456	3009471489	mansoorkarim-0333@hotmail.com	1	Deputy Executive Officer (LTE/4G)
+Muhammad  Adeel	547-2022-7678	123456	3035375854	Adeelazam38@gmail.com	1	Deputy Executive Officer (LTE/4G)
+Fazeel  Maqsood	547-2022-7677	123456	3000882671	chfazeelmaqsood97@gmail.com	1	Assistant Executive Officer (GD & CW)
+Ch. Muhammad Salman Safdar	547-2022-5214	123456	3324029316	abc@xyz.com	1	Office Attendant (PSCA)
+Abdul Mueed Bhatti	547-2022-5219	123456	3044863006	mueed605@gmail.com	1	Junior Executive Officer (Transport)
+Wasim  Akhter	547-2022-7679	123456	3014240795	abc@xyz.com	1	Office Attendant (PPIC3 LHR)
+Muhammad  Nazakat	547-2022-7681	123456	3348226213	abc@xyz.com	1	Office Attendant (PPIC3 LHR)
+Yeshwa  Balkar Masih	547-2022-7680	123456	3244893705	abc@xyz.com	1	Office Attendant (PPIC3 LHR)
+Nadeem  Javeed	547-2022-5217	123456	3078109400	abc@xyz.com	1	Office Attendant (PSCA)
+Qurat Ul Ain	547-2022-8873	123456	3214345490	abc@xyz.com	1	Supervisor
+Sohaib  Sultan	547-2022-7682	123456	3428666688	sohaib165@gmail.com	1	Deputy Chief Telecommunication
+Mazhar  Hussain	547-2022-8952	123456	3167774046	mazhar.hussain@psca.gop.pk	1	Liasion Office
+Ahsan  Saleem	547-2022-8957	123456	3134053650	cengr9257@gmail.com	1	Civil Works Supervisor
+Hafiz  Muhammad Umair	547-2023-8958	123456	3101618181	mirzahmu@gmail.com	1	Civil Works Supervisor
+Ali  Asad	547-2022-8955	123456	3054511028	aliasad10083@gmail.com	1	Civil Works Supervisor
+Umais  Anwar	547-2023-8959	123456	3234838485	umaisanwar@yahoo.com	1	Project Coordinator
+Ali Rajab Raza	547-2022-8951	123456	3213311993	alirajabraza@gmail.com	1	GIS Specialist
+Sheraz  Mahmood	547-2022-8953	123456	3349861926	sheraz9930@gmail.com	1	OFC Technician
+Shahzad  Siddique	547-2022-8956	123456	3022000424	shahzad.siddique66@gmail.com	1	OFC Technician
+Asad Ali Butt	547-2023-8960	123456	3214170093	asadbutt84@gmail.com	1	Project Coordinator / Project Director
+Saran  Imran	547-2022-8868	123456	3156438282	saranimran40@gmail.com	1	Site Inspector
+Syed  Waqas Javed	547-2023-8961	123456	3004009309	syed.waqasjaved@gmail.com	1	Project Coordinator / Project Director
+Babar  Ali	547-2023-8883	123456	3324455442	mb32233@gmail.com	1	Multimedia Specialist
+Muhammad  Bilal	547-2023-8884	123456	3004900412	abc@xyz.com	1	Multimedia Specialist
+Muhammad Emran Tahir	547-2023-8885	123456	3034711403	abc@xyz.com	1	Individual Consultant (Executive Producer)
+Muhammad  Ahsan Younas	547-2023-5221	123456	3009422176	ahsanpsp@yahoo.com	1	Managing Director
+Rana Shoaaib Mehmood	547-2023-5222	123456	3466000033	shoaaib@psca.gop.pk	1	Chief Administration Officer
+Asad  Ali  	547-2023-5223	123456	3030499338	asadali4664@gmail.com	1	Police Technical Officer (UI/UX Engineer)
+Hafiz  Athar Farooq 	547-2023-5224	123456	3042203056	afk40232@gmail.com	1	Police Technical Officer (SQA)
+Aqsa  Zafar  	547-2023-5225	123456	3334828024	aqsazafar07@gmail.com	1	Police Technical Officer (JEO - PMO)
+Mobeen  Ashraf  	547-2023-5226	123456	3348142609	mobigujjar@gmail.com	1	Police Technical Officer (JEO - PMO)
+Mohsin  Nazir	547-2023-5227	123456	3344363544	mseriesco@gmail.com	1	Police Technical Officer (System Analyst)
+Talha  Mahmood  	547-2023-5228	123456	3026635821	t.m.h101010@gmail.com	1	Police Technical Officer (Android Application)
+Awais  Ahmad  	547-2023-5229	123456	3224723245	superior.awais@gmail.com	1	Police Technical Officer (.Net)
+Muhammad  Asif Ayub 	547-2023-5230	123456	3446393942	asifayub214@gmail.com	1	Police Technical Officer (.Net)
+Muhammad  Jawad  	547-2023-5231	123456	3224839049	jawad.ravian41@gmail.com	1	Police Technical Officer (.Net)
+Muhammad  Adil Hameed 	547-2023-5232	123456	3224517887	aadilhameed50@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Wali  Muhammad  	547-2023-5233	123456	3084535288	walimuhammad061@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Tahir  Muhdi Ul Din	547-2023-5234	123456	3049809388	tahirmuhdiuldin64@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Muhammad  Raffi  	547-2023-5235	123456	3444224462	mraffi2008@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Muhammad  Talal Zafar 	547-2023-5236	123456	3336135113	pasha.83@hotmail.com	1	Police Technical Officer (JEO Help Desk)
+Raja  Maratab Ali 	547-2023-5237	123456	3062010641	rajamaratabali@gmail.com	1	Police Technical Officer (Networks)
+Arslan  Tariq  	547-2023-5238	123456	3040141927	Arslantariq4597642@gmail.com	1	Police Technical Officer (Networks)
+Zeeshan  Tahir	547-2023-5239	123456	3234408229	zeeshu116@gmail.com	1	Police Technical Officer (Networks)
+Najma  Hanif  	547-2023-5242	123456	3365884648	nhanifawan@gmail.com	1	Police Technical Officer (SQA)
+Sadia  Kulsoom  	547-2023-5243	123456	3328450766	sadiakulsoom25@gmail.com	1	Police Technical Officer (JTE - ITS)
+Malik  Shawal Ali	547-2023-5244	123456	3414201947	shawal.ali1413@gmail.com	1	Police Technical Officer (JEO Help Desk)
+Muhammad  Irfan Sharif	547-2023-8962	123456	3004769407	irfan.chaudhary64@gmail.com	1	Executive Officer (M&E)
+Husnain  Saeed	547-2024-8963	123456	3215295490	husnain.saeed@gmail.com	1	Executive Officer (M&E)
+Mustansar  Feroze	547-2023-5246	123456	3216060550	mustansar.psp@gmail.com	1	Chief Operating Officer
+Eisha  Rasheed	547-2024-7685	123456	3060452248	eisha.rasheed@gmail.com	1	Program Producer
+Babar  Ali	547-2024-7686	123456	3044119077	mb32233@gmail.com	1	Non-Linear Editor
+Masroor ul Hassan	547-2024-7687	123456	3235297557	masroorulhassan110@gmail.com	1	Audio Expert
+Abuzur  Hashmi	547-2024-7689	123456	3324835481	abuzardost3@gmail.com	1	Office Attendant (PPIC3 LHR)
+Awais  Sarwar	547-2024-8964	123456	3455135058	awais.sarwar93@gmail.com	1	Executive Officer (M&E)
+Anam  Aslam	547-2024-7693	123456	3340359173	anamaslam4@gmail.com	1	Supervisor (Day Care)
+Abid  Majeed	547-2024-8965	123456	3226390456	abid.majeed91@gmail.com	1	Deputy Executive Officer (M&E)
+Saad  Bashir	547-2024-8966	123456	3214050616	saad_bashir2007@live.com	1	Deputy Executive Officer (M&E)
+Muhammad  Abrar Ahmad	547-2024-8969	123456	3066853286	hafizabrar1434@gmail.com	1	Deputy Executive Officer (M&E)
+Hafiz Muhammad  Fiaz Manzoor	547-2024-8968	123456	3458206654	hafiz.fiaz2000@gmail.com	1	Deputy Executive Officer (M&E)
+Muhammad  Imran Tahir	547-2024-7691	123456	3034711403	imrantahir96.6fm@gmail.com	1	Assistant Program Producer
+Ahmad  Gul Zafar	547-2024-8970	123456	3145600254	ahmadgulzafar@gmail.com	1	Deputy Executive Officer (M&E)
+Ali  Ahmad	547-2024-5251	123456	3244066535	abc@xyz.com	1	Executive Officer (AI/ML)
+Yasir  Niaz Khan	547-2024-7694	123456	3222300077	yasir.niaz@gmail.com	1	Chief Technical Officer
+Muhammad  Ahmed Hassan	547-2024-5248	123456	3144618086	abc@xyz.com	1	Deputy Chief (AI/ML)
+Muhammad  Hamza Bhatti	547-2024-5249	123456	3234739049	abc@xyz.com	1	Deputy Chief (Big Data)
+Usama  Riaz	547-2024-7696	123456	3227210015	feelings_usama@yahoo.com	1	Deputy Executive Officer (Software Development)
+Laraib  Hassan	547-2024-7695	123456	3450111171	laraibhassan61@gmail.com	1	Deputy Executive Officer (Software Development)
+Hamna  Waseem	547-2024-8005	123456	3244132733	hamnawaseem347@gmail.com	1	Supervisor
+Muhammad  Adil Kamran	547-2024-8967	123456	3007008833	adil.kamran715@gmail.com	1	Deputy Executive Officer (M&E)
+Adnan  Anwer	547-2024-7697	123456	3331485558	adnan.a5232@ilmap.com.pk	1	Resident Auditor
+Muhammad  Taqveem Saeed	547-2024-7698	123456	3336500771	taqveems89@gmail.com	1	Executive Officer (Facilities) - I
+MUSHTAQ  NIAZI	547-2024-7700	123456	3007315038	mushtaq6172@gmail.com	1	Deputy Executive Officer (Database) - I
+Muhammad  Shan	547-2024-7699	123456	3174438300	Muhammad.shan404@gmail.com	1	Deputy Executive Officer (AI/ML)
+REHAN  DILSHAD	547-2024-7079	123456	3111422951	mrrehandilshad823@gmail.com	1	Police Communication Officer/Specialist (PCO)
+Faisal  Usmani	547-2024-5250	123456	3034442784	abc@xyz.com	1	Deputy Cheif (Software Development)
+Muhammad  Bilal Younis	547-2024-7701	123456	3406414244	muhammad.bilal6414@gmail.com	1	Deputy Executive Officer (AI/ML)
+Irfan  Ahmed	547-2024-5247	123456	3116454992	irfanbasitali23@gmail.com	1	Executive Officer (AI/ML)
