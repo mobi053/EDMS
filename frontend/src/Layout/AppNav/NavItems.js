@@ -42,6 +42,10 @@ export const ComponentsNav = [
                 label: 'View Classes',
                 to: '#/elements/classes/classes',
             },
+            {
+                label: 'Campuses',
+                to: '#/elements/campus',
+            },
 
             // {
             //     label: 'Add-DIR',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
+const CustomPagination = ({ currentPage, totalPages, onPageChange, style }) => {
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
       onPageChange(page);
@@ -40,45 +40,49 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = generatePageNumbers();
 
   return (
-    <Pagination>
-      <PaginationItem disabled={currentPage === 1}>
-        <PaginationLink
-          first
-          onClick={() => handlePageChange(1)}
-        />
-      </PaginationItem>
-      <PaginationItem disabled={currentPage === 1}>
-        <PaginationLink
-          previous
-          onClick={() => handlePageChange(currentPage - 1)}
-        />
-      </PaginationItem>
-      {pageNumbers.map((page, index) => (
-        page === '...' ? (
-          <PaginationItem key={index} disabled>
-            <PaginationLink>...</PaginationLink>
-          </PaginationItem>
-        ) : (
-          <PaginationItem key={page} active={page === currentPage}>
-            <PaginationLink onClick={() => handlePageChange(page)}>
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      ))}
-      <PaginationItem disabled={currentPage === totalPages}>
-        <PaginationLink
-          next
-          onClick={() => handlePageChange(currentPage + 1)}
-        />
-      </PaginationItem>
-      <PaginationItem disabled={currentPage === totalPages}>
-        <PaginationLink
-          last
-          onClick={() => handlePageChange(totalPages)}
-        />
-      </PaginationItem>
-    </Pagination>
+    <div style={style}>
+
+      <Pagination>
+        <PaginationItem disabled={currentPage === 1}>
+          <PaginationLink
+            first
+            onClick={() => handlePageChange(1)}
+          />
+        </PaginationItem>
+        <PaginationItem disabled={currentPage === 1}>
+          <PaginationLink
+            previous
+            onClick={() => handlePageChange(currentPage - 1)}
+          />
+        </PaginationItem>
+        {pageNumbers.map((page, index) => (
+          page === '...' ? (
+            <PaginationItem key={index} disabled>
+              <PaginationLink>...</PaginationLink>
+            </PaginationItem>
+          ) : (
+            <PaginationItem key={page} active={page === currentPage}>
+              <PaginationLink onClick={() => handlePageChange(page)}>
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          )
+        ))}
+        <PaginationItem disabled={currentPage === totalPages}>
+          <PaginationLink
+            next
+            onClick={() => handlePageChange(currentPage + 1)}
+          />
+        </PaginationItem>
+        <PaginationItem disabled={currentPage === totalPages}>
+          <PaginationLink
+            last
+            onClick={() => handlePageChange(totalPages)}
+          />
+        </PaginationItem>
+      </Pagination>
+    </div>
+
   );
 };
 

@@ -19,6 +19,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -28,13 +29,28 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])) {
-            // $users=User::all();
-            return view('welcome');
+            $users=User::all();
+            // dd($users);
+            return view('portal.users.index', compact('users'));
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+    }
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            // Assuming tokens are stored in a `personal_access_tokens` table
+            DB::table('personal_access_tokens')->where('token', $request->bearerToken())->delete();
+
+            // Alternatively, if you store tokens in a different table or in a different way, adjust accordingly
+            // e.g., $user->tokens()->where('token', $request->bearerToken())->delete();
+
+            return view('welcome');
+        }
+        return view('welcome');
     }
 
     public function apiLogout(Request $request)

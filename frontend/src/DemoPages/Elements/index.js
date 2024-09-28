@@ -39,6 +39,8 @@ import Viewdir from "../../Components/Viewdir";
 import EditDir from "../../Components/EditDir";
 import Mobeen from "../../Components/Mobeen";
 import MobeenCopy from "../../Components/MobeenCopy";
+import Campus from "../../Components/Campuses/Campus";
+
 
 
 
@@ -118,6 +120,7 @@ const Elements = ({ match }) => (
           <Route path={`${match.url}/view-dir`} component={Viewdir} />
           <Route path={`${match.url}/Mobeen-Ashraf`} component={Mobeen} />
           <Route path={`${match.url}/Mobeen-Copy`} component={MobeenCopy} />
+          <Route path={`${match.url}/Campus`} component={Campus} />
 
 
 
