@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DirController;
+use App\Http\Controllers\Portal\CampusController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\Login;
@@ -48,6 +49,7 @@ Route::group(['prefix' => '/classes'], function () {
     Route::get('/edit_class/{id}', [ClassController::class, 'edit']);
     Route::put('/update/{id}', [ClassController::class, 'update']);
     Route::delete('/delete/{id}', [ClassController::class, 'destroy']); // Delete a class by ID
+    Route::post('/filter', [ClassController::class, 'filter']);
 });
 
 Route::group(['prefix' => '/sections'], function () {
@@ -56,4 +58,13 @@ Route::group(['prefix' => '/sections'], function () {
     Route::post('/store', [SectionController::class, 'store']); // Create a new section
     Route::post('/update/{id}', [SectionController::class, 'update']); // Update a section by ID
     Route::delete('/delete/{id}', [SectionController::class, 'destroy']); // Delete a section by ID
+});
+Route::group(['prefix' => '/campuses'], function () {
+    Route::get('/', [CampusController::class, 'index']); // Get all classes
+    Route::get('/view_capmuses', [CampusController::class, 'view_capmuses']);
+    Route::get('/{id}', [CampusController::class, 'show']); // Get a single class by ID
+    Route::post('/store', [CampusController::class, 'store']); // Create a new class
+    Route::get('/edit_campus/{id}', [CampusController::class, 'edit']);
+    Route::put('/update/{id}', [CampusController::class, 'update']);
+    Route::delete('/delete/{id}', [CampusController::class, 'destroy']); // Delete a class by ID
 });
