@@ -376,7 +376,7 @@ const searchFilter = (pageNumber) => {
       <h1>Classes</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
-        <select name='className' className='m-2' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+        <select name='className' className='form-control' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
           <option value=''>Please Select a class</option>
           {data.map(item => (
             <option key={item.id} value={item.name}>
