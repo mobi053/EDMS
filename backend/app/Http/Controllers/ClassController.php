@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isNull;
+
 class ClassController extends Controller
 {
     // Get all classes
@@ -16,64 +18,95 @@ class ClassController extends Controller
 
     public function filter(Request $request)
     {
-        // Retrieve filtering parameters from the request
         $selectedClass = $request->input('selectedClass');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
         $page = $request->input('page', 1); // Default to page 1
-        $limit = $request->input('limit', 10); // Default to 10 items per page
+        $limit = ($request->page == 'all') ? null : $request->input('limit', 10); // If 'all', set limit to null (no pagination)
         $search = $request->input('search'); // Get the search query if provided
-
-        // Start the query
-        $query = SchoolClass::query(); // Make sure SchoolClass is your model
     
-        // Apply class name filter if provided
+        // Start the query with sorting
+        $query = SchoolClass::query()->orderBy('created_at', 'desc');
         if ($selectedClass) {
             $query->where('name', $selectedClass);
         }
-    
-        // Apply date range filter if both startDate and endDate are provided
         if ($startDate && $endDate) {
             // Ensure the dates are correctly formatted in 'YYYY-MM-DD' format
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
         if ($search) {
-            $query->whereBetween('created_at', [$startDate, $endDate])
-                  ->orwhere('name', 'LIKE', '%' . $search . '%') // Assuming 'name' is the searchable field
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
                   ->orWhere('teacher_in_charge_name', 'LIKE', '%' . $search . '%'); // Example: Searching by teacher's name
+            });
+        
+        }    
+        if (is_null($limit)) {
+            $filteredClasses = $query->get();
+            $response = [
+                'class' => $filteredClasses, // Paginated items
+                'total' => $filteredClasses->count(), // Total number of items
+                'current_page' => 1, // Current page number
+                'last_page' => 1 // Total number of pages
+            ];
+
+        }else{
+            $filteredClasses = $query->paginate($limit, ['*'], 'page', $page);
+            $response = [
+                'class' => $filteredClasses->items(), // Paginated items
+                'total' => $filteredClasses->total(), // Total number of items
+                'current_page' => $filteredClasses->currentPage(), // Current page number
+                'last_page' => $filteredClasses->lastPage() // Total number of pages
+            ];
         }
-    
         // Paginate the filtered results
-        $filteredClasses = $query->paginate($limit, ['*'], 'page', $page);
-    
-        // Return the filtered results as JSON
-        return response()->json($filteredClasses);
+
+        return response()->json($response);
     }
+    
+    
     
     public function view_classes(Request $request)
     {
-        $page = $request->input('page', 1); // Default to page 1 if not provided
-        $limit = $request->input('limit', 10); // Default to 10 items per page if not provided
-        $search = $request->input('search'); // Get the search query if provided
+
+          // Set default pagination limit and page
+    $page = $request->input('page', 1); // Default to page 1
+    $limit = ($request->page == 'all') ? null : $request->input('limit', 10); // If 'all', set limit to null (no pagination)
+    $search = $request->input('search'); // Search query if provided
+
+    // Build the query with ordering
+    $query = SchoolClass::query()->orderBy('created_at', 'desc');
+
+    // Apply search filter if search query is provided
+    if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'LIKE', '%' . $search . '%')
+              ->orWhere('teacher_in_charge_name', 'LIKE', '%' . $search . '%');
+        });
+    }
+
+    // Fetch records based on pagination or fetch all if limit is null
+    if (is_null($limit)) {
+        $classes = $query->get(); // Get all records when no pagination
+        $response = [
+            'class' => $classes, // Return all items directly
+            'total' => $classes->count(),
+            'current_page' => 1, // Default to page 1 for "all" case
+            'last_page' => 1 // Single page when all records are returned
+        ];
+    } else {
+        // Paginate the results if a limit is set
+        $classes = $query->paginate($limit, ['*'], 'page', $page);
+        $response = [
+            'class' => $classes->items(), // Paginated items
+            'total' => $classes->total(), // Total number of items
+            'current_page' => $classes->currentPage(), // Current page number
+            'last_page' => $classes->lastPage() // Total number of pages
+        ];
+    }
     
-        // Build the query
-        $query = SchoolClass::query()->orderby('created_at', 'desc');
-    
-        // Apply search filter if search query is provided
-        if ($search) {
-            $query->where('name', 'LIKE', '%' . $search . '%') // Assuming 'name' is the searchable field
-                  ->orWhere('teacher_in_charge_name', 'LIKE', '%' . $search . '%'); // Example: Searching by teacher's name
-        }
-    
-        // Paginate the filtered query
-        $class = $query->paginate($limit, ['*'], 'page', $page);
-    
-        return response()->json([
-            'class' => $class->items(),
-            'total' => $class->total(),
-            'current_page' => $class->currentPage(),
-            'last_page' => $class->lastPage(),
-        ]);
+    return response()->json($response);
+
     }
     
 
@@ -127,7 +160,8 @@ class ClassController extends Controller
     public function destroy($id)
     {
         $class = SchoolClass::findOrFail($id);
-        $class->delete();
+        $class->update(["status"=> 2]);
+        // $class->delete();
         return response()->json(null, 204);
     }
 }

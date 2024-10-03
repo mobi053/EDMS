@@ -1,13 +1,22 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import CustomPagination from '../Pagination';
-import { FaTrashAlt, FaEdit, FaEye, FaCheck, FaFilter } from "react-icons/fa"; 
+import { FaTrashAlt, FaEdit, FaEye, FaCheck, FaFilter, FaFileExcel, FaFilePdf } from "react-icons/fa";
 import Swal from 'sweetalert2';
-import { useHistory, useLocation } from 'react-router-dom'; 
+import { useHistory, useLocation } from 'react-router-dom';
 import ModalExample from '../../DemoPages/Components/Modal/Examples/Modal';
-import {AddCampus} from './AddCapmus';
+import ModalCampusView from '../../DemoPages/Components/Modal/Examples/ModalCampusView';
+import '../mystyle.css';
+import axios from 'axios';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf'; // Correct import for version 2.x
+import 'jspdf-autotable';
+import moment from 'moment';
+import { DataGrid } from '@mui/x-data-grid';
+import DataTable from './example';
+import { Paper } from '@mui/material';
 
-function Campus() {
+function Campuses() {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -19,8 +28,12 @@ function Campus() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPageOptions = [10, 20, 50, 100]; // Options for items per page
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Set default items per page
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set default items per page
+  const [pageSize, setPageSize] = useState(10);
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [Status, setStatus]=useState(false)
+  const [mode, setMode] = useState(""); // Add state for mode
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
@@ -29,6 +42,16 @@ function Campus() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [editingColumn, setEditingColumn] = useState(null); // Which column is being edited (e.g., "name" or "teacher")
+  const [searchFilterData, setSearchFilterData] = useState([]); // Data shown in the table
+  const [selectedClass, setSelectedClass] = useState(''); // Selected class name
+  const [startDate, setStartDate] = useState(''); // Start date filter
+  const [endDate, setEndDate] = useState(''); // End date filter
+  const [options, setOptions] = useState(''); // End date filter
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const [filterPaginationModel, setFilterPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const isFilterEmpty = selectedClass.length < 1 && startDate.length < 1 && endDate.length < 1;
+  const [exportData, setExportData] = useState([])
+  
   const [searchTerms, setSearchTerms] = useState({
     name: '',
     teacher: ''
@@ -36,14 +59,14 @@ function Campus() {
   const handleHeaderDoubleClick = (column) => {
     setEditingColumn(column);
   };
-  
-  const history = useHistory(); 
+
+  const history = useHistory();
   const userName = localStorage.getItem('userName');
   const userId = localStorage.getItem('userId');
 
   const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
-  const handleItemsPerPageChange = (value) => {  
-    setItemsPerPage(value);
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(value);   
     setCurrentPage(1); // Reset to first page
   };
 
@@ -54,13 +77,21 @@ function Campus() {
       [column]: value,
     }));
   };
-  
-  const filteredData = data.filter((item) => {
-    const matchesName = item.name.toLowerCase().includes(searchTerms.name.toLowerCase());
-    const matchesTeacher = item.teacher_in_charge_name.toLowerCase().includes(searchTerms.teacher.toLowerCase());
-    return matchesName && matchesTeacher; // Adjust logic based on which columns are searched
-  });
-  
+
+  useEffect(()=>{
+    const filteredData = data.filter((item) => {
+      const matchesName = item.name.toLowerCase().includes(searchTerms.name.toLowerCase());
+      const matchesTeacher = item.teacher_in_charge_name.toLowerCase().includes(searchTerms.teacher.toLowerCase());
+      return matchesName && matchesTeacher; // Adjust logic based on which columns are searched
+    });
+    if(searchQuery !== ''){
+      setSearchFilterData(filteredData)
+    }
+    // console.log('filteredData',filteredData)
+  },[searchFilterData])
+
+  // console.log(searchFilterData, 'jhgjkdgbsdfg')
+
   // Fetch session info
   useEffect(() => {
     async function checkSession() {
@@ -85,67 +116,107 @@ function Campus() {
     }
   }, [id, history]);
 
+  
   // Fetch data
-  const fetchData = useCallback(() => {
-    setLoading(true);
-    const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
-    url.searchParams.append('page', currentPage);
-    url.searchParams.append('limit', itemsPerPage); // Use the state value
-    if (searchQuery) {
-      url.searchParams.append('search', searchQuery);
-    }
-  
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setData(data.class || []);
-        setTotalItems(data.total || 0);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, [currentPage, itemsPerPage, searchQuery]);
-  
+  // const fetchData = useCallback(() => {
+  //   setLoading(true);
+  //   const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
+  //   url.searchParams.append('page', currentPage);
+  //   url.searchParams.append('limit', itemsPerPage); // Use the state value
+  //   if (searchQuery) {
+  //     url.searchParams.append('search', searchQuery);
+  //   }
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  //   fetch(url)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setData(data.class || []);
+  //       setSearchFilterData(data.class || []);
+  //       setTotalItems(data.total || 0);
+  //       setLoading(false);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //       setLoading(false);
+  //     });
+  // }, [currentPage, itemsPerPage, searchQuery]);
+
+
+  // useEffect(() => {
+  //   if(options !== 'filter'){
+  //     fetchData();
+  //   }
+  // }, [fetchData]);
+
+
 
   // Handle search input and suggestions
-  const handleSearch = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    setCurrentPage(1);
+  const handleSearch = async (pageNumber, e) => {
+    const searchValue = e.target.value;
+    setSearchQuery(searchValue); // Set the search query  
+    // Prepare the request body
+    const body = {
+      selectedClass: selectedClass || '',
+      startDate: startDate || '',
+      endDate: endDate || '',
+      page: pageNumber + 1, // Increment for 1-based API
+      limit: itemsPerPage,
+      search: searchValue || '',
+    };
+  
+    // Log the state before proceeding
+  
+    try {
+      const url = isFilterEmpty
+        ? 'http://127.0.0.1:8000/api/classes/view_classes'
+        : `http://127.0.0.1:8000/api/classes/filter`;
+  
+      const params = isFilterEmpty
+        ? {
+            page: pageNumber + 1, // 1-based page number for the API
+            limit: paginationModel.pageSize,
+            search: e.target.value
+          }
+        : body; // Use the body directly for the POST request
+  
+      // Make the API call
+      const response = isFilterEmpty 
+        ? await axios.get(url, { params }) 
+        : await axios.post(url, params);
+  
+      // Log the response to verify structure
+  
+      // Set the data and total items based on the response
+      setData(isFilterEmpty ? response.data.class || [] : response.data.class || []);
+      setTotalItems(isFilterEmpty ? response.data.total || 0 : response.data.total || 0);
 
-    if (query.length > 0) {
-      fetchSuggestions(query);
-    } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
+      // setData(isFilterEmpty ? response.data.class || [] : response.data.data);
+      // setTotalItems(isFilterEmpty ? response.data.total || 0 : response.data.total);
+      
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
     }
   };
-  
+
   const fetchSuggestions = (query) => {
 
-    fetch(`http://127.0.0.1:8000/api/classes/view_classes?search=${query}`)
-      .then(response => response.json())
-      .then(data => {
-        setSuggestions(data.class || []);
-        setShowSuggestions(true);
-      })
-      .catch(error => {
-        console.error('Error fetching suggestions:', error);
-      });
+    // fetch(`http://127.0.0.1:8000/api/classes/view_classes?search=${query}`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setSuggestions(data.class || []);
+    //     setShowSuggestions(true);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching suggestions:', error);
+    //   });
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion.teacher_in_charge_name);
-    setShowSuggestions(false);
-    setCurrentPage(1);
-    fetchData();
-  };
+  // const handleSuggestionClick = (suggestion) => {
+  //   setSearchQuery(suggestion.teacher_in_charge_name);
+  //   setShowSuggestions(false);
+  //   setCurrentPage(1);
+  //   fetchData();
+  // };
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -158,16 +229,17 @@ function Campus() {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!',
     });
-  
+
     if (result.isConfirmed) {
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/classes/delete/${id}`, {
           method: 'DELETE',
         });
-  
+
         if (response.ok) {
           Swal.fire('Deleted!', 'User has been deleted.', 'success');
-          fetchData();
+
+          fetchData(paginationModel.page, paginationModel.pageSize); // Refetch data after deletion
         } else {
           Swal.fire('Error!', 'Failed to delete the user.', 'error');
         }
@@ -178,14 +250,20 @@ function Campus() {
   };
 
   // Handle edit
-  const handleEdit = (id) => {
-    history.push(`/elements/classes/edit-class/${id}`);
+  const handleEdit = (mode, item) => {
+    setMode(mode);
+    setModalData(item);
+    setModalOpen(true); 
+    // history.push(`/elements/classes/edit-class/${item.id}`);
   };
 
   // Handle view
-  const handleView = (item) => {
+  const handleView = (mode, item) => {
+    setMode(mode);
+
     setModalData(item);
-    setModalOpen(true);
+    setModalOpen(true); 
+       
   };
 
   // Handle mark as valid
@@ -209,52 +287,283 @@ function Campus() {
   };
 
   // Pagination
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => { setCurrentPage(pageNumber);
+    if(selectedClass !== '' || startDate !== '' || endDate!== ''){
+      searchFilter(pageNumber); // Fetch the filtered data for the new page
+    }
+    // console.log(pageNumber)
+  }
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   // Handle adding new class
-  const handleAddDirClick = () => {
-    history.push('/elements/classes/add-class');
+  const handleAddDirClick = (mode) => {
+    setMode(mode);
+    const emptyItem = {}; // Empty object for adding new data
+    setModalData(emptyItem); // Set empty data for blank fields
+    setModalOpen(true);
+    
+    // history.push('/elements/classes/add-class');
   };
+
+  // Handle export to Excel
+  const handleExport = async (type) => {
+    const searchBoxValue=searchQuery || '';
+    try {
+      const body = {
+        selectedClass: selectedClass || '',
+        startDate: startDate || '',
+        endDate: endDate || '',
+        page: 'all', // Increment for 1-based API
+        // limit: itemsPerPage,
+        search: searchQuery || '',
+      };
+      const url = isFilterEmpty
+        ? 'http://127.0.0.1:8000/api/classes/view_classes'
+        : `http://127.0.0.1:8000/api/classes/filter`;
+  
+      const params = isFilterEmpty
+        ? {
+            page: 'all', // 1-based page number for the API
+            // limit: paginationModel.pageSize,
+            search: searchBoxValue
+          }
+        : body; // Use the body directly for the POST request
+        const response = isFilterEmpty 
+        ? await axios.get(url, { params }) 
+        : await axios.post(url, params);
+      setExportData(response.data.class)
+      triggerExport(type, response.data.class); 
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
+    }
+  };
+  const triggerExport = (type, exportData) => {
+    if (!exportData || exportData.length === 0) {
+      console.warn('No data to export');
+      return;
+    }
+    if (type === 'Excel') {
+      const worksheet = XLSX.utils.json_to_sheet(exportData); // Convert JSON data to sheet format
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Classes");
+      // Generate an Excel file and trigger download
+      XLSX.writeFile(workbook, "classes_data.xlsx");
+    } else if (type === 'Pdf') {
+      const doc = new jsPDF(); // Create a new PDF document instance
+      const tableColumn = ["ID", "Name", "Teacher In Charge", "Status"]; // Define column headers
+      const tableRows = [];
+  
+      // Prepare table rows based on filtered data
+      exportData.forEach(item => {
+        const rowData = [
+          item.id,
+          item.name,
+          item.teacher_in_charge_name,
+          item.status
+        ];
+        tableRows.push(rowData);
+      });
+  
+      // Add the table to the PDF document
+      doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: 20
+      });
+  
+      // Add title to the PDF
+      doc.text("Classes Data", 14, 15);
+  
+      // Save the generated PDF
+      doc.save("classes_data.pdf");
+    };
+  }
+
+   // Handle class selection
+   const handleClassChange = (e) => {   
+    setSelectedClass(e.target.value);
+  };
+  // Handle date change
+  const handleDateChange = (e) => {
+    if (e.target.name === 'sDate') {
+      setStartDate(e.target.value);
+    } else if (e.target.name === 'eDate') {
+      setEndDate(e.target.value);
+    }
+  };
+
+// Search filter function
+
+
+
+// Columns definition for DataGrid
+const columns = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'name', headerName: 'Name', width: 200 },
+  { field: 'teacher_in_charge_name', headerName: 'Teacher In Charge', width: 200 },
+  { field: 'status', headerName: 'Status', width: 130 },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    width: 300,
+    renderCell: (item) => (
+      <>
+        <Button color="danger" size="sm" onClick={() => handleDelete(item.row.id)} className="me-2">
+          <FaTrashAlt />
+        </Button>
+        <Button color="primary" size="sm" onClick={() => handleEdit('Edit',item.row)} className="me-2">          
+          <FaEdit />
+        </Button>
+        <Button color="info" size="sm" onClick={() => handleView('View',item.row)} className="me-2">
+          <FaEye />
+        </Button>
+        <Button color="success" size="sm" disabled={item.row.status === 1}>
+          <FaCheck />
+        </Button>
+      </>
+    ),
+  },
+];
+const [filteredPage, setFilteredPage] = useState(0)
+
+const searchFilter = async (pageNumber) => {
+  setSearchQuery('');
+  console.log(pageNumber, 'pageNumberrrr')
+  // Prepare the request body
+  const body = {
+    selectedClass: selectedClass || '',
+    startDate: startDate || '',
+    endDate: endDate || '',
+    page: pageNumber.page + 1, // Increment for 1-based API
+    limit: pageNumber.pageSize ? pageNumber.pageSize : itemsPerPage,
+    search: searchQuery || '',
+  };
+
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/classes/filter', body);
+    setData(response.data.class); // Set the filtered classes
+    setTotalItems(response.data.total); // Set the total number of items for pagination
+  } catch (error) {
+    console.error('Error fetching filtered data:', error);
+  }
+};
+// console.log(paginationModel, 'pagination modell>>>>>>>>>>>>>>>>')
+const fetchData = async (page, size ,modalPage) => {
+  setLoading(true); // Set loading state before fetching
+  const currentPage = modalPage !== undefined ? modalPage : page + 1;
+  // setCurrentPage(modalPage);
+  // if (isNaN(page)) {
+  //   page = currentPage;
+  //   size = 10;
+  //   setPaginationModel({ page: currentPage, pageSize: size });
+  // }
+  // console.log(currentPage, "Current PAge", size, "SIZE")
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/classes/view_classes', {
+      params: {
+        page: currentPage, // 1-based page number for the API
+        limit: size,
+      },
+    });
+
+    setData(response.data.class || []); // Adjust the data structure based on the response
+    setTotalItems(response.data.total || 0); // Adjust the total count
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    setLoading(false); // Turn off loading state
+  }
+};
+
+// Fetch data whenever page or page size changes
+useEffect(() => {
+
+  isFilterEmpty ? fetchData(paginationModel.page, paginationModel.pageSize) : searchFilter(filteredPage)
+}, [filterPaginationModel, filteredPage]);
+
+
+const view_classes = async (newModel)=>{
+    
+  // If empty, call fetchData
+  setPaginationModel(newModel);
+  await fetchData(newModel.page, newModel.pageSize);
+}
+
+const filteredFunction = async (newModel)=>{
+  console.log('newModal', newModel)
+  setFilterPaginationModel(newModel);
+  setFilteredPage(newModel); // Update filtered page state
+  await searchFilter(newModel);
+}
+
+const handlePaginationChange = async (newModel) => {
+  setLoading(true); // Start loading when pagination changes
+  // Check if filter parameters are empty
+  console.log(newModel, 'newModal')
+  isFilterEmpty ? view_classes(newModel) : filteredFunction(newModel)
+  // setCurrentPage(currentPage+1);  
+  setLoading(false); // Stop loading after fetching data
+};
+const rowHeight = 52; // Default row height in DataGrid
+const calculatedHeight = Math.min(data.length * rowHeight + 110, 700); // 56 is an estimate for header and other padding
 
   return (
     <div>
-      <h1>Classes</h1>
-
-            {/* Items per Page Dropdown */}
-          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} className="mb-3">
-            <DropdownToggle caret>
-              Items per Page: {itemsPerPage}
-            </DropdownToggle>
-            <DropdownMenu>
-              {itemsPerPageOptions.map(option => (
-                <DropdownItem key={option} onClick={() => handleItemsPerPageChange(option)}>
-                  {option}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-
-      <Input
-        type="text"
-        placeholder="Search by Class or Incharge Name"
-        value={searchQuery}
-        onChange={handleSearch}
-        className="mb-3"
-      />
-      {showSuggestions && (
-        <ListGroup className="suggestions-list">
-          {suggestions.map((suggestion, index) => (
-            <ListGroupItem
-              key={index}
-              onClick={() => handleSuggestionClick(suggestion)}
-              className="suggestion-item"
-            >
-               {suggestion.name} - {suggestion.teacher_in_charge_name}
-        </ListGroupItem>
+      <h1>Campuses</h1>
+      {/* Filter Section */}
+      <div className='d-flex justify-content-between align-items-center col-md-6'>
+        <select name='className' className='m-2' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+          <option value=''>Please Select a class</option>
+          {data.map(item => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
           ))}
-        </ListGroup>
-      )}
+        </select>
+
+        <Input type='date' name='sDate' className='m-2' value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        <Input type='date' name='eDate' className='m-2' value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        <Button color='primary' className='m-2' onClick={() => filteredFunction(0)}>
+          Search
+        </Button>
+      </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+          {/* <DropdownToggle caret>
+            Items per Page: {itemsPerPage}
+          </DropdownToggle> */}
+          <DropdownMenu>
+            {itemsPerPageOptions.map(option => (
+              <DropdownItem key={option} onClick={() => handleItemsPerPageChange(option)}>
+                {option}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+            {/* Add Export to Excel button */}
+            <Button color="success" className="m-2" onClick={()=>handleExport('Excel')}>
+            <FaFileExcel /> Excel
+          </Button>
+          <Button color="success" className="m-2" onClick={()=>handleExport('Pdf')}>
+            <FaFilePdf /> Pdf
+          </Button>
+        </Dropdown>
+        <div className="d-flex align-items-center">
+            {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
+            <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
+              Add Class
+            </Button>
+            <Input
+                type="text"
+                placeholder="Search here"
+                value={searchQuery}
+                onChange={(e)=>{handleSearch(0, e)}}
+                className="input-container"
+                style={{ width: '200px', marginRight: '10px' }} // Adjust the width as needed
+            />
+           
+        </div>
+      </div>
+
       {loading ? (
         <div className="text-center">
           <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
@@ -262,80 +571,32 @@ function Campus() {
         </div>
       ) : (
         <>
-          <Button color="primary" className="m-2" onClick={handleAddDirClick}>
-            Add Class
-          </Button>
-          <Table hover className="mb-0">
-            <thead>
-              <tr>
-              <th>ID</th>
-              <th onDoubleClick={() => handleHeaderDoubleClick('name')}>
-                {editingColumn === 'name' ? (
-                  <Input
-                    value={searchTerms.name}
-                    onChange={(e) => handleSearchChange(e, 'name')}
-                    placeholder="Search by Name"
-                    onBlur={() => setEditingColumn(null)} // Exit editing mode on blur
-                  />
-                ) : (
-                    <>
-                      Name <FaFilter className="filter-icon" />
-                    </>
-                )}
-              </th>
-              <th onDoubleClick={() => handleHeaderDoubleClick('teacher')}>
-                {editingColumn === 'teacher' ? (
-                  <Input
-                    value={searchTerms.teacher}
-                    onChange={(e) => handleSearchChange(e, 'teacher')}
-                    placeholder="Search by Teacher"
-                    onBlur={() => setEditingColumn(null)} // Exit editing mode on blur
-                  />
-                ) : (
-                    <>
-                      Teacher In Charge <FaFilter className="filter-icon" />
-                    </>                )}
-              </th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            {filteredData.map((item) => (
-                <tr key={item.id} className={item.status === 2 ? 'table-success' : ''}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.teacher_in_charge_name}</td>
-                  <td>{item.status}</td>
-                  <td>
-                    <Button color="danger" size="sm" onClick={() => handleDelete(item.id)} className="me-2">
-                      <FaTrashAlt />
-                    </Button>
-                    <Button color="primary" size="sm" onClick={() => handleEdit(item.id)} className="me-2">
-                      <FaEdit />
-                    </Button>
-                    <Button color="info" size="sm" onClick={() => handleView(item)} className="me-2">
-                      <FaEye />
-                    </Button>
-                    <Button
-                      color="success"
-                      size="sm"
-                      onClick={() => handleMarkAsValid(item.id)}
-                      disabled={item.status === 2}
-                    >
-                      <FaCheck />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} />
+        <div style={{ height: 'fit-content', width: '100%' }}>
+        <Paper sx={{ height: 'fit-content', width: '100%' }}>
+          <div style={{ height: `${calculatedHeight}px`, width: '100%' }}>
+           <DataGrid
+              rows={data}
+              columns={columns} // Make sure you define your columns
+              rowCount={totalItems}
+              loading={loading}
+              pageSizeOptions={[5, 10, 20]}
+              paginationMode="server" // Enable server-side pagination
+              paginationModel={isFilterEmpty ? paginationModel : filterPaginationModel} // Use correct pagination model
+              onPaginationModelChange={handlePaginationChange} // Handle page change
+              sx={{ border: 0}}
+            />
+          </div>
+      </Paper>
+    </div>
+
+          
+          {/* <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} style={{ paddingTop: '15px' }} /> */}
         </>
       )}
-      <ModalExample modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} />
+      {/* <ModalCampusView modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} /> */}
+      <ModalExample modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} mode={mode} setModalData={setModalData} fetchData={fetchData} handleEdit={handleEdit} currentPage={paginationModel.page}/>
     </div>
   );
 }
 
-export default Campus;
+export default Campuses;

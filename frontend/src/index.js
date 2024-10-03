@@ -9,6 +9,10 @@ import "./assets/base.scss";
 import Main from "./DemoPages/Main";
 import configureStore from "./config/configureStore";
 import { Provider } from "react-redux";
+import 'primereact/resources/themes/saga-blue/theme.css';  // Choose your desired theme
+import 'primereact/resources/primereact.min.css';          // Core styles
+import 'primeicons/primeicons.css';                         // PrimeIcons
+
 
 const store = configureStore();
 const rootElement = document.getElementById("root");

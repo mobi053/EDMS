@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,Input } from "reactstrap";
 import axios from "axios";
-function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,fetchData, handleEdit}) {
-  // console.log(">>>>>>>>",modalData);
 
+
+
+function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,fetchData, handleEdit, currentPage}) {
+
+  // console.log('cureent pageeeee', currentPage+1)
+  const modalPage= currentPage+1;
   const toggle = useCallback(() => {
     setModalOpen(prevModal => !prevModal);
   }, [setModalOpen]);
@@ -15,23 +19,24 @@ function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,f
       [name]: value, // Update the specific field
     }));
   };
-
   const handleSubmit = async () => {
     try {
       if (mode === "Add") {
         // Sending a POST request to the API to add a class
         await axios.post('http://127.0.0.1:8000/api/classes/store', modalData);
         // Call fetchData to refresh the class list
-        fetchData();
+        fetchData("",10,modalPage);
         // Close the modal after successful submission
         toggle();
       } else if (mode === "Edit"){
-        const id=modalData.id;
+
+        const id=modalData.id;       
         // Sending a POST request to the API to add a class
         await axios.put(`http://127.0.0.1:8000/api/classes/update/${id}`, modalData);
+
         // Call fetchData to refresh the class list
         // handleEdit();
-        fetchData();
+        fetchData("",10,modalPage);
         // Close the modal after successful submission
         toggle();
       }
@@ -86,7 +91,7 @@ function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,f
         <Button color="link" onClick={toggle}>Cancel</Button>
           {mode !== "view" && (
             <Button color="primary" onClick={handleSubmit}>
-              {mode === "edit" ? "Update" : "Save"}
+              {mode === "Edit" ? "Update" : "Save"}
             </Button>
           )}
         </ModalFooter>
