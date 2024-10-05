@@ -6,7 +6,7 @@ import { FormControl } from "@mui/material";
 
 
 
-function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,fetchData, handleEdit, currentPage}) {
+function CampusModal({modalOpen, setModalOpen, modalData, setModalData, mode ,fetchData, handleEdit, currentPage}) {
 
   // console.log('cureent pageeeee', currentPage+1)
   const modalPage= currentPage+1;
@@ -63,13 +63,13 @@ function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,f
    
       <Modal isOpen={modalOpen} toggle={toggle} className={'abc'}>
         <ModalHeader toggle={toggle}>          
-          {mode === "View" ? "View Class" : mode === "Edit" ? "Edit Class" : "Add Class"}
+          {mode === "View" ? "View Campus" : mode === "Edit" ? "Edit Campus" : "Add Campus"}
         </ModalHeader>
         <ModalBody>
           
           {/* Input fields will be disabled when in view mode */}
-          <Input type="text" placeholder="Title" name="name" value={modalData.name} onChange={handleInputChange} disabled={mode === "View"} required={mode ==="Add"}/>
-          <Input type="textarea" placeholder="Teacher In Charge" name="teacher_in_charge_name" value={modalData.teacher_in_charge_name || ""} onChange={handleInputChange} disabled={mode === "View"} className="mt-2" required={mode ==="Add"}/>
+          <Input type="text" placeholder="Campus Name" name="name" value={modalData.name} onChange={handleInputChange} disabled={mode === "View"} required={mode ==="Add"}/>
+          <Input type="textarea" placeholder="Principal Name" name="teacher_in_charge_name" value={modalData.principal || ""} onChange={handleInputChange} disabled={mode === "View"} className="mt-2" required={mode ==="Add"}/>
           {/* Status radio buttons */}
           <label className="mt-3">Status</label>
           <div>
@@ -110,4 +110,4 @@ function ModalExample({modalOpen, setModalOpen, modalData, setModalData, mode ,f
   );
 }
  
-export default ModalExample;
+export default CampusModal;

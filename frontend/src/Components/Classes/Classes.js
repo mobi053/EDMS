@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { Table, Button, Input, Spinner, ListGroup, ListGroupItem, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import CustomPagination from '../Pagination';
-import { FaTrashAlt, FaEdit, FaEye, FaCheck, FaFilter, FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaEye, FaCheck, FaFilter, FaFileExcel, FaFilePdf, } from "react-icons/fa";
 import Swal from 'sweetalert2';
 import { useHistory, useLocation } from 'react-router-dom';
 import ModalExample from '../../DemoPages/Components/Modal/Examples/Modal';
@@ -12,8 +12,15 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf'; // Correct import for version 2.x
 import 'jspdf-autotable';
 import moment from 'moment';
+import { DataGrid } from '@mui/x-data-grid';
+import { Paper } from '@mui/material';
+import ReactDatePicker from 'react-datepicker';
+import { InputGroup } from "reactstrap";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { triggerExport } from '../exportUtils';
 
-function Classes() {
+function Campuses() {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -25,9 +32,9 @@ function Classes() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPageOptions = [10, 20, 50, 100]; // Options for items per page
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Set default items per page
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set default items per page
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [Status, setStatus]=useState(false)
   const [mode, setMode] = useState(""); // Add state for mode
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,15 +48,20 @@ function Classes() {
   const [selectedClass, setSelectedClass] = useState(''); // Selected class name
   const [startDate, setStartDate] = useState(''); // Start date filter
   const [endDate, setEndDate] = useState(''); // End date filter
+
   const [options, setOptions] = useState(''); // End date filter
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const [filterPaginationModel, setFilterPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const isFilterEmpty = selectedClass.length < 1 && startDate.length < 1 && endDate.length < 1;
+  const [exportData, setExportData] = useState([])
 
   const [searchTerms, setSearchTerms] = useState({
     name: '',
     teacher: ''
   });
-  const handleHeaderDoubleClick = (column) => {
-    setEditingColumn(column);
-  };
+  // const handleHeaderDoubleClick = (column) => {
+  //   setEditingColumn(column);
+  // };
 
   const history = useHistory();
   const userName = localStorage.getItem('userName');
@@ -69,19 +81,17 @@ function Classes() {
     }));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const filteredData = data.filter((item) => {
       const matchesName = item.name.toLowerCase().includes(searchTerms.name.toLowerCase());
       const matchesTeacher = item.teacher_in_charge_name.toLowerCase().includes(searchTerms.teacher.toLowerCase());
       return matchesName && matchesTeacher; // Adjust logic based on which columns are searched
     });
-    if(searchQuery !== ''){
+    if (searchQuery !== '') {
       setSearchFilterData(filteredData)
     }
-    // console.log('filteredData',filteredData)
-  },[searchFilterData, searchQuery])
+  }, [searchFilterData])
 
-  // console.log(searchFilterData, 'jhgjkdgbsdfg')
 
   // Fetch session info
   useEffect(() => {
@@ -107,68 +117,81 @@ function Classes() {
     }
   }, [id, history]);
 
-  
+
   // Fetch data
-  const fetchData = useCallback(() => {
-    setLoading(true);
-    const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
-    url.searchParams.append('page', currentPage);
-    url.searchParams.append('limit', itemsPerPage); // Use the state value
-    if (searchQuery) {
-      url.searchParams.append('search', searchQuery);
-    }
+  // const fetchData = useCallback(() => {
+  //   setLoading(true);
+  //   const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
+  //   url.searchParams.append('page', currentPage);
+  //   url.searchParams.append('limit', itemsPerPage); // Use the state value
+  //   if (searchQuery) {
+  //     url.searchParams.append('search', searchQuery);
+  //   }
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setData(data.class || []);
-        setSearchFilterData(data.class || []);
-        setTotalItems(data.total || 0);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, [currentPage, itemsPerPage, searchQuery]);
+  //   fetch(url)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setData(data.class || []);
+  //       setSearchFilterData(data.class || []);
+  //       setTotalItems(data.total || 0);
+  //       setLoading(false);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //       setLoading(false);
+  //     });
+  // }, [currentPage, itemsPerPage, searchQuery]);
 
 
-  useEffect(() => {
-    if(options !== 'filter'){
-      fetchData();
-    }
-  }, [fetchData]);
+  // useEffect(() => {
+  //   if(options !== 'filter'){
+  //     fetchData();
+  //   }
+  // }, [fetchData]);
+
+
 
   // Handle search input and suggestions
-  const handleSearch = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    setCurrentPage(1);
-    let body = {
-      selectedClass: selectedClass || '',  // Send selectedClass if available
-      startDate: startDate || '',          // Send startDate if available
-      endDate: endDate || '',              // Send endDate if available
-      page: 1,                   // Current page for pagination
-      limit: itemsPerPage,                  // Limit of items per page
-      search: query || ''
+  const handleSearch = async (pageNumber, e) => {
+    const searchValue = e.target.value;
+    setSearchQuery(searchValue); // Set the search query  
+    // Prepare the request body
+    const body = {
+      selectedClass: selectedClass || '',
+      startDate: startDate || '',
+      endDate: endDate || '',
+      page: pageNumber + 1, // Increment for 1-based API
+      limit: itemsPerPage,
+      search: searchValue || '',
     };
-    try{
-      const response = axios.post('http://127.0.0.1:8000/api/classes/filter', body)
-      console.log(response.data)
-      setSearchFilterData(response.data.data);
-      setTotalItems(response.data.total);      // Set the total number of items for pagination
-      setCurrentPage(response.data.current_page);
 
-    } catch(error){
-      console.error(error)
+    // Log the state before proceeding
+
+    try {
+      const url = isFilterEmpty
+        ? 'http://127.0.0.1:8000/api/classes/view_classes'
+        : `http://127.0.0.1:8000/api/classes/filter`;
+
+      const params = isFilterEmpty
+        ? {
+          page: pageNumber + 1, // 1-based page number for the API
+          limit: paginationModel.pageSize,
+          search: e.target.value
+        }
+        : body; // Use the body directly for the POST request
+
+      // Make the API call
+      const response = isFilterEmpty
+        ? await axios.get(url, { params })
+        : await axios.post(url, params);
+
+      // Set the data and total items based on the response
+      setData(isFilterEmpty ? response.data.class || [] : response.data.class || []);
+      setTotalItems(isFilterEmpty ? response.data.total || 0 : response.data.total || 0);
+
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
     }
-
-    // if (query.length > 0) {
-    //   fetchSuggestions(query);
-    // } else {
-    //   setSuggestions([]);
-    //   setShowSuggestions(false);
-    // }
   };
 
   const fetchSuggestions = (query) => {
@@ -211,7 +234,8 @@ function Classes() {
 
         if (response.ok) {
           Swal.fire('Deleted!', 'User has been deleted.', 'success');
-          fetchData();
+
+          fetchData(paginationModel.page, paginationModel.pageSize); // Refetch data after deletion
         } else {
           Swal.fire('Error!', 'Failed to delete the user.', 'error');
         }
@@ -225,7 +249,7 @@ function Classes() {
   const handleEdit = (mode, item) => {
     setMode(mode);
     setModalData(item);
-    setModalOpen(true); 
+    setModalOpen(true);
     // history.push(`/elements/classes/edit-class/${item.id}`);
   };
 
@@ -234,8 +258,8 @@ function Classes() {
     setMode(mode);
 
     setModalData(item);
-    setModalOpen(true); 
-       
+    setModalOpen(true);
+
   };
 
   // Handle mark as valid
@@ -259,11 +283,11 @@ function Classes() {
   };
 
   // Pagination
-  const paginate = (pageNumber) => { setCurrentPage(pageNumber);
-    if(selectedClass !== '' || startDate !== '' || endDate!== ''){
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    if (selectedClass !== '' || startDate !== '' || endDate !== '') {
       searchFilter(pageNumber); // Fetch the filtered data for the new page
     }
-    console.log(pageNumber)
   }
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -273,51 +297,86 @@ function Classes() {
     const emptyItem = {}; // Empty object for adding new data
     setModalData(emptyItem); // Set empty data for blank fields
     setModalOpen(true);
-    
+
     // history.push('/elements/classes/add-class');
   };
 
   // Handle export to Excel
-  const handleExport = (type) => {
-    if (type === 'Excel') {
-      const worksheet = XLSX.utils.json_to_sheet(searchFilterData); // Convert JSON data to sheet format
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Classes");
-      // Generate an Excel file and trigger download
-      XLSX.writeFile(workbook, "classes_data.xlsx");
-    } else if (type === 'Pdf') {
-      const doc = new jsPDF(); // Create a new PDF document instance
-      const tableColumn = ["ID", "Name", "Teacher In Charge", "Status"]; // Define column headers
-      const tableRows = [];
-  
-      // Prepare table rows based on filtered data
-      searchFilterData.forEach(item => {
-        const rowData = [
-          item.id,
-          item.name,
-          item.teacher_in_charge_name,
-          item.status
-        ];
-        tableRows.push(rowData);
-      });
-  
-      // Add the table to the PDF document
-      doc.autoTable({
-        head: [tableColumn],
-        body: tableRows,
-        startY: 20
-      });
-  
-      // Add title to the PDF
-      doc.text("Classes Data", 14, 15);
-  
-      // Save the generated PDF
-      doc.save("classes_data.pdf");
+  const handleExport = async (type) => {
+    const searchBoxValue = searchQuery || '';
+    try {
+      const body = {
+        selectedClass: selectedClass || '',
+        startDate: startDate || '',
+        endDate: endDate || '',
+        page: 'all', // Increment for 1-based API
+        // limit: itemsPerPage,
+        search: searchQuery || '',
+      };
+      const url = isFilterEmpty
+        ? 'http://127.0.0.1:8000/api/classes/view_classes'
+        : `http://127.0.0.1:8000/api/classes/filter`;
+
+      const params = isFilterEmpty
+        ? {
+          page: 'all', // 1-based page number for the API
+          // limit: paginationModel.pageSize,
+          search: searchBoxValue
+        }
+        : body; // Use the body directly for the POST request
+      const response = isFilterEmpty
+        ? await axios.get(url, { params })
+        : await axios.post(url, params);
+      setExportData(response.data.class)
+      triggerExport(type, response.data.class, columns);
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
     }
   };
+  // const triggerExport = (type, exportData) => {
+  //   if (!exportData || exportData.length === 0) {
+  //     console.warn('No data to export');
+  //     return;
+  //   }
+  //   if (type === 'Excel') {
+  //     const worksheet = XLSX.utils.json_to_sheet(exportData); // Convert JSON data to sheet format
+  //     const workbook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Classes");
+  //     // Generate an Excel file and trigger download
+  //     XLSX.writeFile(workbook, "classes_data.xlsx");
+  //   } else if (type === 'Pdf') {
+  //     const doc = new jsPDF(); // Create a new PDF document instance
+  //     const tableColumn = ["ID", "Name", "Teacher In Charge", "Status"]; // Define column headers
+  //     const tableRows = [];
 
-   // Handle class selection
-   const handleClassChange = (e) => {   
+  //     // Prepare table rows based on filtered data
+  //     exportData.forEach(item => {
+  //       const rowData = [
+  //         item.id,
+  //         item.name,
+  //         item.teacher_in_charge_name,
+  //         item.status
+  //       ];
+  //       tableRows.push(rowData);
+  //     });
+
+  //     // Add the table to the PDF document
+  //     doc.autoTable({
+  //       head: [tableColumn],
+  //       body: tableRows,
+  //       startY: 20
+  //     });
+
+  //     // Add title to the PDF
+  //     doc.text("Classes Data", 14, 15);
+
+  //     // Save the generated PDF
+  //     doc.save("classes_data.pdf");
+  //   };
+  // }
+
+  // Handle class selection
+  const handleClassChange = (e) => {
     setSelectedClass(e.target.value);
   };
   // Handle date change
@@ -329,73 +388,166 @@ function Classes() {
     }
   };
 
-// Search filter function
+  // Search filter function
 
-const searchFilter = (pageNumber) => {
-  // Clear any previous search queries
-  setSearchQuery('');
-  setOptions('filter')
-  console.log(pageNumber, 'pageNumber')
 
-  // Prepare the request body
-  let body = {
-    selectedClass: selectedClass || '',  // Send selectedClass if available
-    startDate: startDate || '',          // Send startDate if available
-    endDate: endDate || '',              // Send endDate if available
-    page: pageNumber,                   // Current page for pagination
-    limit: itemsPerPage,                  // Limit of items per page
-    search: searchQuery || ''
+
+  // Columns definition for DataGrid
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'teacher_in_charge_name', headerName: 'Teacher In Charge', width: 200 },
+    { field: 'status', headerName: 'Status', width: 130 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 300,
+      renderCell: (item) => (
+        <>
+          <Button color="danger" size="sm" onClick={() => handleDelete(item.row.id)} className="me-2">
+            <FaTrashAlt />
+          </Button>
+          <Button color="primary" size="sm" onClick={() => handleEdit('Edit', item.row)} className="me-2">
+            <FaEdit />
+          </Button>
+          <Button color="info" size="sm" onClick={() => handleView('View', item.row)} className="me-2">
+            <FaEye />
+          </Button>
+          <Button color="success" size="sm" disabled={item.row.status === 1}>
+            <FaCheck />
+          </Button>
+        </>
+      ),
+    },
+  ];
+  const [filteredPage, setFilteredPage] = useState(0)
+
+  const searchFilter = async (pageNumber) => {
+    setSearchQuery('');
+    // console.log(pageNumber, 'pageNumberrrr')
+    // Prepare the request body
+    const body = {
+      selectedClass: selectedClass || '',
+      startDate: startDate || '',
+      endDate: endDate || '',
+      page: pageNumber.page + 1, // Increment for 1-based API
+      limit: pageNumber.pageSize ? pageNumber.pageSize : itemsPerPage,
+      search: searchQuery || '',
+    };
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/classes/filter', body);
+      setData(response.data.class); // Set the filtered classes
+      setTotalItems(response.data.total); // Set the total number of items for pagination
+      // console.log('Filtered Data', startDate);
+
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
+    }
+  };
+  // console.log(paginationModel, 'pagination modell>>>>>>>>>>>>>>>>')
+  const fetchData = async (page, size, modalPage) => {
+    setLoading(true); // Set loading state before fetching
+    const currentPage = modalPage !== undefined ? modalPage : page + 1;
+    // setCurrentPage(modalPage);
+    // if (isNaN(page)) {
+    //   page = currentPage;
+    //   size = 10;
+    //   setPaginationModel({ page: currentPage, pageSize: size });
+    // }
+    // console.log(currentPage, "Current PAge", size, "SIZE")
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/classes/view_classes', {
+        params: {
+          page: currentPage, // 1-based page number for the API
+          limit: size,
+        },
+      });
+
+      setData(response.data.class || []); // Adjust the data structure based on the response
+      setTotalItems(response.data.total || 0); // Adjust the total count
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false); // Turn off loading state
+    }
   };
 
+  // Fetch data whenever page or page size changes
+  useEffect(() => {
 
-  // Send the request to filter data and paginate
-  axios.post('http://127.0.0.1:8000/api/classes/filter', body)
-    .then(response => {
-      setSearchFilterData(response.data.data); // Set the filtered classes
-      console.log('Filter response:', response.data);
+    isFilterEmpty ? fetchData(paginationModel.page, paginationModel.pageSize) : searchFilter(filteredPage)
+  }, [filterPaginationModel, filteredPage]);
 
-      setTotalItems(response.data.total);      // Set the total number of items for pagination
-      setCurrentPage(response.data.current_page); // Update current page
-    })
-    .catch(error => {
-      console.error('Error fetching filtered data:', error);
-    });
-  //   const dateCreated = filtered[0].created_at.split('T')[0];
-//   if (dateCreated >= startDate && dateCreated <= endDate) {
-//     console.log('Yes, dateCreated is between startDate and endDate');
-// } else {
-//     console.log('No, dateCreated is not between startDate and endDate');
-// }
-  // setSearchFilterData(filtered); // Update the table with filtered data
-};
 
-// console.log('search Filter Data latest', searchFilterData)
+  const view_classes = async (newModel) => {
+
+    // If empty, call fetchData
+    setPaginationModel(newModel);
+    await fetchData(newModel.page, newModel.pageSize);
+  }
+
+  const filteredFunction = async (newModel) => {
+    console.log('newModal', newModel)
+    setFilterPaginationModel(newModel);
+    setFilteredPage(newModel); // Update filtered page state
+    await searchFilter(newModel);
+  }
+
+  const handlePaginationChange = async (newModel) => {
+    setLoading(true); // Start loading when pagination changes
+    // Check if filter parameters are empty
+    console.log(newModel, 'newModal')
+    isFilterEmpty ? view_classes(newModel) : filteredFunction(newModel)
+    // setCurrentPage(currentPage+1);  
+    setLoading(false); // Stop loading after fetching data
+  };
+  const rowHeight = 52; // Default row height in DataGrid
+  let calculatedHeight;
+
+  if (data.length === 0) {
+    calculatedHeight = Math.min(data.length * rowHeight + 150, 700);
+  } else {
+    calculatedHeight = Math.min(data.length * rowHeight + 110, 700);
+  }
+
 
   return (
     <div>
       <h1>Classes</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
-        <select name='className' className='form-control' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+        <Input className="m-2" type="select" name='className' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
           <option value=''>Please Select a class</option>
           {data.map(item => (
             <option key={item.id} value={item.name}>
               {item.name}
             </option>
           ))}
-        </select>
-
-        <Input type='date' name='sDate' className='m-2' value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-        <Input type='date' name='eDate' className='m-2' value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-        <Button color='primary' className='m-2' onClick={() => searchFilter(1)}>
+        </Input>
+        <InputGroup>
+          <div className="input-group-text">
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </div>
+          <ReactDatePicker selected={startDate} onChange={(date) => setStartDate(date)} placeholderText="Click to select a date" className="form-control" />
+        </InputGroup>
+        <InputGroup className="p-2">
+          <div className="input-group-text">
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </div>
+          <ReactDatePicker selected={endDate} onChange={(date) => setEndDate(date)} placeholderText="Click to select a date" className="form-control" />
+        </InputGroup>
+        {/* <Input type='date' name='sDate' className='m-2' value={startDate} onChange={(e) => setStartDate(e.target.value)} /> */}
+        {/* <Input type='date' name='eDate' className='m-2' value={endDate} onChange={(e) => setEndDate(e.target.value)} /> */}
+        <Button color='primary' className='m-2' onClick={() => filteredFunction(0)}>
           Search
         </Button>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-          <DropdownToggle caret>
+          {/* <DropdownToggle caret>
             Items per Page: {itemsPerPage}
-          </DropdownToggle>
+          </DropdownToggle> */}
           <DropdownMenu>
             {itemsPerPageOptions.map(option => (
               <DropdownItem key={option} onClick={() => handleItemsPerPageChange(option)}>
@@ -403,43 +555,31 @@ const searchFilter = (pageNumber) => {
               </DropdownItem>
             ))}
           </DropdownMenu>
-            {/* Add Export to Excel button */}
-            <Button color="success" className="m-2" onClick={()=>handleExport('Excel')}>
+          {/* Add Export to Excel button */}
+          <Button color="success" className="m-2" onClick={() => handleExport('Excel')}>
             <FaFileExcel /> Excel
           </Button>
-          <Button color="success" className="m-2" onClick={()=>handleExport('Pdf')}>
+          <Button color="success" className="m-2" onClick={() => handleExport('Pdf')}>
             <FaFilePdf /> Pdf
           </Button>
         </Dropdown>
         <div className="d-flex align-items-center">
-            {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
-            <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
-              Add Class
-            </Button>
-            <Input
-                type="text"
-                placeholder="Search here"
-                value={searchQuery}
-                onChange={handleSearch}
-                className="input-container"
-                style={{ width: '200px', marginRight: '10px' }} // Adjust the width as needed
-            />
-           
+          {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
+          <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
+            Add Class
+          </Button>
+          <Input
+            type="text"
+            placeholder="Search here"
+            value={searchQuery}
+            onChange={(e) => { handleSearch(0, e) }}
+            className="input-container"
+            style={{ width: '200px', marginRight: '10px' }} // Adjust the width as needed
+          />
+
         </div>
       </div>
-      {showSuggestions && (
-        <ListGroup className="suggestions-list">
-          {suggestions.map((suggestion, index) => (
-            <ListGroupItem
-              key={index}
-              onClick={() => handleSuggestionClick(suggestion)}
-              className="suggestion-item"
-            >
-              {suggestion.name} - {suggestion.teacher_in_charge_name}
-            </ListGroupItem>
-          ))}
-        </ListGroup>
-      )}
+
       {loading ? (
         <div className="text-center">
           <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
@@ -447,80 +587,32 @@ const searchFilter = (pageNumber) => {
         </div>
       ) : (
         <>
+          <div style={{ height: 'fit-content', width: '100%' }}>
+            <Paper sx={{ height: 'fit-content', width: '100%' }}>
+              <div style={{ height: `${calculatedHeight}px`, width: '100%' }}>
+                <DataGrid
+                  rows={data}
+                  columns={columns} // Make sure you define your columns
+                  rowCount={totalItems}
+                  loading={loading}
+                  pageSizeOptions={[5, 10, 20]}
+                  paginationMode="server" // Enable server-side pagination
+                  paginationModel={isFilterEmpty ? paginationModel : filterPaginationModel} // Use correct pagination model
+                  onPaginationModelChange={handlePaginationChange} // Handle page change
+                  sx={{ border: 0 }}
+                />
+              </div>
+            </Paper>
+          </div>
 
 
-          <Table hover className="mb-0">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th onDoubleClick={() => handleHeaderDoubleClick('name')}>
-                  {editingColumn === 'name' ? (
-                    <Input
-                      value={searchTerms.name}
-                      onChange={(e) => handleSearchChange(e, 'name')}
-                      placeholder="Search by Name"
-                      onBlur={() => setEditingColumn(null)} // Exit editing mode on blur
-                    />
-                  ) : (
-                    <>
-                      Name <FaFilter className="filter-icon" />
-                    </>
-                  )}
-                </th>
-                <th onDoubleClick={() => handleHeaderDoubleClick('teacher')}>
-                  {editingColumn === 'teacher' ? (
-                    <Input
-                      value={searchTerms.teacher}
-                      onChange={(e) => handleSearchChange(e, 'teacher')}
-                      placeholder="Search by Teacher"
-                      onBlur={() => setEditingColumn(null)} // Exit editing mode on blur
-                    />
-                  ) : (
-                    <>
-                      Teacher In Charge <FaFilter className="filter-icon" />
-                    </>)}
-                </th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {searchFilterData && searchFilterData?.map((item, index) => (
-                <tr key={item.id} className={item.status === 2 ? 'table-success' : ''}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.teacher_in_charge_name}</td>
-                  <td>{item.status}</td>
-                  <td>
-                    <Button color="danger" size="sm" onClick={() => handleDelete(item.id)} className="me-2">
-                      <FaTrashAlt />
-                    </Button>
-                    <Button color="primary" size="sm" onClick={() => handleEdit('Edit',item)} className="me-2">
-                      <FaEdit />
-                    </Button>
-                    <Button color="info" size="sm" onClick={() => handleView('View',item)} className="me-2">
-                      <FaEye />
-                    </Button>
-                    <Button
-                      color="success"
-                      size="sm"
-                      onClick={() => handleMarkAsValid(item.id)}
-                      disabled={item.status === 2}
-                    >
-                      <FaCheck />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} style={{ paddingTop: '15px' }} />
+          {/* <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} style={{ paddingTop: '15px' }} /> */}
         </>
       )}
       {/* <ModalCampusView modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} /> */}
-      <ModalExample modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} mode={mode} setModalData={setModalData} fetchData={fetchData} handleEdit={handleEdit}/>
+      <ModalExample modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} mode={mode} setModalData={setModalData} fetchData={fetchData} handleEdit={handleEdit} currentPage={paginationModel.page} />
     </div>
   );
 }
 
-export default Classes;
+export default Campuses;
