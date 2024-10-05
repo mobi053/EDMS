@@ -14,10 +14,21 @@ return new class extends Migration
         Schema::create('campuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('campus_code')->unique();
-            $table->string('location')->nullable();
+            $table->string('campus_code')->unique();
+            $table->text('location');
             $table->string('district');
+            $table->string('state')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('principal')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('parent_school_id')->nullable();
+            $table->string('campus_type')->nullable();
+            
             $table->timestamps();
+        
+            // Foreign key constraint
+            // $table->foreign('parent_school_id')->references('id')->on('schools')->onDelete('set null');
         });
     }
     
@@ -28,7 +39,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('campuses', function (Blueprint $table) {
-            //
+           //
         });
     }
 };

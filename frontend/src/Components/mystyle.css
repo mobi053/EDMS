@@ -1,12 +1,17 @@
 .input-container{
     float:right;
     width:200px;
-
 }
-
+.MuiTablePagination-displayedRows{
+    padding-top: 12px !important; 
+}
+.css-141c2s2-MuiSelect-select-MuiInputBase-input.css-141c2s2-MuiSelect-select-MuiInputBase-input.css-141c2s2-MuiSelect-select-MuiInputBase-input{
+    padding-top: 0px !important; 
+}  
+.MuiTablePagination-selectLabel.css-pdct74-MuiTablePagination-selectLabel{
+    padding-top: 10px !important; 
+}  
 .btn-right{
-    float:right;
-  
-        
+    float:right;     
 }
 

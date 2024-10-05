@@ -61,7 +61,7 @@ Route::group(['prefix' => '/sections'], function () {
 });
 Route::group(['prefix' => '/campuses'], function () {
     Route::get('/', [CampusController::class, 'index']); // Get all classes
-    Route::get('/view_capmuses', [CampusController::class, 'view_capmuses']);
+    Route::get('/view_campuses', [CampusController::class, 'view_campuses']);
     Route::get('/{id}', [CampusController::class, 'show']); // Get a single class by ID
     Route::post('/store', [CampusController::class, 'store']); // Create a new class
     Route::get('/edit_campus/{id}', [CampusController::class, 'edit']);

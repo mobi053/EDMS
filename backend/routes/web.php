@@ -1,11 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-<<<<<<< Updated upstream
-=======
 use App\Http\Controllers\Portal\PermissionController;
 use App\Http\Controllers\Portal\RoleController;
->>>>>>> Stashed changes
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -53,8 +50,6 @@ Route::group(['prefix' => '/users'], function () {
     Route::post('/store', [UserController::class, 'stored'])->name('users.store');
     Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
     Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
-<<<<<<< Updated upstream
-=======
     Route::post('/assign-role', [UserController::class, 'assign_role'])->name('user.assign_role');
     Route::get('/get-role/{userId}', [UserController::class, 'get_role'])->name('user.get_role');
 });
@@ -78,5 +73,4 @@ Route::group(['prefix'=>'/roles'],function(){
     Route::get('/get-permissions/{userId}', [RoleController::class, 'get_permission'])->name('role.getPermission');
     Route::post('/assign-permission', [RoleController::class, 'assign_permission'])->name('role.assign_permission');
 
->>>>>>> Stashed changes
 });
