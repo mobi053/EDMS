@@ -46,6 +46,7 @@ export const ComponentsNav = [
                 label: 'Campuses',
                 to: '#/elements/campus',
             },
+          
 
             // {
             //     label: 'Add-DIR',
@@ -86,6 +87,10 @@ export const ComponentsNav = [
             //     to: '#/elements/utilities',
             // },
         ],
+    },
+    {
+        label: 'Register',
+        to: '#/pages/register',
     },
     // {
     //     icon: 'pe-7s-car',

@@ -16,7 +16,7 @@ class CampusController extends Controller
       $search = $request->input('search'); // Search query if provided
   
       // Build the query with ordering
-      $query = Campus::query()->orderBy('created_at', 'desc');
+      $query = Campus::query()->whereNot('is_active', 2)->orderBy('created_at', 'desc');
   
       // Apply search filter if search query is provided
       if (!empty($search)) {
@@ -107,7 +107,18 @@ class CampusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         // Find the record by ID
+         $campus = Campus::find($id);
+    
+         if (!$campus) {
+             return response()->json(['message' => 'Record not found'], 404);
+         }
+     
+         // Update the record with request data
+         $campus->update($request->all());
+     
+         // Return a success response
+         return response()->json(['message' => 'Record updated successfully', 'data' => $campus], 200);
     }
 
     /**
@@ -115,6 +126,9 @@ class CampusController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $class = Campus::findOrFail($id);
+        $class->update(["is_active"=> 2]);
+        // $class->delete();
+        return response()->json(null, 204);
     }
 }

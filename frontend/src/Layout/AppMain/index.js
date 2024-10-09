@@ -185,7 +185,9 @@ const AppMain = () => {
 
 
             <Route exact path="/" render={() => (
-                <Redirect to="/dashboards/crm"/>
+                // <Redirect to="/dashboards/crm"/>
+                <Redirect to="/pages/login"/>
+
             )}/>
             <ToastContainer/>
         </Fragment>
