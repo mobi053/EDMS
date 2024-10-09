@@ -22,11 +22,6 @@ class UserController extends Controller
     // }
 
     public function index()
-<<<<<<< Updated upstream
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-=======
     {   
         if(auth()->user()->hasRole('supervisor')){
 
@@ -121,7 +116,6 @@ class UserController extends Controller
         );
 
         return \Response::json($response);
->>>>>>> Stashed changes
     }
     public function assign_role(Request $request)
     {

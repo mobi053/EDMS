@@ -24,14 +24,12 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        @if(auth()->user()->can('view_user'))
         <li class="nav-item">
           <a href="{{ route('users.index') }}" class="nav-link">
             <i class="nav-icon fa fa-users text-info"></i>
             <p> Users</p>
           </a>
         </li>
-        @endif
         <!--- menu-is-opening--->
         <li class="nav-item">
           <a href="{{route('permission.index')}}" class="nav-link">

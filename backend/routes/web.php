@@ -72,5 +72,4 @@ Route::group(['prefix'=>'/roles'],function(){
     Route::put('/update/{id}', [RoleController::class, 'update'])->name('role.update');
     Route::get('/get-permissions/{userId}', [RoleController::class, 'get_permission'])->name('role.getPermission');
     Route::post('/assign-permission', [RoleController::class, 'assign_permission'])->name('role.assign_permission');
-
 });

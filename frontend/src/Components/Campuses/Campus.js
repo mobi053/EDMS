@@ -171,8 +171,8 @@ function Campuses() {
 
     try {
       const url = isFilterEmpty
-        ? 'http://127.0.0.1:8000/api/classes/view_classes'
-        : `http://127.0.0.1:8000/api/classes/filter`;
+        ? 'http://127.0.0.1:8000/api/campuses/view_campuses'
+        : `http://127.0.0.1:8000/api/campuses/view_campuses`;
 
       const params = isFilterEmpty
         ? {
@@ -196,26 +196,6 @@ function Campuses() {
     }
   };
 
-  const fetchSuggestions = (query) => {
-
-    // fetch(`http://127.0.0.1:8000/api/classes/view_classes?search=${query}`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setSuggestions(data.class || []);
-    //     setShowSuggestions(true);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching suggestions:', error);
-    //   });
-  };
-
-  // const handleSuggestionClick = (suggestion) => {
-  //   setSearchQuery(suggestion.teacher_in_charge_name);
-  //   setShowSuggestions(false);
-  //   setCurrentPage(1);
-  //   fetchData();
-  // };
-
   // Handle delete
   const handleDelete = async (id) => {
     const result = await Swal.fire({
@@ -230,7 +210,7 @@ function Campuses() {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/classes/delete/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/campuses/delete/${id}`, {
           method: 'DELETE',
         });
 
@@ -263,35 +243,6 @@ function Campuses() {
     setModalOpen(true);
 
   };
-
-  // Handle mark as valid
-  const handleMarkAsValid = async (id) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/is_valid`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, dir_status: 2 }),
-      });
-
-      if (response.ok) {
-        Swal.fire('Success!', 'Item marked as valid.', 'success');
-        fetchData();
-      } else {
-        Swal.fire('Error!', 'Failed to mark the item as valid.', 'error');
-      }
-    } catch (error) {
-      Swal.fire('Error!', 'An error occurred. Please try again.', 'error');
-    }
-  };
-
-  // Pagination
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    if (selectedClass !== '' || startDate !== '' || endDate !== '') {
-      searchFilter(pageNumber); // Fetch the filtered data for the new page
-    }
-  }
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   // Handle adding new class
   const handleAddDirClick = (mode) => {
@@ -335,71 +286,13 @@ function Campuses() {
       console.error('Error fetching filtered data:', error);
     }
   };
-  // const triggerExport = (type, exportData) => {
-  //   if (!exportData || exportData.length === 0) {
-  //     console.warn('No data to export');
-  //     return;
-  //   }
-  //   if (type === 'Excel') {
-  //     const worksheet = XLSX.utils.json_to_sheet(exportData); // Convert JSON data to sheet format
-  //     const workbook = XLSX.utils.book_new();
-  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Classes");
-  //     // Generate an Excel file and trigger download
-  //     XLSX.writeFile(workbook, "classes_data.xlsx");
-  //   } else if (type === 'Pdf') {
-  //     const doc = new jsPDF(); // Create a new PDF document instance
-  //     const tableColumn = ["ID", "Name", "Teacher In Charge", "Status"]; // Define column headers
-  //     const tableRows = [];
-
-  //     // Prepare table rows based on filtered data
-  //     exportData.forEach(item => {
-  //       const rowData = [
-  //         item.id,
-  //         item.name,
-  //         item.teacher_in_charge_name,
-  //         item.status
-  //       ];
-  //       tableRows.push(rowData);
-  //     });
-
-  //     // Add the table to the PDF document
-  //     doc.autoTable({
-  //       head: [tableColumn],
-  //       body: tableRows,
-  //       startY: 20
-  //     });
-
-  //     // Add title to the PDF
-  //     doc.text("Classes Data", 14, 15);
-
-  //     // Save the generated PDF
-  //     doc.save("classes_data.pdf");
-  //   };
-  // }
-
-  // Handle class selection
-  const handleClassChange = (e) => {
-    setSelectedClass(e.target.value);
-  };
-  // Handle date change
-  const handleDateChange = (e) => {
-    if (e.target.name === 'sDate') {
-      setStartDate(e.target.value);
-    } else if (e.target.name === 'eDate') {
-      setEndDate(e.target.value);
-    }
-  };
-
-  // Search filter function
-
-
 
   // Columns definition for DataGrid
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'principal', headerName: 'Principal', width: 200 },
-    { field: 'location', headerName: 'Location', width: 130 },
+    { field: 'location', headerName: 'Location', width: 200 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -438,7 +331,7 @@ function Campuses() {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/classes/filter', body);
+      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', body);
       setData(response.data.class); // Set the filtered classes
       setTotalItems(response.data.total); // Set the total number of items for pagination
       // console.log('Filtered Data', startDate);
@@ -447,16 +340,9 @@ function Campuses() {
       console.error('Error fetching filtered data:', error);
     }
   };
-  // console.log(paginationModel, 'pagination modell>>>>>>>>>>>>>>>>')
   const fetchData = async (page, size, modalPage) => {
     setLoading(true); // Set loading state before fetching
     const currentPage = modalPage !== undefined ? modalPage : page + 1;
-    // setCurrentPage(modalPage);
-    // if (isNaN(page)) {
-    //   page = currentPage;
-    //   size = 10;
-    //   setPaginationModel({ page: currentPage, pageSize: size });
-    // }
     // console.log(currentPage, "Current PAge", size, "SIZE")
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', {
