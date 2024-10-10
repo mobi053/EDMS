@@ -116,7 +116,7 @@
 <script>
     var uploadedDocumentMap = {}
       Dropzone.options.documentDropzone = {
-        url: "{{ route('image.store') }}",
+        url: "#",
         maxFilesize: 2, // MB
         addRemoveLinks: true,
         headers: {

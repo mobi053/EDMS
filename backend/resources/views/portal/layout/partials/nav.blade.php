@@ -17,11 +17,7 @@
         <li class="nav-item dropdown show" id="notificationIcon">
             <a class="nav-link" href="#" aria-expanded="true">
                 <i class="far fa-bell"></i>
-                @if($subtasknotifycount>0)
-                <span class="badge badge-danger navbar-badge">{{$subtasknotifycount}} </span>
-                @elseif($notificationcount > 0)
-                <span class="badge badge-danger navbar-badge">{{ $notificationcount }}</span>
-                @endif
+                <span class="badge badge-danger navbar-badge">007</span>
             </a>
         </li>
         <li class="nav-item">
@@ -53,53 +49,12 @@
             </div>
             <div class="modal-body">
 
-                @if($subtasknotify->isNotEmpty())
                     <!-- <h6 >You have been assigned the following subtask(s):</h6> -->
-                    <table class="table table-bordered table-striped table-hover d-none">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px;">Sr.</th>
-                                <th>Subtask Title</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                            @foreach($subtasknotify as $subtask)
-                                <tr>
-                                    <th>{{ $loop->iteration}}.</th>
-                                    <td>{{ $subtask->name }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
-                @elseif($notification->isNotEmpty())
-                
-                    <h6>You have been assigned the following task:</h6>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px;">Sr.</th>
-                                <th>Task Title</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                            @foreach($notification as $task)
-                                <tr>
-                                    <th>{{ $loop->iteration}}.</th>
-                                    <td>{{ $task->title }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                
-                    </table>
-                @else 
+                  
                 <h6>No Task has been assigned</h6>
-                @endif
             </div>
             <div class="modal-footer">
-                <a href="{{ route('task.index') }}" class="btn btn-danger">View All Tasks</a> 
+                <a href="#" class="btn btn-danger">View All Tasks</a> 
                 <!-- Add additional buttons or actions as needed --->
             </div>
         </div>
