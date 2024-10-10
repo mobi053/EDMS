@@ -47,14 +47,14 @@ function Campuses() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [editingColumn, setEditingColumn] = useState(null); // Which column is being edited (e.g., "name" or "teacher")
   const [searchFilterData, setSearchFilterData] = useState([]); // Data shown in the table
-  const [selectedClass, setSelectedClass] = useState(''); // Selected class name
+  const [selectedCampus, setselectedCampus] = useState(''); // Selected class name
   const [startDate, setStartDate] = useState(''); // Start date filter
   const [endDate, setEndDate] = useState(''); // End date filter
 
   const [options, setOptions] = useState(''); // End date filter
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
   const [filterPaginationModel, setFilterPaginationModel] = useState({ page: 0, pageSize: 10 });
-  const isFilterEmpty = selectedClass.length < 1 && startDate.length < 1 && endDate.length < 1;
+  const isFilterEmpty = selectedCampus.length < 1 && startDate.length < 1 && endDate.length < 1;
   const [exportData, setExportData] = useState([])
 
   const [searchTerms, setSearchTerms] = useState({
@@ -119,82 +119,32 @@ function Campuses() {
     }
   }, [id, history]);
 
-
-  // Fetch data
-  // const fetchData = useCallback(() => {
-  //   setLoading(true);
-  //   const url = new URL('http://127.0.0.1:8000/api/classes/view_classes');
-  //   url.searchParams.append('page', currentPage);
-  //   url.searchParams.append('limit', itemsPerPage); // Use the state value
-  //   if (searchQuery) {
-  //     url.searchParams.append('search', searchQuery);
-  //   }
-
-  //   fetch(url)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setData(data.class || []);
-  //       setSearchFilterData(data.class || []);
-  //       setTotalItems(data.total || 0);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //       setLoading(false);
-  //     });
-  // }, [currentPage, itemsPerPage, searchQuery]);
-
-
-  // useEffect(() => {
-  //   if(options !== 'filter'){
-  //     fetchData();
-  //   }
-  // }, [fetchData]);
-
-
-
   // Handle search input and suggestions
   const handleSearch = async (pageNumber, e) => {
     const searchValue = e.target.value;
     setSearchQuery(searchValue); // Set the search query  
-    // Prepare the request body
-    const body = {
-      selectedClass: selectedClass || '',
+  
+    // Prepare the request parameters
+    const params = {
+      selectedCampus: selectedCampus || '',
       startDate: startDate || '',
       endDate: endDate || '',
       page: pageNumber + 1, // Increment for 1-based API
       limit: itemsPerPage,
       search: searchValue || '',
     };
-
-    // Log the state before proceeding
-
+  
     try {
-      const url = isFilterEmpty
-        ? 'http://127.0.0.1:8000/api/campuses/view_campuses'
-        : `http://127.0.0.1:8000/api/campuses/view_campuses`;
-
-      const params = isFilterEmpty
-        ? {
-          page: pageNumber + 1, // 1-based page number for the API
-          limit: paginationModel.pageSize,
-          search: e.target.value
-        }
-        : body; // Use the body directly for the POST request
-
-      // Make the API call
-      const response = isFilterEmpty
-        ? await axios.get(url, { params })
-        : await axios.post(url, params);
-
+      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });  
       // Set the data and total items based on the response
-      setData(isFilterEmpty ? response.data.class || [] : response.data.class || []);
-      setTotalItems(isFilterEmpty ? response.data.total || 0 : response.data.total || 0);
-
+      setData(response.data.campuses || []);  // Assuming `campuses` is the key for campuses data
+      setTotalItems(response.data.total || 0); // Assuming `total` is the key for the total items count
+  
     } catch (error) {
       console.error('Error fetching filtered data:', error);
     }
   };
+  
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -257,42 +207,44 @@ function Campuses() {
   // Handle export to Excel
   const handleExport = async (type) => {
     const searchBoxValue = searchQuery || '';
+  
+    // Prepare the request parameters
+    const params = {
+      selectedCampus: selectedCampus || '',
+      startDate: startDate || '',
+      endDate: endDate || '',
+      page: 'all', // Fetch all records for export
+      search: searchBoxValue,
+    };
+  
     try {
-      const body = {
-        selectedClass: selectedClass || '',
-        startDate: startDate || '',
-        endDate: endDate || '',
-        page: 'all', // Increment for 1-based API
-        // limit: itemsPerPage,
-        search: searchQuery || '',
-      };
-      const url = isFilterEmpty
-        ? 'http://127.0.0.1:8000/api/classes/view_classes'
-        : `http://127.0.0.1:8000/api/classes/filter`;
-
-      const params = isFilterEmpty
-        ? {
-          page: 'all', // 1-based page number for the API
-          // limit: paginationModel.pageSize,
-          search: searchBoxValue
-        }
-        : body; // Use the body directly for the POST request
-      const response = isFilterEmpty
-        ? await axios.get(url, { params })
-        : await axios.post(url, params);
-      setExportData(response.data.class)
-      triggerExport(type, response.data.class, columns);
+      // Always make a GET request to the same API endpoint
+      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });  
+      // Make the API call with params
+  
+      // Set the exported data
+      setExportData(response.data.campuses);
+  
+      // Trigger the export function with the data and columns
+      triggerExport(type, response.data.campuses, columns);
+  
+      console.log('Export triggered successfully:', response.data.campuses);
     } catch (error) {
       console.error('Error fetching filtered data:', error);
     }
   };
+  
 
   // Columns definition for DataGrid
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'name', headerName: 'Name', width: 200 },
-    { field: 'principal', headerName: 'Principal', width: 200 },
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'principal', headerName: 'Principal', width: 150 },
+    { field: 'phone_number', headerName: 'Phone Number', width: 140 },
+    { field: 'email', headerName: 'Email', width: 240 },
+    { field: 'campus_code', headerName: 'Campus Code', width: 150 },
     { field: 'location', headerName: 'Location', width: 200 },
+    { field: 'district', headerName: 'District', width: 150 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -321,21 +273,30 @@ function Campuses() {
     setSearchQuery('');
     // console.log(pageNumber, 'pageNumberrrr')
     // Prepare the request body
-    const body = {
-      selectedClass: selectedClass || '',
+    let page, size;
+
+    if (isNaN(pageNumber.page)) {
+      page = currentPage;
+      size = 10;
+      setPaginationModel({ page: currentPage, pageSize: size });
+    } else {
+      page = pageNumber.page + 1; // Increment for 1-based API
+      size = pageNumber.pageSize ? pageNumber.pageSize : itemsPerPage;
+    }
+    const params = {
+      selectedCampus: selectedCampus || '',
       startDate: startDate || '',
       endDate: endDate || '',
-      page: pageNumber.page + 1, // Increment for 1-based API
-      limit: pageNumber.pageSize ? pageNumber.pageSize : itemsPerPage,
+      page: page, // Use the computed page value
+      limit: size, // Use the computed size value
       search: searchQuery || '',
     };
 
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', body);
-      setData(response.data.class); // Set the filtered classes
+    const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });
+      setData(response.data.campuses); // Set the filtered classes
       setTotalItems(response.data.total); // Set the total number of items for pagination
-      // console.log('Filtered Data', startDate);
-
+      console.log('Filtered Data', data);
     } catch (error) {
       console.error('Error fetching filtered data:', error);
     }
@@ -376,7 +337,7 @@ function Campuses() {
   }
 
   const filteredFunction = async (newModel) => {
-    console.log('newModal', newModel)
+    // console.log('newModal', newModel)
     setFilterPaginationModel(newModel);
     setFilteredPage(newModel); // Update filtered page state
     await searchFilter(newModel);
@@ -392,7 +353,7 @@ function Campuses() {
   };
   const rowHeight = 52; // Default row height in DataGrid
   let calculatedHeight;
-
+  
   if (data.length === 0) {
     calculatedHeight = Math.min(data.length * rowHeight + 150, 700);
   } else {
@@ -405,7 +366,7 @@ function Campuses() {
       <h1>Campuses</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
-        <Input className="m-2" type="select" name='className' value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+        <Input className="m-2" type="select" name='className' value={selectedCampus} onChange={(e) => setselectedCampus(e.target.value)}>
           <option value=''>Please Select a class</option>
           {data.map(item => (
             <option key={item.id} value={item.name}>

@@ -26,7 +26,7 @@ export const triggerExport = (type, data, columns, fileName = "export_data") => 
       // Generate an Excel file and trigger download
       XLSX.writeFile(workbook, `${fileName}.xlsx`);
   } else if (type === 'Pdf') {
-    console.log("Columns:", columns); // Debugging log
+    // console.log("Columns:", columns); // Debugging log
     console.log("Data:", data); // Debugging log
 
     if (!columns || columns.length === 0) {
