@@ -44,7 +44,7 @@ function UserBox() {
       localStorage.removeItem('userId');
       localStorage.removeItem('authToken'); // Remove token from localStorage
       // window.location.href = '/login'; // Redirect to login
-      history.push('/elements/Login');
+      history.push('/pages/Login');
     })
     .catch(error => {
       console.error('There was an error logging out!', error);

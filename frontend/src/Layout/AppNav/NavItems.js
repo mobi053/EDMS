@@ -46,6 +46,10 @@ export const ComponentsNav = [
                 label: 'Campuses',
                 to: '#/elements/campus',
             },
+            {
+                label: 'Sections',
+                to: '#/elements/sections',
+            },
           
 
             // {

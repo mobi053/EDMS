@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('campus_code')->unique();
-            $table->text('location');
-            $table->string('district');
+            $table->text('location')->nullable();
+            $table->string('district')->nullable();
             $table->string('state')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('parent_school_id')->nullable();
             $table->string('campus_type')->nullable();
-            
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         
             // Foreign key constraint

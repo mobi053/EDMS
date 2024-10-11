@@ -11,16 +11,23 @@ class Section extends Model
     protected $table = 'sections';
     protected $fillable = [
         'name', 
+        'class_name',
         'class_id', 
         'capacity', 
-        'teacher_in_charge',
+        'campus_name',
+        'campus_id',
+        'teacher_in_charge_name',
         'teacher_in_charge_id',
-         'status'
+        'is_deleted'
     ];
 
     // Relationship: A section belongs to a class
     public function class()
     {
         return $this->belongsTo(SchoolClass::class, 'class_id');
+    }
+    public function campus()
+    {
+        return $this->belongsTo(Campus::class, 'campuse_id');
     }
 }

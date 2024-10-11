@@ -40,6 +40,7 @@ import EditDir from "../../Components/EditDir";
 import Mobeen from "../../Components/Mobeen";
 import MobeenCopy from "../../Components/MobeenCopy";
 import Campus from "../../Components/Campuses/Campus";
+import Sections from "../../Components/Sections/Section";
 
 
 
@@ -121,6 +122,7 @@ const Elements = ({ match }) => (
           <Route path={`${match.url}/Mobeen-Ashraf`} component={Mobeen} />
           <Route path={`${match.url}/Mobeen-Copy`} component={MobeenCopy} />
           <Route path={`${match.url}/Campus`} component={Campus} />
+          <Route path={`${match.url}/Sections`} component={Sections} />
 
 
 

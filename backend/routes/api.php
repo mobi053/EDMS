@@ -25,8 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:sanctum')->post('/apiLogout', [LoginController::class, 'apiLogout']);
+
 Route::post('/login', [LoginController::class, 'apiLogin']);
-Route::post('/apiLogout', [LoginController::class, 'apiLogout']);
+// Route::post('/apiLogout', [LoginController::class, 'apiLogout']);
 
 Route::get('/users', [UserController::class, 'alluser']);
 Route::post('/adduser', [UserController::class, 'store']);
@@ -54,6 +56,7 @@ Route::group(['prefix' => '/classes'], function () {
 
 Route::group(['prefix' => '/sections'], function () {
     Route::get('/', [SectionController::class, 'index']); // Get all sections
+    Route::get('/view_sections', [SectionController::class, 'view_sections']);
     Route::get('/{id}', [SectionController::class, 'show']); // Get a single section by ID
     Route::post('/store', [SectionController::class, 'store']); // Create a new section
     Route::post('/update/{id}', [SectionController::class, 'update']); // Update a section by ID

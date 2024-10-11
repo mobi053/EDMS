@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
 import Slider from "react-slick";
 import bg1 from "../../../assets/utils/images/originals/city.jpg";
 import bg2 from "../../../assets/utils/images/originals/citydark.jpg";
@@ -38,30 +38,35 @@ function Login() {
     }
 
     try {
-        const response = await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),  // Send email and password as JSON
+        // Using Axios to send a POST request
+        const response = await axios.post('http://localhost:8000/api/login', {
+            email,
+            password
         });
 
-        const data = await response.json();
+        // Handle successful login
+        const token = response.data.token;
+        const user = response.data.user; // Assuming the API returns user data along with the token
 
-        if (response.ok) {
-            const token = data.token;
-            const user = data.user;  // Assuming the API returns user data along with the token
-            localStorage.setItem('userName', user.name);
-            localStorage.setItem('userId', user.id);
-            localStorage.setItem('authToken', token);
+        // Store token and user data in localStorage
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('authToken', token);
 
-            // Redirect to the dashboard or desired page after successful login
-            history.push('/elements/Dir');
-        } else {
-            setError(data.message || 'Login failed');
-        }
+        // Redirect to the dashboard or desired page after successful login
+        history.push('/elements/Dir');
     } catch (err) {
-        setError('An error occurred. Please try again.');
+        if (err.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            setError(err.response.data.message || 'Login failed');
+        } else if (err.request) {
+            // The request was made but no response was received
+            setError('No response from server. Please try again.');
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            setError('An error occurred. Please try again.');
+        }
     }
   };
 

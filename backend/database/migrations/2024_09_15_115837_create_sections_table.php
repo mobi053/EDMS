@@ -12,14 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->id(); // Auto-incrementing primary key
-            $table->string('name')->nullable(); // Section name (e.g., A, B, C)
-            $table->integer('class_id')->default(0); // Foreign key to classes table
-            $table->integer('capacity')->default(0); // Number of students allowed in the section
-            $table->integer('teacher_in_charge_id')->default(0);
-            $table->string('teacher_in_charge_name')->nullable(); // Optional field for teacher responsible for the section
-            $table->boolean('status')->default(0);
-            $table->timestamps(); // Created at and updated at columns
+            $table->id(); // Auto-incrementing ID column
+            $table->string('name')->nullable(); // Name of the section
+            $table->string('class_name')->nullable(); // Name of the class
+            $table->integer('class_id')->default(0); // Foreign key to class table
+            $table->integer('capacity')->nullable(); // Capacity of the section
+            $table->string('campus_name')->nullable(); // Name of the campus
+            $table->integer('campus_id')->default(0); // Foreign key to campus table
+            $table->string('teacher_in_charge_name')->nullable(); // Name of the teacher in charge
+            $table->integer('teacher_in_charge_id')->default(0); // Foreign key to teacher table
+            $table->tinyInteger('is_deleted')->default(0); // Soft delete flag
+            $table->timestamps(); // Created at and updated at timestamps
         });
     }
 
