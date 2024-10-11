@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('teacher_in_charge_name')->nullable(); // Optional, could reference a teacher's name or ID
             $table->unsignedBigInteger('school_id')->default(0); // Foreign key to schools table
             $table->boolean('status')->default(0); // Status when soft delete the record change
+            $table->boolean('is_deleted')->default(0);
+
             $table->timestamps(); // Created at and updated at columns
         });
     }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -55,16 +56,14 @@ class LoginController extends Controller
 
     public function apiLogout(Request $request)
     {
+        $token = $request->bearerToken();
+        \Log::info('Logout token:', [$token]);
         $user = Auth::user();
         if ($user) {
-            // Assuming tokens are stored in a `personal_access_tokens` table
-            DB::table('personal_access_tokens')->where('token', $request->bearerToken())->delete();
-
-            // Alternatively, if you store tokens in a different table or in a different way, adjust accordingly
-            // e.g., $user->tokens()->where('token', $request->bearerToken())->delete();
-
+            DB::table('personal_access_tokens')->where('token', $token)->delete();
             return response()->json(['message' => 'Logged out successfully'], 200);
         }
+        \Log::info('User not authenticated');
         return response()->json(['message' => 'User not authenticated'], 401);
     }
 

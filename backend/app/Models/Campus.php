@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Console\View\Components\Secret;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,5 +34,8 @@ class Campus extends Model
     }
     public function students(){
         return $this->hasMany(Student::class);
+    }
+    public function section(){
+        return $this->hasMany(Section::class);
     }
 }

@@ -28,8 +28,18 @@ function Dir() {
   const history = useHistory(); // Initialize the history function
   const userName = localStorage.getItem('userName');
   const userId = localStorage.getItem('userId');
+  const authToken = localStorage.getItem('authToken'); // Get auth token from localStorage
 
+   // Authentication check
+   useEffect(() => {
+    if (!authToken) {
+      // Redirect to login if no auth token is present
+      history.push('/pages/Login');
+    }
+  }, [authToken, history]);
   useEffect(() => {
+    if (!authToken) return; // Do not fetch if no authToken
+
     async function checkSession() {
       try {
         const response = await fetch(`http://dboard.psca.gop.pk/ppic3/get_user_info?id=${id}`);
@@ -54,6 +64,8 @@ function Dir() {
   }, [id, history]);
 
   const fetchData = useCallback(() => {
+    if (!authToken) return; // Ensure API fetch is skipped if no authToken
+
     setLoading(true);
     const url = new URL('http://127.0.0.1:8000/api/view_dirs');
     url.searchParams.append('page', currentPage);

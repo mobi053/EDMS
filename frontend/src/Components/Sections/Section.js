@@ -14,15 +14,16 @@ import { jsPDF } from 'jspdf'; // Correct import for version 2.x
 import 'jspdf-autotable';
 import moment from 'moment';
 import { DataGrid } from '@mui/x-data-grid';
-import DataTable from './example';
 import { Paper } from '@mui/material';
 import ReactDatePicker from 'react-datepicker';
 import { InputGroup } from "reactstrap";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { triggerExport } from '../exportUtils';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
-function Campuses() {
+function Sections() {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -47,16 +48,18 @@ function Campuses() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [editingColumn, setEditingColumn] = useState(null); // Which column is being edited (e.g., "name" or "teacher")
   const [searchFilterData, setSearchFilterData] = useState([]); // Data shown in the table
-  const [selectedCampus, setselectedCampus] = useState(''); // Selected class name
+  const [selectedSection, setSelectedSection] = useState(''); // Selected class name
   const [startDate, setStartDate] = useState(''); // Start date filter
   const [endDate, setEndDate] = useState(''); // End date filter
 
   const [options, setOptions] = useState(''); // End date filter
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
   const [filterPaginationModel, setFilterPaginationModel] = useState({ page: 0, pageSize: 10 });
-  const isFilterEmpty = selectedCampus.length < 1 && startDate.length < 1 && endDate.length < 1;
+  const isFilterEmpty = selectedSection.length < 1 && startDate.length < 1 && endDate.length < 1;
   const [exportData, setExportData] = useState([])
   const authToken = localStorage.getItem('authToken'); // Get auth token from localStorage
+  const [filteredSections, setFilteredSections] = useState(data); // Initialize with full data
+  const [inputValue, setInputValue] = useState(''); // To hold the input value
 
   const [searchTerms, setSearchTerms] = useState({
     name: '',
@@ -133,7 +136,7 @@ function Campuses() {
   
     // Prepare the request parameters
     const params = {
-      selectedCampus: selectedCampus || '',
+      selectedSection: selectedSection || '',
       startDate: startDate || '',
       endDate: endDate || '',
       page: pageNumber + 1, // Increment for 1-based API
@@ -142,11 +145,12 @@ function Campuses() {
     };
   
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });  
+      const response = await axios.get('http://127.0.0.1:8000/api/sections/view_sections', { params });  
       // Set the data and total items based on the response
-      setData(response.data.campuses || []);  // Assuming `campuses` is the key for campuses data
+      setData(response.data.sections || []);  // Assuming `campuses` is the key for campuses data
+
       setTotalItems(response.data.total || 0); // Assuming `total` is the key for the total items count
-  
+
     } catch (error) {
       console.error('Error fetching filtered data:', error);
     }
@@ -218,7 +222,7 @@ function Campuses() {
   
     // Prepare the request parameters
     const params = {
-      selectedCampus: selectedCampus || '',
+      selectedSection: selectedSection || '',
       startDate: startDate || '',
       endDate: endDate || '',
       page: 'all', // Fetch all records for export
@@ -227,16 +231,16 @@ function Campuses() {
   
     try {
       // Always make a GET request to the same API endpoint
-      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });  
+      const response = await axios.get('http://127.0.0.1:8000/api/sections/view_sections', { params });  
       // Make the API call with params
   
       // Set the exported data
-      setExportData(response.data.campuses);
+      setExportData(response.data.sections);
   
       // Trigger the export function with the data and columns
-      triggerExport(type, response.data.campuses, columns);
+      triggerExport(type, response.data.sections, columns);
   
-      console.log('Export triggered successfully:', response.data.campuses);
+      console.log('Export triggered successfully:', response.data.sections);
     } catch (error) {
       console.error('Error fetching filtered data:', error);
     }
@@ -246,11 +250,11 @@ function Campuses() {
   // Columns definition for DataGrid
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'principal', headerName: 'Principal', width: 150 },
-    { field: 'phone_number', headerName: 'Phone Number', width: 140 },
-    { field: 'email', headerName: 'Email', width: 240 },
-    { field: 'campus_code', headerName: 'Campus Code', width: 150 },
+    { field: 'name', headerName: 'Name', width: 90 },
+    { field: 'class_name', headerName: 'Class Name', width: 150 },
+    { field: 'capacity', headerName: 'Capacity', width: 150 },
+    { field: 'campus_name', headerName: 'Campus Name', width: 140 },
+    { field: 'teacher_in_charge_name', headerName: 'Incharge Name', width: 240 },
     { field: 'location', headerName: 'Location', width: 200 },
     { field: 'district', headerName: 'District', width: 150 },
     {
@@ -293,7 +297,7 @@ function Campuses() {
       size = pageNumber.pageSize ? pageNumber.pageSize : itemsPerPage;
     }
     const params = {
-      selectedCampus: selectedCampus || '',
+      selectedSection: selectedSection || '',
       startDate: startDate || '',
       endDate: endDate || '',
       page: page, // Use the computed page value
@@ -302,8 +306,8 @@ function Campuses() {
     };
 
     try {
-    const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', { params });
-      setData(response.data.campuses); // Set the filtered classes
+    const response = await axios.get('http://127.0.0.1:8000/api/sections/view_sections', { params });
+      setData(response.data.sections); // Set the filtered classes
       setTotalItems(response.data.total); // Set the total number of items for pagination
       console.log('Filtered Data', data);
     } catch (error) {
@@ -316,14 +320,14 @@ function Campuses() {
     const currentPage = modalPage !== undefined ? modalPage : page + 1;
     // console.log(currentPage, "Current PAge", size, "SIZE")
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', {
+      const response = await axios.get('http://127.0.0.1:8000/api/sections/view_sections', {
         params: {
           page: currentPage, // 1-based page number for the API
           limit: size,
         },
       });
 
-      setData(response.data.campuses || []); // Adjust the data structure based on the response
+      setData(response.data.sections || []); // Adjust the data structure based on the response
       setTotalItems(response.data.total || 0); // Adjust the total count
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -371,19 +375,67 @@ function Campuses() {
   }
 
 
+  const handleSelectSection = (event, section) => {
+    setSelectedSection(section?.name || ''); // Set the selected section, fallback to an empty string if undefined
+    setInputValue(section?.name || ''); // Update input to selected value
+    setFilteredSections([]); // Clear filtered options after selection
+  };
+   // Function to handle input change
+   const handleInputChange = async (event, newInputValue, section) => {
+    const selectedName = section?.name || ''; // Get the selected section's name or fallback to an empty string
+    setSelectedSection(selectedName); // Set the selected section in state
+    setInputValue(selectedName); // Update input to selected value
+    setFilteredSections([]); // Clear filtered options after selection
+
+    console.log("Selected Section:", selectedName); // Log the selected section value
+
+    const searchValue = event.target.value;
+    setSearchQuery(searchValue); // Set the search query  
+  
+    // Prepare the request parameters
+    const params = {
+      selectedSection: selectedName,
+      // startDate: startDate || '',
+      // endDate: endDate || '',
+      // page: pageNumber + 1, // Increment for 1-based API
+      // limit: itemsPerPage,
+      search: searchValue || '',
+    };
+
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/sections/view_sections', { params });  
+      setData(response.data.sections || []);  // Assuming `sections` is the key for the data
+      setTotalItems(response.data.total || 0); // Assuming `total` is the key for the total item count
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
+    }
+    setInputValue(newInputValue); // Update input value as user types
+    // Filter sections based on input value
+    const filtered = data.filter(section =>
+      section.name.toLowerCase().includes(newInputValue.toLowerCase())
+    );
+    setFilteredSections(filtered); // Update filtered sections based on input
+  };
+
   return (
     <div>
       <h1>Campuses</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
-        <Input className="m-2" type="select" name='className' value={selectedCampus} onChange={(e) => setselectedCampus(e.target.value)}>
-          <option value=''>Please Select a class</option>
-          {data.map(item => (
-            <option key={item.id} value={item.name}>
-              {item.name}
-            </option>
-          ))}
-        </Input>
+         
+      <Autocomplete
+        disablePortal
+        size='small'
+        options={filteredSections.length > 0 ? filteredSections : data} // Use filtered sections if available
+        getOptionLabel={(option) => option.name} // Display the name property
+        onChange={handleSelectSection} // Call this function when a section is selected
+        onInputChange={handleInputChange} // Call this function on input change
+        renderInput={(params) => (
+          <TextField {...params} label="Select a class" value={inputValue} />
+        )}
+        sx={{ width: 700, height:'38px' ,mr:2, backgroundColor:'white' }} // Adjust the width as needed
+      />
+
         <InputGroup>
           <div className="input-group-text">
             <FontAwesomeIcon icon={faCalendarAlt} />
@@ -404,9 +456,6 @@ function Campuses() {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-          {/* <DropdownToggle caret>
-            Items per Page: {itemsPerPage}
-          </DropdownToggle> */}
           <DropdownMenu>
             {itemsPerPageOptions.map(option => (
               <DropdownItem key={option} onClick={() => handleItemsPerPageChange(option)}>
@@ -474,4 +523,4 @@ function Campuses() {
   );
 }
 
-export default Campuses;
+export default Sections;
