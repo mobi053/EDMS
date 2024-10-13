@@ -425,7 +425,7 @@ function Campuses() {
         <div className="d-flex align-items-center">
           {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
           <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
-            Add Class
+            Add Campus
           </Button>
           <Input
             type="text"
