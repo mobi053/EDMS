@@ -65,12 +65,14 @@ class SectionController extends Controller
         }
 
         return response()->json($response);
-    }    public function store(Request $request)
+    }   
+    
+    public function store(Request $request)
     {
         // Validate the incoming request data
         $validateData = $request->validate([
             'name' => 'required|string|max:255',
-            'class_name' => 'required|string|max:255',
+            'class_name' => 'nullable',
             'class_id' => 'nullable', // Assuming you have a classes table
             'capacity' => 'nullable',
             'campus_name' => 'nullable',
@@ -78,7 +80,9 @@ class SectionController extends Controller
             'teacher_in_charge_name' => 'nullable',
             'teacher_in_charge_id' => 'nullable', // Assuming you have a teachers table
         ]);
+        $authuser=auth()->user()->id;
 
+        $validateData['class_id'] = $authuser;
         // Create a new section using mass assignment
         $section = Section::create($validateData);
         // Return a success response with the created section data
@@ -99,9 +103,14 @@ class SectionController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'class_id' => 'required|integer',
-            'capacity' => 'required|integer',
+           'name' => 'required|string|max:255',
+            'class_name' => 'nullable',
+            'class_id' => 'nullable', // Assuming you have a classes table
+            'capacity' => 'nullable',
+            'campus_name' => 'nullable',
+            'campus_id' => 'nullable', // Assuming you have a campuses table
+            'teacher_in_charge_name' => 'nullable',
+            'teacher_in_charge_id' => 'nullable', // Assuming you have a teachers table
         ]);
 
         $section = Section::findOrFail($id);
@@ -114,7 +123,8 @@ class SectionController extends Controller
     public function destroy($id)
     {
         $section = Section::findOrFail($id);
-        $section->delete();
+        // $section->delete();
+        $section->update(["is_deleted" => 1]);
         return response()->json(null, 204);
     }
 }

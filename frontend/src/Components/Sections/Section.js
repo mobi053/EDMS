@@ -5,7 +5,7 @@ import { FaTrashAlt, FaEdit, FaEye, FaCheck, FaFilter, FaFileExcel, FaFilePdf, }
 import Swal from 'sweetalert2';
 import { useHistory, useLocation } from 'react-router-dom';
 import ModalExample from '../../DemoPages/Components/Modal/Examples/Modal';
-import CampusModal from '../../DemoPages/Components/Modal/Examples/CampusModal';
+import SectionModal from '../../DemoPages/Components/Modal/Examples/SectionModal';
 import ModalCampusView from '../../DemoPages/Components/Modal/Examples/ModalCampusView';
 import '../mystyle.css';
 import axios from 'axios';
@@ -171,12 +171,12 @@ function Sections() {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/campuses/delete/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/sections/delete/${id}`, {
           method: 'DELETE',
         });
 
         if (response.ok) {
-          Swal.fire('Deleted!', 'User has been deleted.', 'success');
+          Swal.fire('Deleted!', 'Section has been deleted.', 'success');
 
           fetchData(paginationModel.page, paginationModel.pageSize); // Refetch data after deletion
         } else {
@@ -419,7 +419,7 @@ function Sections() {
 
   return (
     <div>
-      <h1>Campuses</h1>
+      <h1>Sections</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
          
@@ -474,7 +474,7 @@ function Sections() {
         <div className="d-flex align-items-center">
           {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
           <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
-            Add Class
+            Add Section
           </Button>
           <Input
             type="text"
@@ -518,7 +518,7 @@ function Sections() {
         </>
       )}
       {/* <ModalCampusView modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} /> */}
-      <CampusModal modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} mode={mode} setModalData={setModalData} fetchData={fetchData} handleEdit={handleEdit} currentPage={paginationModel.page} />
+      <SectionModal modalOpen={modalOpen} setModalOpen={setModalOpen} modalData={modalData} mode={mode} setModalData={setModalData} fetchData={fetchData} handleEdit={handleEdit} currentPage={paginationModel.page} />
     </div>
   );
 }

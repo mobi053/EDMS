@@ -59,7 +59,7 @@ Route::group(['prefix' => '/sections'], function () {
     Route::get('/view_sections', [SectionController::class, 'view_sections']);
     Route::get('/{id}', [SectionController::class, 'show']); // Get a single section by ID
     Route::post('/store', [SectionController::class, 'store']); // Create a new section
-    Route::post('/update/{id}', [SectionController::class, 'update']); // Update a section by ID
+    Route::put('/update/{id}', [SectionController::class, 'update']); // Update a section by ID
     Route::delete('/delete/{id}', [SectionController::class, 'destroy']); // Delete a section by ID
 });
 Route::group(['prefix' => '/campuses'], function () {
