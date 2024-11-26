@@ -190,19 +190,34 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'email.unique' => 'The email address is already in use.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'mobile.size' => 'Mobile number must be exactly 11 digits.'
+        ];
         try {
             // Validate request data
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
-            ]);
-    
+                'school' => 'required|string|max:255',
+                'campus' => 'required|string|max:255',
+                'mobile' => 'required|string|size:11',  // Adjusted to 'size' for exact 11 digits
+                'user_img' => 'required|image|max:2048', // Max 2MB
+            ], $messages);
+
+            $path = $request->file('user_img')->store('profile_pictures', 'public');
+
             // Create a new user
             $user = new User([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => bcrypt($validated['password']),
+                'school' => $validated['school'],
+                'campus' => $validated['campus'],
+                'mobile' => $validated['mobile'],
+                'user_img' => $path // Store the path in the database
             ]);
     
             // Save the user

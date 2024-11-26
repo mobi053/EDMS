@@ -28,6 +28,7 @@ function Dir() {
   const history = useHistory(); // Initialize the history function
   const userName = localStorage.getItem('userName');
   const userId = localStorage.getItem('userId');
+
   const authToken = localStorage.getItem('authToken'); // Get auth token from localStorage
 
    // Authentication check
@@ -37,9 +38,11 @@ function Dir() {
       history.push('/pages/Login');
     }
   }, [authToken, history]);
+  console.log(userName, "Session User");
+
   useEffect(() => {
     if (!authToken) return; // Do not fetch if no authToken
-
+    
     async function checkSession() {
       try {
         const response = await fetch(`http://dboard.psca.gop.pk/ppic3/get_user_info?id=${id}`);
@@ -218,7 +221,7 @@ function Dir() {
 
   return (
     <div>
-      <h1> My project</h1>
+      <h1> Daily Incident Report (DIR)</h1>
       <Input
         type="text"
         placeholder="Search by User Name or Email"

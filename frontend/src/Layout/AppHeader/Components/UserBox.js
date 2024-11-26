@@ -16,6 +16,10 @@ function UserBox() {
   const [active, setActive] = useState(false);
   const userName = localStorage.getItem('userName');
   const userId = localStorage.getItem('userId');
+  const userImg = localStorage.getItem('userImg');
+  // const userImageUrl = `http://localhost/storage/${user.user_img}`; // Use your local URL
+// console.log(userImageUrl);
+
   const history = useHistory();
 
   function notify2() {

@@ -26,10 +26,10 @@ class User extends Authenticatable
         'password',
         'employee_id',
         'role',
-        // 'phone',
-        // 'designation',
-        // 'unit_id',
-        // 'department',
+        'school',
+        'campus',
+        'mobile',
+        'user_img',
         // 'reporting_persons'
     ];
 

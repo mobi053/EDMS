@@ -62,10 +62,22 @@ class CampusController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $campuses = Campus::all();
-        return response()->json(['data' => $campuses, 200]);
+        $search = $request->input('search'); // Search query if provided
+        // $query = Campus::query()->whereNot('is_deleted', 1)->orderBy('created_at','desc');
+        $query = Campus::query()->orderBy('created_at','desc');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
+        $campuses=$query->limit(20)->get('name');
+        // $campuses = Campus::with('class')->get(); // Eager load the class it belongs to
+        // $campuses=Campus::select('id','name')->get();
+        return response()->json($campuses);
+       
     }
 
     /**

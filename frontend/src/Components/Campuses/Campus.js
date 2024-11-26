@@ -369,7 +369,23 @@ function Campuses() {
   } else {
     calculatedHeight = Math.min(data.length * rowHeight + 110, 700);
   }
-
+  const fetchCampusList = async (searchValue = '') => {
+    // Check if searchValue length is greater than 2
+    if (searchValue.length > 0 || searchValue === '') { //searchValue limit in Section dropdown
+      try {
+        const params = { search: searchValue }; // Use the search value to filter the list
+        const response = await axios.get('http://127.0.0.1:8000/api/campuses/allCampusList', { params });
+        setSectionList(response.data); // Update sectionList with the fetched data
+      } catch (error) {
+        console.error('Error Fetching the List:', error);
+      } finally {
+        // Stop loading if necessary (currently commented out)
+        // setLoading(false);
+      }
+    } else {
+      setSectionList([]); // Clear the list if searchValue is too short
+    }
+  };
 
   return (
     <div>

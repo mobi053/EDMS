@@ -53,7 +53,7 @@ class LoginController extends Controller
         }
         return view('welcome');
     }
-
+    
     public function apiLogout(Request $request)
     {
         $token = $request->bearerToken();
@@ -66,31 +66,37 @@ class LoginController extends Controller
         \Log::info('User not authenticated');
         return response()->json(['message' => 'User not authenticated'], 401);
     }
-
+    
     public function apiLogin(Request $request)
     {   
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Generate an API token or use JWT (JSON Web Token)
-            $token = $request->user()->createToken('API Token')->plainTextToken;
-
-            return response()->json([
-                'token' => $token,
-                'user' =>[
-                    'id' =>$request->user()->id,
-                    'name' => $request->user()->name,
-                ],
-                'message' => 'Login successful',
-            ], 200);
-        }
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+    
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        // Generate an API token or use JWT (JSON Web Token)
+        $token = $request->user()->createToken('API Token')->plainTextToken;
+        $roles = $request->user()->getRoleNames(); // Returns a collection of role names
+        $permissions = $request->user()->getAllPermissions(); // Returns collection of permissions
 
         return response()->json([
-            'error' => 'Unauthorized',
-            'message' => 'The provided credentials do not match our records.',
-        ], 401);
+            'token' => $token,
+            'user' =>[
+                'id' =>$request->user()->id,
+                'name' => $request->user()->name,
+                'image' => $request->user()->user_img,
+                'role' => $roles->first(),
+                'permissions' => $permissions->pluck('name')->toArray(), // Get permission names as array
+                
+            ],
+            'message' => 'Login successful',
+        ], 200);
     }
+    
+    return response()->json([
+        'error' => 'Unauthorized',
+        'message' => 'The provided credentials do not match our records.',
+    ], 401);
+}
 }
