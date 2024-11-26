@@ -61,12 +61,12 @@ function SectionModal({ modalOpen, setModalOpen, modalData, setModalData, mode, 
             <Col md={6}>
               <Input
                 type="text"
-                placeholder="Class ID"
-                name="class_id"
-                value={modalData.class_id || ""}
+                placeholder="Class Name"
+                name="class_name"
+                value={modalData.class_name || ""}
                 onChange={handleInputChange}
                 disabled={mode === "View"}
-                aria-label="Class ID"
+                aria-label="Class Name"
               />
             </Col>
           </Row>
@@ -85,12 +85,12 @@ function SectionModal({ modalOpen, setModalOpen, modalData, setModalData, mode, 
             <Col md={6}>
               <Input
                 type="text"
-                placeholder="Campus ID"
-                name="campus_id"
-                value={modalData.campus_id || ""}
+                placeholder="Campus Name"
+                name="campus_name"
+                value={modalData.campus_name || ""}
                 onChange={handleInputChange}
                 disabled={mode === "View"}
-                aria-label="Campus ID"
+                aria-label="Campus Name"
               />
             </Col>
           </Row>

@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 class SectionController extends Controller
 {
     // Get all sections
-    public function index()
-    {
-        $sections = Section::with('class')->get(); // Eager load the class it belongs to
+    public function index(Request $request)
+    {       
+        $search = $request->input('search'); // Search query if provided
+        $query = Section::query()->whereNot('is_deleted', 1)->orderBy('created_at','desc');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
+        $sections=$query->limit(20)->get('name');
+        // $sections = Section::with('class')->get(); // Eager load the class it belongs to
+        // $sections=Section::select('id','name')->get();
         return response()->json($sections);
     }
 
@@ -80,9 +90,9 @@ class SectionController extends Controller
             'teacher_in_charge_name' => 'nullable',
             'teacher_in_charge_id' => 'nullable', // Assuming you have a teachers table
         ]);
-        $authuser=auth()->user()->id;
+        // $authuser=auth()->user()->id;
 
-        $validateData['class_id'] = $authuser;
+        // $validateData['class_id'] = $authuser;
         // Create a new section using mass assignment
         $section = Section::create($validateData);
         // Return a success response with the created section data

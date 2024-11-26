@@ -50,6 +50,10 @@ export const ComponentsNav = [
                 label: 'Sections',
                 to: '#/elements/sections',
             },
+            {
+                label: 'Students',
+                to: '#/elements/students',
+            },
           
 
             // {

@@ -60,7 +60,8 @@ function Sections() {
   const authToken = localStorage.getItem('authToken'); // Get auth token from localStorage
   const [filteredSections, setFilteredSections] = useState(data); // Initialize with full data
   const [inputValue, setInputValue] = useState(''); // To hold the input value
-
+  const [sectionList, setSectionList] = useState([]); // State for the fetched sections
+  const [filterSuggestionListSesction, setFilterSuggestionListSesction] = useState('');
   const [searchTerms, setSearchTerms] = useState({
     name: '',
     teacher: ''
@@ -374,7 +375,25 @@ function Sections() {
     calculatedHeight = Math.min(data.length * rowHeight + 110, 700);
   }
 
-
+  const fetchSectionList = async (searchValue = '') => {
+    // Check if searchValue length is greater than 2
+    if (searchValue.length > 0 || searchValue === '') { //searchValue limit in Section dropdown
+      try {
+        const params = { search: searchValue }; // Use the search value to filter the list
+        const response = await axios.get('http://127.0.0.1:8000/api/sections/allSectionList', { params });
+        setSectionList(response.data); // Update sectionList with the fetched data
+      } catch (error) {
+        console.error('Error Fetching the List:', error);
+      } finally {
+        // Stop loading if necessary (currently commented out)
+        // setLoading(false);
+      }
+    } else {
+      setSectionList([]); // Clear the list if searchValue is too short
+    }
+  };
+  
+  
   const handleSelectSection = (event, section) => {
     setSelectedSection(section?.name || ''); // Set the selected section, fallback to an empty string if undefined
     setInputValue(section?.name || ''); // Update input to selected value
@@ -416,26 +435,37 @@ function Sections() {
     );
     setFilteredSections(filtered); // Update filtered sections based on input
   };
+  useEffect(() => {
+    fetchSectionList();
+  }, []);
 
   return (
     <div>
       <h1>Sections</h1>
       {/* Filter Section */}
       <div className='d-flex justify-content-between align-items-center col-md-6'>
-         
-      <Autocomplete
-        disablePortal
-        size='small'
-        options={filteredSections.length > 0 ? filteredSections : data} // Use filtered sections if available
-        getOptionLabel={(option) => option.name} // Display the name property
-        onChange={handleSelectSection} // Call this function when a section is selected
-        onInputChange={handleInputChange} // Call this function on input change
-        renderInput={(params) => (
-          <TextField {...params} label="Select a class" value={inputValue} />
-        )}
-        sx={{ width: 700, height:'38px' ,mr:2, backgroundColor:'white' }} // Adjust the width as needed
-      />
-
+        <Autocomplete
+          disablePortal
+          size='small'
+          options={sectionList} // Use the fetched section list as options
+          getOptionLabel={(option) => option.name || ''} // Ensure the label is displayed correctly, fallback to an empty string
+          onChange={(event, section) => setInputValue(section?.name || '', setSelectedSection(section?.name || ''))} // Update input value when a section is selected
+          // onChange={handleSelectSection} // Call this function when a section is selected
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue); // Update the input value when user types
+            fetchSectionList(newInputValue); // Fetch filtered section list based on user input
+          }}
+          // onOpen={fetchSectionList} // Fetch data when dropdown is opened
+          loading={loading} // Show loading state
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Select Section Name"
+              value={inputValue} // Set the input field value
+            />
+          )}
+          sx={{ width: 700, height: '38px', mr: 2, backgroundColor: 'white' }} // Adjust styles as needed
+        />
         <InputGroup>
           <div className="input-group-text">
             <FontAwesomeIcon icon={faCalendarAlt} />
@@ -473,9 +503,11 @@ function Sections() {
         </Dropdown>
         <div className="d-flex align-items-center">
           {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
-          <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
+          { userId === "11" &&
+            <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
             Add Section
           </Button>
+          }
           <Input
             type="text"
             placeholder="Search here"

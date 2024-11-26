@@ -27,16 +27,19 @@ const Login = () => {
             });
 
             const data = await response.json();
+            console.log(user,'Login successful');
 
             if (response.ok) {
                 const token = data.token;
                 const user = data.user; // Assuming the API returns user data along with the token
                 localStorage.setItem('userName', user.name);
                 localStorage.setItem('userId', user.id);
+                localStorage.setItem('userImg', user.image);
+
                 localStorage.setItem('authToken', token);
                 history.push('/elements/Dir');
 
-                console.log(data,'Login successful');
+                console.log(user,'Login successful');
             } else {
                 setError(data.message || 'Login failed');
             }

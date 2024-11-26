@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useHistory } from 'react-router-dom';
+
 import axios from 'axios';
 import Slider from "react-slick";
 import bg1 from "../../../assets/utils/images/originals/city.jpg";
@@ -47,10 +48,12 @@ function Login() {
         // Handle successful login
         const token = response.data.token;
         const user = response.data.user; // Assuming the API returns user data along with the token
+        const userImageUrl = `http://localhost/storage/${user.image}`;
 
         // Store token and user data in localStorage
         localStorage.setItem('userName', user.name);
         localStorage.setItem('userId', user.id);
+        localStorage.setItem('userImg', userImageUrl);
         localStorage.setItem('authToken', token);
 
         // Redirect to the dashboard or desired page after successful login
@@ -122,7 +125,7 @@ function Login() {
               </h4>
               <h6 className="mt-3">
                 No account?{" "}
-                <a href="https://colorlib.com/" onClick={(e) => e.preventDefault()} className="text-primary">
+                <a href="#pages/register" onClick={(e) => {e.preventDefault();  history.push('/pages/register'); }} className="text-primary">
                   Sign up now
                 </a>
               </h6>
@@ -168,7 +171,7 @@ function Login() {
                   <div className="d-flex align-items-center">
                     <div className="ms-auto">
                       <a href="https://colorlib.com/" onClick={(e) => e.preventDefault()} className="btn-lg btn btn-link">
-                        Recover Password
+                        {/* Recover Password */}
                       </a>{" "}
                       <Button color="primary" size="lg" type="submit">
                         Login to Dashboard

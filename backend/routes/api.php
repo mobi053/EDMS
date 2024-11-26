@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DirController;
 use App\Http\Controllers\Portal\CampusController;
+use App\Http\Controllers\Portal\StudentController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\Login;
@@ -37,9 +38,7 @@ Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
 Route::post('/add_dir', [DirController::class, 'store']);
 Route::get('/edit_dir/{id}', [DirController::class, 'edit']);
 Route::put('/update_dir/{id}', [DirController::class, 'update']);
-
 Route::put('/is_valid', [DirController::class, 'is_valid']);
-
 Route::get('/view_dirs', [DirController::class, 'view_dirs']);
 Route::delete('/dirdelete/{id}', [DirController::class, 'destroy']);
 
@@ -55,7 +54,7 @@ Route::group(['prefix' => '/classes'], function () {
 });
 
 Route::group(['prefix' => '/sections'], function () {
-    Route::get('/', [SectionController::class, 'index']); // Get all sections
+    Route::get('/allSectionList', [SectionController::class, 'index']); // Get all sections
     Route::get('/view_sections', [SectionController::class, 'view_sections']);
     Route::get('/{id}', [SectionController::class, 'show']); // Get a single section by ID
     Route::post('/store', [SectionController::class, 'store']); // Create a new section
@@ -63,11 +62,19 @@ Route::group(['prefix' => '/sections'], function () {
     Route::delete('/delete/{id}', [SectionController::class, 'destroy']); // Delete a section by ID
 });
 Route::group(['prefix' => '/campuses'], function () {
-    Route::get('/', [CampusController::class, 'index']); // Get all classes
+    Route::get('/allCampusList', [CampusController::class, 'index']); // Get all classes
     Route::get('/view_campuses', [CampusController::class, 'view_campuses']);
     Route::get('/{id}', [CampusController::class, 'show']); // Get a single class by ID
     Route::post('/store', [CampusController::class, 'store']); // Create a new class
     Route::get('/edit_campus/{id}', [CampusController::class, 'edit']);
     Route::put('/update/{id}', [CampusController::class, 'update']);
     Route::delete('/delete/{id}', [CampusController::class, 'destroy']); // Delete a class by ID
+});
+Route::group(['prefix' => '/students'], function () {
+    Route::get('/allStudentList', [StudentController::class, 'index']); // Get all sections
+    Route::get('/view_students', [StudentController::class, 'view_students']);
+    Route::get('/{id}', [StudentController::class, 'show']); // Get a single section by ID
+    Route::post('/store', [StudentController::class, 'store']); // Create a new section
+    Route::put('/update/{id}', [StudentController::class, 'update']); // Update a section by ID
+    Route::delete('/delete/{id}', [StudentController::class, 'destroy']); // Delete a section by ID
 });

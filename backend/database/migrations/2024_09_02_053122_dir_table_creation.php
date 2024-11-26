@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dir', function (Blueprint $table) {
+        Schema::table('dir', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
             $table->string('lead_id')->nullable();
