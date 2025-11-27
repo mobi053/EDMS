@@ -208,6 +208,7 @@ function Sections() {
 
   // Handle adding new class
   const handleAddDirClick = (mode) => {
+   
     setMode(mode);
     const emptyItem = {}; // Empty object for adding new data
     setModalData(emptyItem); // Set empty data for blank fields
@@ -503,7 +504,7 @@ function Sections() {
         </Dropdown>
         <div className="d-flex align-items-center">
           {/* <Button color="primary" className="m-2" onClick={handleAddDirClick}> */}
-          { userId === "11" &&
+          { userId === "44" &&
             <Button color="primary" className="m-2" onClick={() => handleAddDirClick('Add')}>
             Add Section
           </Button>

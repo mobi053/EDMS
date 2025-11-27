@@ -1,10 +1,33 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Row, Col } from "reactstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 function SectionModal({ modalOpen, setModalOpen, modalData, setModalData, mode, fetchData, handleEdit, currentPage }) {
   const modalPage = currentPage + 1;
+  console.log(modalData.campuses, "<<<<<<<<<");
+  // Fetch campuses when modal is opened (if needed)
+  useEffect(() => {
+    if (modalOpen && !modalData.campuses) {
+      // Fetch campus list from API
+      const fetchCampusList = async () => {
+        try {
+          // Fetch the campus list
+          const response = await axios.get('http://127.0.0.1:8000/api/campuses/view_campuses', {
+            params: { limit: "all" }
+          });
+              const campusList = response.data; // Assuming the response is directly the list
+          // Set the campus list in the modal data
+          setModalData({campuses: campusList});
+        } catch (error) {
+          console.error('Error Fetching Campus List:', error);
+          setModalData({campuses: []});
+        }
+      };
+      fetchCampusList();
+    }
+  }, [modalOpen, modalData.campuses, setModalData]);
+
 
   const toggle = useCallback(() => {
     setModalOpen(prevModal => !prevModal);
@@ -87,11 +110,19 @@ function SectionModal({ modalOpen, setModalOpen, modalData, setModalData, mode, 
                 type="text"
                 placeholder="Campus Name"
                 name="campus_name"
+                list="campusOptions" // Link to the datalist ID
                 value={modalData.campus_name || ""}
                 onChange={handleInputChange}
                 disabled={mode === "View"}
                 aria-label="Campus Name"
               />
+              <datalist id="campusOptions">
+                {(modalData.campuses || []).map((campus) => (
+                  <option key={campus.id} value={campus.name}>
+                    {campus.name}
+                  </option>
+                ))}
+              </datalist>
             </Col>
           </Row>
           <Row className="mt-3">

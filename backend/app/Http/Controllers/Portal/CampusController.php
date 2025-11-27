@@ -13,7 +13,9 @@ class CampusController extends Controller
 
         // Set default pagination limit and page
         $page = $request->input('page', 1); // Default to page 1
-        $limit = ($request->page == 'all') ? null : $request->input('limit', 10); // If 'all', set limit to null (no pagination)
+        // $limit = ($request->page == 'all') ? null : $request->input('limit', 10); // If 'all', set limit to null (no pagination)
+        $limit = ($request->page === 'all') ? -1 : (int) $request->input('limit', 10); // Default to 10 if 'limit' not provided
+
         $search = $request->input('search'); // Search query if provided
         $selectedCampus = $request->input('selectedCampus');
         $startDate = $request->input('startDate');
